@@ -1,5 +1,5 @@
 /* ============================================================
-   Shuttlestepz — auth.js  (V2)
+   Shuttlestepz — auth.js  (V3)
    Thin wrapper around database.js
    Keeps window.AUTH API so all pages work without changes.
    ============================================================ */
