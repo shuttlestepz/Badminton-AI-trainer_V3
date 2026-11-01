@@ -75,51 +75,6 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
   .ss-dot{animation:none;opacity:1}
   *{transition-duration:.01ms!important}
 }
-
-/* ── motion ───────────────────────────────────────────── */
-@keyframes ss-card{from{opacity:0;transform:translateX(-14px) scale(.985)}to{opacity:1;transform:none}}
-@keyframes ss-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-@keyframes ss-fade{from{opacity:0}to{opacity:1}}
-@keyframes ss-wipe{from{clip-path:inset(0 100% 0 0);opacity:.2}to{clip-path:inset(0 0 0 0);opacity:1}}
-@keyframes ss-ping{0%{r:6;opacity:.7}100%{r:28;opacity:0}}
-@keyframes ss-check{to{stroke-dashoffset:0}}
-
-.ss-brand{animation:ss-card .9s cubic-bezier(.2,.7,.2,1) both}
-.ss-label{animation:ss-fade .6s .25s both}
-.ss-title{animation:ss-wipe .9s .35s cubic-bezier(.7,0,.2,1) both}
-.ss-sub{animation:ss-fade .7s .95s both}
-.ss-ring{fill:none;stroke:#39e07a;stroke-width:1.5;opacity:0;animation:ss-ping 2.4s 3.2s ease-out infinite}
-
-.auth-box>*{animation:ss-rise .6s cubic-bezier(.2,.7,.2,1) both}
-.auth-box>:nth-child(2){animation-delay:.15s}
-.auth-box>:nth-child(3){animation-delay:.22s}
-.auth-box>:nth-child(4),.auth-box>:nth-child(5){animation-delay:0s;animation-duration:.35s}
-.auth-box>:nth-child(6){animation-delay:.3s}
-.auth-box>:nth-child(7){animation-delay:.4s}
-.auth-box>:nth-child(8){animation-delay:.45s}
-.auth-box>:nth-child(9){animation-delay:.52s}
-
-.form-input{transition:border-color .2s,box-shadow .2s,background-color .2s}
-.form-input:focus{border-color:#39e07a;box-shadow:0 0 0 3px rgba(57,224,122,.14)}
-.form-input:focus-visible{outline:none}
-.form-label{transition:color .2s}
-.form-group:focus-within .form-label{color:#39e07a}
-.pw-toggle{transition:color .2s,transform .15s}
-.pw-toggle:active{transform:scale(.88)}
-
-#btn-login{transition:transform .15s,box-shadow .25s,filter .2s}
-#btn-login:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 26px -10px rgba(57,224,122,.6);filter:brightness(1.05)}
-#btn-login:active:not(:disabled){transform:translateY(0) scale(.99);box-shadow:none}
-.btn-google:active:not(:disabled){transform:scale(.99)}
-.btn.is-success:disabled{opacity:1}
-.ck{width:18px;height:18px;margin-right:8px;vertical-align:-3px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.ck path{stroke-dasharray:1;stroke-dashoffset:1;animation:ss-check .4s .05s ease-out forwards}
-
-@media (prefers-reduced-motion:reduce){
-  .ss-brand,.ss-label,.ss-title,.ss-sub,.ss-ring,.auth-box>*{animation:none}
-  .ck path{animation:none;stroke-dashoffset:0}
-  #btn-login:hover:not(:disabled),#btn-login:active:not(:disabled){transform:none}
-}
 </style>
 </head>
 <body>
@@ -128,7 +83,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 
   <!-- ════ FORM PANEL ════ -->
   <div class="auth-panel">
-    <div class="auth-box">
+    <div class="auth-box anim-fade-up">
 
       <a href="index.html" class="auth-brand">
         <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
@@ -220,7 +175,6 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
       <line class="ss-net" x1="8" y1="306" x2="292" y2="306"/>
       <path class="ss-trail" pathLength="520" d="M150 306 L62 236 L150 306 L238 236 L150 306 L62 400 L150 306 L238 400 L150 306"/>
       <circle class="ss-dot" cx="150" cy="306" r="6"/>
-      <circle class="ss-ring" cx="150" cy="306" r="6"/>
     </svg>
 
     <div class="ss-copy">
@@ -316,11 +270,8 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
     try {
       const res = await AUTH.login(email, pw, document.getElementById('remember').checked)
       if (res.ok) {
-        const lb = document.getElementById('btn-login')
-        lb.classList.add('is-success')
-        lb.innerHTML = '<svg class="ck" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="1" d="M5 12.5l4.5 4.5L19 7.5"/></svg>Signed in'
         showSuc('Signed in. Taking you to your dashboard…')
-        setTimeout(() => { window.location.href = 'dashboard.html' }, 700)
+        setTimeout(() => { window.location.href = 'dashboard.html' }, 500)
       } else {
         showErr(res.msg)
         setLoading(false)
