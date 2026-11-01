@@ -13,6 +13,11 @@ import {
   onAuthStateChanged,
   updateProfile,
   sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js'
 import {
   getFirestore,
@@ -76,9 +81,45 @@ export async function registerUser({ email, password, displayName, role = 'stude
   return cred.user
 }
 
-export async function loginUser({ email, password }) {
+export async function loginUser({ email, password, remember = true }) {
+  await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
   const cred = await signInWithEmailAndPassword(auth, email, password)
   return cred.user
+}
+
+export async function loginWithGoogle({ remember = true } = {}) {
+  await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence)
+  const provider = new GoogleAuthProvider()
+  provider.setCustomParameters({ prompt: 'select_account' })
+  const cred = await signInWithPopup(auth, provider)
+  const user = cred.user
+
+  // First-time Google user: create the same docs registerUser() creates
+  const userRef  = doc(db, 'users', user.uid)
+  const userSnap = await getDoc(userRef)
+  if (!userSnap.exists()) {
+    await setDoc(userRef, {
+      profile: {
+        displayName : user.displayName || user.email,
+        email       : user.email,
+        role        : 'student',
+        schoolCode  : '',
+        plan        : 'free',
+        createdAt   : serverTimestamp(),
+      },
+      xp: 0, level: 1, totalSessions: 0, bestStreak: 0,
+      lastActive: serverTimestamp(),
+      lastReminderStage: 0,
+      settings: { voiceOn:true, beepOn:true, preferredDiff:'medium', preferredGroup:'all' },
+    })
+  }
+  const lbSnap = await getDoc(doc(db, 'leaderboard', user.uid))
+  if (!lbSnap.exists()) {
+    await _syncLeaderboard(user.uid, {
+      displayName: user.displayName || user.email, xp: 0, level: 1, role: 'student',
+    })
+  }
+  return user
 }
 
 export async function logoutUser() {
@@ -634,7 +675,7 @@ export async function getLastSessionTime(uid = null) {
 }
 
 export default {
-  registerUser, loginUser, logoutUser, resetPassword, onAuthReady, getCurrentUser,
+  registerUser, loginUser, loginWithGoogle, logoutUser, resetPassword, onAuthReady, getCurrentUser,
   getUserProfile, updateUserProfile, listenUserProfile,
   awardXP, getXPProgress,
   saveSession, updateSession, getSessions, listenSessions, getSessionStats, deleteSession,
