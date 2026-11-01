@@ -1,1 +1,1 @@
-https://shuttlestepz.github.io/Badminton-AI-trainer_V2/
+https://shuttlestepz.github.io/Badminton-AI-trainer_V3/
