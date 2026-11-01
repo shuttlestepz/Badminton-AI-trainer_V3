@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log In — Shuttlestepz</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="/Badminton-AI-trainer_V2/css/base.css">
-<link rel="stylesheet" href="/Badminton-AI-trainer_V2/css/login.css">
+<link rel="icon" type="image/png" href="/Badminton-AI-trainer_V3/icon/icon-192.png">
+<link rel="stylesheet" href="/Badminton-AI-trainer_V3/css/base.css">
+<link rel="stylesheet" href="/Badminton-AI-trainer_V3/css/login.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 .auth-title{font-weight:800;letter-spacing:-.02em}
 
 /* brand panel */
-.ss-brand{order:1;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:40px;margin:20px;border-radius:24px;border:1px solid rgba(57,224,122,.14);background:linear-gradient(180deg,rgba(10,20,16,.55) 0%,rgba(10,20,16,.1) 40%,rgba(10,20,16,.88) 100%),url('/Badminton-AI-trainer_V2/images/login-hero.jpg') center/cover no-repeat,#0d1a13}
+.ss-brand{order:1;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:40px;margin:20px;border-radius:24px;border:1px solid rgba(57,224,122,.14);background:linear-gradient(180deg,rgba(10,20,16,.55) 0%,rgba(10,20,16,.1) 40%,rgba(10,20,16,.88) 100%),url('/Badminton-AI-trainer_V3/icon/icon-512.png') center/cover no-repeat,#0d1a13}
 .ss-brand.has-photo .ss-court{display:none}
 .ss-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#e8f2ec;font-weight:700;font-size:18px;position:relative;z-index:1}
 .ss-court{position:absolute;right:6%;top:50%;transform:translateY(-50%);height:76%;width:auto;opacity:.7}
@@ -158,13 +158,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
   <!-- ════ BRAND PANEL ════ -->
   <aside class="ss-brand">
     <a href="index.html" class="ss-logo" aria-label="Shuttlestepz home">
-      <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-        <circle cx="17" cy="17" r="15" stroke="#39e07a" stroke-width="1.5"/>
-        <circle cx="17" cy="7" r="3" fill="#39e07a"/>
-        <path d="M17 7 C11 12 9 17 11 23" stroke="#39e07a" stroke-width="1.8" stroke-linecap="round"/>
-        <path d="M17 7 C23 12 25 17 23 23" stroke="#39e07a" stroke-width="1.8" stroke-linecap="round"/>
-        <line x1="17" y1="23" x2="17" y2="31" stroke="#39e07a" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
+      <img src="/Badminton-AI-trainer_V3/icon/icon-512.png" alt="" width="36" height="36" style="border-radius:8px">
       <span>Shuttlestepz</span>
     </a>
 
@@ -217,7 +211,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 
 <!-- Only ONE module script — do not add a second <script src="js/auth.js"> -->
 <script type="module">
-  import AUTH from '/Badminton-AI-trainer_V2/js/auth.js'
+  import AUTH from '/Badminton-AI-trainer_V3/js/auth.js'
 
   window.AUTH = AUTH
   console.log('[login] ✅ AUTH loaded')
@@ -228,7 +222,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
   // Hide the court drawing once the hero photo exists
   const heroImg = new Image()
   heroImg.onload = () => document.querySelector('.ss-brand').classList.add('has-photo')
-  heroImg.src = '/Badminton-AI-trainer_V2/images/login-hero.jpg'
+  heroImg.src = '/Badminton-AI-trainer_V3/icon/icon-512.png'
 
   // ── Password toggle ──────────────────────────────────────
   const pwEl = document.getElementById('password')
