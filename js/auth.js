@@ -98,13 +98,27 @@ const AUTH = {
   },
 
   // ── Log in ────────────────────────────────────────────────
-  async login(email, password) {
+  async login(email, password, remember = true) {
     if (!email || !password) return { ok:false, msg:'Please fill in all fields.' }
     try {
-      await DB.loginUser({ email, password })
+      await DB.loginUser({ email, password, remember })
       await new Promise(r => setTimeout(r, 700))
       return { ok:true, user: getCache() }
     } catch(err) { return { ok:false, msg: _fbMsg(err) } }
+  },
+
+  // ── Google sign-in ────────────────────────────────────────
+  async loginWithGoogle(remember = true) {
+    try {
+      await DB.loginWithGoogle({ remember })
+      await new Promise(r => setTimeout(r, 700))
+      return { ok:true, user: getCache() }
+    } catch(err) {
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        return { ok:false, cancelled:true }
+      }
+      return { ok:false, msg: _fbMsg(err) }
+    }
   },
 
   // ── Log out ───────────────────────────────────────────────
@@ -357,6 +371,10 @@ function _fbMsg(err) {
     'auth/invalid-credential'     : 'Incorrect email or password.',
     'auth/too-many-requests'      : 'Too many attempts. Try again later.',
     'auth/network-request-failed' : 'Network error. Check your connection.',
+    'auth/popup-blocked'          : 'Popup was blocked. Allow popups for this site and try again.',
+    'auth/unauthorized-domain'    : 'This domain is not authorized for Google sign-in.',
+    'auth/operation-not-allowed'  : 'Google sign-in is not enabled yet.',
+    'auth/account-exists-with-different-credential' : 'An account with this email already exists. Sign in with your password.',
   }
   return map[err.code] || err.message || 'Something went wrong.'
 }
