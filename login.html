@@ -23,8 +23,9 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 .auth-title{font-weight:800;letter-spacing:-.02em}
 
 /* brand panel */
-.ss-brand{order:1;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:40px;margin:20px;border-radius:24px;border:1px solid rgba(57,224,122,.14);background:#0d1a13}
-.ss-photo{flex:1;min-height:0;margin:20px 0;background:url('/Badminton-AI-trainer_V3/icon/BG img loging and signup.jpg') center/contain no-repeat}
+.ss-brand{order:1;position:relative;overflow:hidden;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;padding:40px;margin:20px;border-radius:24px;border:1px solid rgba(57,224,122,.14);background:#0d1a13}
+.ss-brand::before{content:"";position:absolute;inset:-30px;z-index:-2;background:url('/Badminton-AI-trainer_V3/icon/BG img loging and signup.jpg') center/cover no-repeat;filter:blur(28px) brightness(.55)}
+.ss-brand::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(10,20,16,0) 55%,rgba(10,20,16,.85) 100%),url('/Badminton-AI-trainer_V3/icon/BG img loging and signup.jpg') center/contain no-repeat}
 .ss-brand.has-photo .ss-court{display:none}
 .ss-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#e8f2ec;font-weight:700;font-size:18px;position:relative;z-index:1}
 .ss-court{position:absolute;right:6%;top:50%;transform:translateY(-50%);height:76%;width:auto;opacity:.7}
@@ -63,8 +64,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 /* tablet/mobile */
 @media (max-width:860px){
   .auth-root{grid-template-columns:1fr}
-  .ss-brand{order:0;padding:20px;margin:12px;border-radius:18px}
-  .ss-photo{flex:none;height:200px;margin:12px 0}
+  .ss-brand{order:0;justify-content:flex-end;padding:20px;margin:12px;border-radius:18px;min-height:240px}
   .ss-logo{margin-bottom:16px}
   .ss-court,.ss-sub{display:none}
   .ss-label{margin-bottom:8px}
@@ -163,8 +163,6 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
       <img src="/Badminton-AI-trainer_V3/icon/icon-512.png" alt="" width="36" height="36" style="border-radius:8px">
       <span>Shuttlestepz</span>
     </a>
-
-    <div class="ss-photo" role="img" aria-label="Shuttlecock and AI-tracked badminton court"></div>
 
     <svg class="ss-court" viewBox="0 0 300 612" aria-hidden="true">
       <rect class="ss-line" x="20" y="20" width="260" height="572"/>
