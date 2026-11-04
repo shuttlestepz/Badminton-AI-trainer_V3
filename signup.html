@@ -75,11 +75,16 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
 
 /* ── tablet / mobile ─────────────────────────────────── */
 @media (max-width:900px){
-  .auth-root{justify-content:center;align-items:flex-start;padding:84px 16px 32px}
-  .ss-brand{padding:20px}
+  /* picture becomes a banner at the top; card sits just below it */
+  .auth-root{justify-content:center;align-items:flex-start;padding:46vw 16px 28px}
+  .ss-brand{padding:18px}
   .ss-copy{display:none}
-  .ss-bg::after{background:linear-gradient(0deg,rgba(10,20,16,.8),rgba(10,20,16,.5))}
-  .auth-root .auth-box{padding:28px 22px}
+  .ss-bg{inset:0 0 auto 0;height:72vw;background-size:100% auto;background-position:center top;transform:none}
+  .ss-bg::after{background:linear-gradient(180deg,rgba(10,20,16,.35) 0%,rgba(10,20,16,0) 28%,rgba(10,20,16,.85) 68%,#0a1410 80%)}
+  .auth-root .auth-box{padding:24px 20px}
+  .auth-root .auth-title{font-size:22px}
+  /* 16px stops iPhones zooming in when a field is tapped */
+  .auth-root .form-input,.modal .form-input{font-size:16px}
 }
 
 /* ── card sits low, picture lifted so the shuttlecock stays visible ── */
