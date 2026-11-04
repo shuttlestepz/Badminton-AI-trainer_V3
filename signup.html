@@ -4,260 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign Up — Shuttlestepz</title>
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="stylesheet" href="/Badminton-AI-trainer_V2/css/base.css">
-<link rel="stylesheet" href="/Badminton-AI-trainer_V2/css/signup.css">
+<link rel="icon" type="image/png" href="/Badminton-AI-trainer_V3/icon/icon-192.png">
+<link rel="stylesheet" href="/Badminton-AI-trainer_V3/css/base.css">
+<link rel="stylesheet" href="/Badminton-AI-trainer_V3/css/signup.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ── Phone field ──────────────────────────────────────────── */
-  .phone-wrap {
-    display: flex;
-    gap: 8px;
-    align-items: stretch;
-  }
-  .phone-cc {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--bg2, #0d1a10);
-    border: 1.5px solid var(--border, #1e3322);
-    border-radius: 9px;
-    padding: 0 10px;
-    cursor: pointer;
-    font-size: .88rem;
-    color: var(--text, #e8f5ea);
-    white-space: nowrap;
-    transition: border-color .2s;
-    position: relative;
-    user-select: none;
-    min-width: 88px;
-  }
-  .phone-cc:hover,
-  .phone-cc.open { border-color: var(--accent, #3dff6e); }
-  .phone-cc-flag { font-size: 1.1rem; line-height: 1; }
-  .phone-cc-dial { font-weight: 600; }
-  .phone-cc-arrow { font-size: .6rem; opacity: .5; margin-left: auto; }
+html,body{overflow-x:hidden}
+body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
+:focus-visible{outline:2px solid #39e07a;outline-offset:2px}
 
-  /* Dropdown */
-  .cc-dropdown {
-    display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    width: 260px;
-    background: #111f14;
-    border: 1.5px solid #2a3d2e;
-    border-radius: 10px;
-    z-index: 200;
-    box-shadow: 0 12px 32px rgba(0,0,0,.55);
-    overflow: hidden;
-  }
-  .cc-dropdown.open { display: block; }
-  .cc-search {
-    padding: 8px 10px;
-    border-bottom: 1px solid #1e3322;
-  }
-  .cc-search input {
-    width: 100%;
-    background: #0d1a10;
-    border: 1px solid #1e3322;
-    border-radius: 6px;
-    padding: 6px 9px;
-    color: var(--text, #e8f5ea);
-    font-size: .8rem;
-    outline: none;
-  }
-  .cc-search input:focus { border-color: var(--accent, #3dff6e); }
-  .cc-list {
-    max-height: 200px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-  }
-  .cc-item {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 12px;
-    font-size: .82rem;
-    cursor: pointer;
-    transition: background .12s;
-    color: var(--text, #e8f5ea);
-  }
-  .cc-item:hover { background: rgba(255,255,255,.05); }
-  .cc-item.selected { background: rgba(61,255,110,.07); }
-  .cc-item-flag { font-size: 1rem; }
-  .cc-item-name { flex: 1; color: var(--text3, #5a7a60); font-size: .78rem; }
-  .cc-item-dial { font-weight: 600; font-size: .82rem; }
+/* ── full-page picture ───────────────────────────────── */
+.auth-root{position:relative;isolation:isolate;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;justify-content:flex-end;overflow:hidden;padding:28px clamp(20px,6vw,100px)}
+.ss-bg{position:absolute;inset:0;z-index:-2;background:#0a1410 url('/Badminton-AI-trainer_V3/icon/BG img loging and signup.jpg') center/cover no-repeat}
+.ss-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,20,16,.9) 0%,rgba(10,20,16,0) 38%),linear-gradient(90deg,rgba(10,20,16,0) 38%,rgba(10,20,16,.5) 100%)}
 
-  .phone-wrap .form-input { flex: 1; min-width: 0; }
+/* brand text over the picture (left) */
+.ss-brand{position:absolute;inset:0;z-index:-1;padding:40px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.ss-logo{pointer-events:auto;display:inline-flex;align-items:center;gap:10px;align-self:flex-start;text-decoration:none;color:#e8f2ec;font-weight:700;font-size:18px}
+.ss-label{font:500 12px/1 'DM Mono',monospace;letter-spacing:.16em;color:#39e07a;margin:0 0 18px}
+.ss-title{font-size:clamp(30px,3.6vw,54px);font-weight:800;line-height:1.02;letter-spacing:-.03em;text-transform:uppercase;margin:0 0 16px;color:#f2f7f3}
+.ss-sub{color:#a9bbb0;font-size:15px;margin:0}
 
-  /* ── Checkout Modal ───────────────────────────────────────── */
-  .checkout-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.72);
-    backdrop-filter: blur(6px);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-  }
-  .checkout-overlay.open { display: flex; }
+/* ── form card (glass) ───────────────────────────────── */
+.auth-root .auth-panel{position:relative;z-index:1;flex:none;width:100%;max-width:440px;min-height:0;padding:0;background:none;border:0;display:block}
+.auth-root .auth-box{width:100%;max-width:none;margin:0;padding:26px 28px;border-radius:22px;background:rgba(10,20,16,.66);-webkit-backdrop-filter:blur(20px) saturate(1.15);backdrop-filter:blur(20px) saturate(1.15);border:1px solid rgba(57,224,122,.18);box-shadow:0 30px 80px -24px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.05)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.auth-root .auth-box{background:rgba(10,20,16,.9)}}
+.auth-title{font-weight:800;letter-spacing:-.02em}
 
-  .checkout-modal {
-    background: #111f14;
-    border: 1.5px solid #2a3d2e;
-    border-radius: 18px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 420px;
-    position: relative;
-    animation: modalIn .22s cubic-bezier(.22,1,.36,1);
-  }
-  @keyframes modalIn {
-    from { opacity:0; transform:translateY(18px) scale(.97); }
-    to   { opacity:1; transform:none; }
-  }
+/* banners */
+.banner-success{background:rgba(57,224,122,.1);border:1px solid rgba(57,224,122,.3);color:#b9f3cd}
 
-  .checkout-close {
-    position: absolute;
-    top: 1rem; right: 1rem;
-    background: none; border: none;
-    color: var(--text3, #5a7a60);
-    font-size: 1.2rem;
-    cursor: pointer;
-    line-height: 1;
-    padding: 4px 8px;
-    border-radius: 6px;
-    transition: background .15s;
-  }
-  .checkout-close:hover { background: rgba(255,255,255,.06); }
+/* ── inputs ──────────────────────────────────────────── */
+.auth-root .form-group{margin-bottom:12px}
+.auth-root .form-label{display:block;margin:0 0 8px;font:500 11px/1 'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#8fa699;transition:color .2s}
+.auth-root .form-group:focus-within .form-label{color:#39e07a}
+.auth-root .form-input{width:100%;height:46px;padding:0 16px;box-sizing:border-box;border-radius:12px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.045);color:#eef5ef;font:500 15px 'Sora',system-ui,sans-serif;transition:border-color .2s,box-shadow .2s,background-color .2s}
+.auth-root .form-input::placeholder{color:rgba(232,242,236,.36)}
+.auth-root .form-input:hover{border-color:rgba(57,224,122,.35)}
+.auth-root .form-input:focus{outline:none;border-color:#39e07a;background:rgba(57,224,122,.06);box-shadow:0 0 0 3px rgba(57,224,122,.16)}
+.form-input[aria-invalid="true"]{border-color:#e04848!important;box-shadow:0 0 0 3px rgba(224,72,72,.14)!important}
+.form-input:-webkit-autofill,.form-input:-webkit-autofill:hover,.form-input:-webkit-autofill:focus{-webkit-text-fill-color:#eef5ef;caret-color:#eef5ef;-webkit-box-shadow:0 0 0 1000px #15251c inset;box-shadow:0 0 0 1000px #15251c inset;border-color:rgba(57,224,122,.4);transition:background-color 9999s ease-out}
+.form-hint{font-size:12px;color:#7d9487;margin-top:5px}
+.pw-wrap{position:relative}
+.pw-wrap .form-input{padding-right:50px}
+.pw-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:none;border:0;border-radius:8px;cursor:pointer;color:#8fa699;transition:color .2s}
+.pw-toggle:hover{color:#39e07a}
+.pw-toggle .i-off{display:none}
+.pw-toggle.is-on .i-on{display:none}
+.pw-toggle.is-on .i-off{display:inline}
+.ss-field-err{color:#ff8a8a;font-size:12px;margin:7px 0 0}
+.ss-field-err:empty{display:none}
+.strength-bar{height:4px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:10px;overflow:hidden}
+.strength-fill{height:100%;width:0;border-radius:3px;transition:width .3s,background .3s}
+.strength-label{font-size:12px;margin-top:4px;min-height:0}
 
-  .checkout-eyebrow {
-    font-size: .65rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: #f5c518;
-    font-family: 'Space Mono', monospace, sans-serif;
-    margin-bottom: .5rem;
-  }
-  .checkout-title { font-size: 1.25rem; font-weight: 700; margin-bottom: .25rem; }
-  .checkout-subtitle { font-size: .8rem; color: var(--text3, #5a7a60); margin-bottom: 1.4rem; }
+/* ── terms, buttons, divider ─────────────────────────── */
+.terms-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;color:#a9bbb0;margin:6px 0 4px}
+.terms-row input{margin-top:3px;width:16px;height:16px;flex:none;accent-color:#39e07a}
+.terms-row a{color:#39e07a;text-decoration:none}
+.terms-row a:hover{text-decoration:underline}
+.auth-root #btn-signup{height:46px;padding:0 16px;font-size:15px;border-radius:12px;margin-top:12px}
+.ss-or{display:flex;align-items:center;gap:12px;margin:20px 0;color:#7d9487;font:12px 'DM Mono',monospace}
+.ss-or::before,.ss-or::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.1)}
+.btn-google{width:100%;height:46px;display:flex;align-items:center;justify-content:center;gap:10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.045);color:#eef5ef;font:600 14px 'Sora',sans-serif;cursor:pointer;transition:background .2s,border-color .2s}
+.btn-google:hover:not(:disabled){background:rgba(57,224,122,.07);border-color:#39e07a}
+.btn-google:disabled{opacity:.6;cursor:not-allowed}
+.auth-footer{margin-top:22px;text-align:center;font-size:13px;color:#a9bbb0}
 
-  .checkout-summary {
-    background: rgba(255,255,255,.03);
-    border: 1px solid #1e3322;
-    border-radius: 10px;
-    padding: .9rem 1rem;
-    margin-bottom: 1.4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .checkout-summary-label { font-size: .8rem; color: var(--text3, #5a7a60); }
-  .checkout-summary-price { font-size: 1.1rem; font-weight: 700; color: #f5c518; }
-  .checkout-summary-cycle { font-size: .7rem; color: var(--text3, #5a7a60); margin-top: 2px; text-align: right; }
+/* ── tablet / mobile ─────────────────────────────────── */
+@media (max-width:900px){
+  .auth-root{justify-content:center;align-items:flex-start;padding:84px 16px 32px}
+  .ss-brand{padding:20px}
+  .ss-copy{display:none}
+  .ss-bg::after{background:linear-gradient(0deg,rgba(10,20,16,.8),rgba(10,20,16,.5))}
+  .auth-root .auth-box{padding:28px 22px}
+}
 
-  .checkout-divider {
-    font-size: .65rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--text3, #5a7a60);
-    text-align: center;
-    margin-bottom: 1rem;
-    position: relative;
-  }
-  .checkout-divider::before, .checkout-divider::after {
-    content:'';
-    position: absolute;
-    top: 50%; width: 38%; height: 1px;
-    background: #1e3322;
-  }
-  .checkout-divider::before { left: 0; }
-  .checkout-divider::after  { right: 0; }
+/* ── card sits low, picture lifted so the shuttlecock stays visible ── */
+.auth-root .auth-title{font-size:26px;margin-bottom:6px}
+.auth-root .auth-subtitle{margin-bottom:18px}
+.ss-or{margin:16px 0}
+.auth-footer{margin-top:16px}
+@media (min-width:901px){
+  .ss-bg{transform:scale(1.1);transform-origin:50% 100%}
+}
 
-  .checkout-field { margin-bottom: 1rem; }
-  .checkout-field label {
-    display: block;
-    font-size: .75rem;
-    font-weight: 600;
-    margin-bottom: .35rem;
-    color: var(--text2, #e8f5ea);
-  }
-  .checkout-field input {
-    width: 100%;
-    background: #0d1a10;
-    border: 1.5px solid #1e3322;
-    border-radius: 9px;
-    padding: .7rem .9rem;
-    color: var(--text, #e8f5ea);
-    font-size: .88rem;
-    outline: none;
-    transition: border-color .2s;
-  }
-  .checkout-field input:focus { border-color: var(--accent, #3dff6e); }
-  .checkout-field input.err  { border-color: #e04848; }
-  .checkout-hint { font-size: .7rem; color: var(--text3, #5a7a60); margin-top: .3rem; }
-
-  .btn-pay {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #f5c518, #e6a800);
-    color: #0d1a10;
-    font-size: .95rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: .5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    transition: opacity .2s, transform .15s;
-  }
-  .btn-pay:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
-  .btn-pay:disabled { opacity: .5; cursor: not-allowed; }
-
-  .pay-secure {
-    text-align: center;
-    font-size: .68rem;
-    color: var(--text3, #5a7a60);
-    margin-top: .75rem;
-  }
-
-  .btn-spinner {
-    width: 14px; height: 14px;
-    border: 2px solid rgba(0,0,0,.3);
-    border-top-color: #0d1a10;
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-    display: inline-block;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<div class="bg-noise"></div>
-<div class="bg-radial"></div>
-<div class="bg-lines"></div>
 
 <div class="auth-root">
 
-  <!-- ════ LEFT: FORM ════ -->
-  <div class="auth-panel">
-    <div class="auth-box anim-fade-up">
+  <!-- ════ FULL-PAGE PICTURE ════ -->
+  <div class="ss-bg" aria-hidden="true"></div>
 
-      <a href="index.html" class="auth-brand">
-        <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
-          <circle cx="17" cy="17" r="15" stroke="var(--accent)" stroke-width="1.5"/>
-          <circle cx="17" cy="7" r="3" fill="var(--accent)"/>
-          <path d="M17 7 C11 12 9 17 11 23" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M17 7 C23 12 25 17 23 23" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
-          <line x1="17" y1="23" x2="17" y2="31" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        <span class="auth-brand-name">Shuttlestepz</span>
-      </a>
+  <!-- ════ BRAND TEXT OVER PICTURE ════ -->
+  <div class="ss-brand">
+    <a href="index.html" class="ss-logo" aria-label="Shuttlestepz home">
+      <img src="/Badminton-AI-trainer_V3/icon/icon-512.png" alt="" width="36" height="36" style="border-radius:8px">
+      <span>Shuttlestepz</span>
+    </a>
+    <div class="ss-copy">
+      <p class="ss-label">FREE TO START</p>
+      <h2 class="ss-title">From beginner.<br>To elite.</h2>
+      <p class="ss-sub">Create your account in 30 seconds. No credit card needed.</p>
+    </div>
+  </div>
+
+  <!-- ════ FORM CARD ════ -->
+  <div class="auth-panel">
+    <div class="auth-box">
 
       <h1 class="auth-title">Create account</h1>
       <p class="auth-subtitle">Join thousands training smarter with AI coaching.</p>
@@ -270,73 +129,29 @@
         <span id="error-msg"></span>
       </div>
 
-      <!-- Role -->
-      <div class="section-lbl">I am a</div>
-      <div class="role-selector">
-        <div class="role-opt selected" data-role="student">
-          <span class="role-icon">🏸</span>Student
-        </div>
-        <div class="role-opt" data-role="teacher">
-          <span class="role-icon">👨‍🏫</span>Teacher
-        </div>
-        <div class="role-opt" data-role="coach">
-          <span class="role-icon">🏅</span>Coach
-        </div>
+      <div class="banner banner-success" id="success-banner">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="#39e07a" stroke-width="1.5"/>
+          <path d="M5 8l2 2 4-4" stroke="#39e07a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span id="success-msg"></span>
       </div>
 
-      <!-- Plan -->
-      <div class="section-lbl">Choose plan</div>
-      <div class="plan-selector">
-        <div class="plan-opt selected" data-plan="free">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">₹0 / forever</div>
-          <div class="plan-desc">5 sessions/day · Basic tracking</div>
-        </div>
-        <div class="plan-opt" data-plan="premium">
-          <div class="plan-badge">POPULAR</div>
-          <div class="plan-name">⭐ Premium</div>
-          <div class="plan-price" id="premium-price">₹199 / month</div>
-          <div class="plan-desc">Unlimited · Advanced analytics · Leaderboard</div>
-        </div>
-      </div>
-
-      <!-- Form fields -->
       <form id="signup-form" onsubmit="return false" novalidate>
 
         <div class="form-group">
           <label class="form-label" for="username">Username</label>
           <input class="form-input" type="text" id="username"
-            placeholder="e.g. shuttler99" autocomplete="username" required>
+            placeholder="e.g. shuttler99" autocomplete="username" required aria-describedby="username-err">
+          <p class="ss-field-err" id="username-err" role="alert"></p>
           <div class="form-hint">At least 3 characters · Shown on leaderboard</div>
         </div>
 
         <div class="form-group">
           <label class="form-label" for="email">Email Address</label>
           <input class="form-input" type="email" id="email"
-            placeholder="you@example.com" autocomplete="email" required>
-        </div>
-
-        <!-- Mobile number with country code -->
-        <div class="form-group">
-          <label class="form-label" for="phone">Mobile Number</label>
-          <div class="phone-wrap">
-            <!-- Country code picker -->
-            <div class="phone-cc" id="cc-trigger" role="button" tabindex="0" aria-label="Select country code">
-              <span class="phone-cc-flag" id="cc-flag">🇮🇳</span>
-              <span class="phone-cc-dial" id="cc-dial">+91</span>
-              <span class="phone-cc-arrow">▼</span>
-              <!-- Dropdown -->
-              <div class="cc-dropdown" id="cc-dropdown">
-                <div class="cc-search">
-                  <input type="text" id="cc-search-input" placeholder="Search country…" autocomplete="off">
-                </div>
-                <div class="cc-list" id="cc-list"></div>
-              </div>
-            </div>
-            <input class="form-input" type="tel" id="phone"
-              placeholder="98765 43210" autocomplete="tel-national" inputmode="numeric">
-          </div>
-          <div class="form-hint">Used only for account recovery. Never shared.</div>
+            placeholder="you@example.com" autocomplete="email" required aria-describedby="email-err">
+          <p class="ss-field-err" id="email-err" role="alert"></p>
         </div>
 
         <div class="form-group">
@@ -344,293 +159,74 @@
           <div class="pw-wrap">
             <input class="form-input" type="password" id="password"
               placeholder="Min. 6 characters" autocomplete="new-password"
-              required style="padding-right:44px">
-            <button type="button" class="pw-toggle" id="toggle-pw">👁</button>
+              required aria-describedby="pw-err">
+            <button type="button" class="pw-toggle" id="toggle-pw" aria-label="Show password" aria-pressed="false">
+              <svg class="i-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="i-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.9 10.9 0 0 1 12 19c-7 0-11-7-11-7a19.8 19.8 0 0 1 5.06-5.94M9.9 4.24A10.9 10.9 0 0 1 12 4c7 0 11 7 11 7a19.9 19.9 0 0 1-3.17 4.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+            </button>
           </div>
+          <p class="ss-field-err" id="pw-err" role="alert"></p>
           <div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div>
           <div class="strength-label" id="strength-label"></div>
         </div>
 
-        <!-- School ID (teachers/coaches only) -->
-        <div class="form-group" id="school-group" style="display:none">
-          <label class="form-label" for="school-id">
-            School / Club Code <span style="color:var(--text3);font-weight:400">(optional)</span>
-          </label>
-          <input class="form-input" type="text" id="school-id"
-            placeholder="e.g. STJ2024" autocomplete="off">
-          <div class="form-hint">Ask your admin for the code</div>
-        </div>
-
-        <!-- Terms -->
         <div class="terms-row">
-          <input type="checkbox" id="terms" required>
+          <input type="checkbox" id="terms" required aria-describedby="terms-err">
           <label for="terms">
             I agree to the <a href="#">Terms of Service</a> and
             <a href="#">Privacy Policy</a>.
             Data stored on Firebase — never sold.
           </label>
         </div>
+        <p class="ss-field-err" id="terms-err" role="alert"></p>
 
-        <button type="submit" class="btn btn-primary btn-full"
-          style="padding:15px;font-size:15px" id="btn-signup">
-          Create Account →
-        </button>
+        <button type="submit" class="btn btn-primary btn-full" id="btn-signup">Create Account →</button>
 
       </form>
 
+      <div class="ss-or"><span>or</span></div>
+      <button type="button" class="btn-google" id="btn-google">
+        <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/><path fill="#FBBC05" d="M10.5 28.7a14.5 14.5 0 0 1 0-9.4l-7.9-6.1a24 24 0 0 0 0 21.6l7.9-6.1z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/></svg>
+        Continue with Google
+      </button>
+
       <div class="auth-footer">
-        Already have an account? <a href="login.html">Log In</a><br>
-        <span style="font-size:11px;color:var(--text4)">No credit card needed for free plan.</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ════ RIGHT: DECO ════ -->
-  <div class="auth-deco">
-    <div class="deco-inner anim-fade-up anim-delay-2">
-
-      <div class="deco-eyebrow">Free to Start</div>
-      <h2 class="deco-title">From beginner<br>to <span class="g">elite.</span></h2>
-
-      <ul class="step-list">
-        <li>
-          <div class="step-num">1</div>
-          <div>
-            <div class="step-title">Create your account</div>
-            <div class="step-desc">30 seconds. No credit card for free plan.</div>
-          </div>
-        </li>
-        <li>
-          <div class="step-num">2</div>
-          <div>
-            <div class="step-title">Allow camera access</div>
-            <div class="step-desc">AI runs in your browser. No video stored or sent anywhere.</div>
-          </div>
-        </li>
-        <li>
-          <div class="step-num">3</div>
-          <div>
-            <div class="step-title">Stand 1.5–2m from camera</div>
-            <div class="step-desc">Full body visible. AI calibrates your position automatically.</div>
-          </div>
-        </li>
-        <li>
-          <div class="step-num">4</div>
-          <div>
-            <div class="step-title">Move when called</div>
-            <div class="step-desc">React to voice prompts. Score, XP and stats update live.</div>
-          </div>
-        </li>
-      </ul>
-
-      <div class="xp-preview">
-        <div class="xp-icon">⚡</div>
-        <div>
-          <div class="xp-text-title">Earn XP from your first session</div>
-          <div class="xp-text-sub">
-            Sign up bonus: <span>+100 XP</span> · First session: <span>+50 XP</span>
-          </div>
-        </div>
+        Already have an account? <a href="login.html">Log In</a>
       </div>
 
     </div>
   </div>
 
 </div>
-
-<!-- ════ CHECKOUT MODAL ════ -->
-<div class="checkout-overlay" id="checkout-overlay" role="dialog" aria-modal="true" aria-label="Premium checkout">
-  <div class="checkout-modal">
-    <button class="checkout-close" id="checkout-close" aria-label="Close">✕</button>
-
-    <div class="checkout-eyebrow">⭐ Premium Checkout</div>
-    <div class="checkout-title">Complete your payment</div>
-    <div class="checkout-subtitle">Pay to activate Premium — your account is created right after.</div>
-
-    <div class="checkout-summary">
-      <div>
-        <div class="checkout-summary-label">Shuttlestepz Premium</div>
-        <div style="font-size:.72rem;color:var(--text3,#5a7a60);margin-top:3px">Unlimited · Analytics · Leaderboard</div>
-      </div>
-      <div>
-        <div class="checkout-summary-price" id="checkout-price">₹199</div>
-        <div class="checkout-summary-cycle">/ month</div>
-      </div>
-    </div>
-
-    <div class="checkout-divider">Pay via UPI</div>
-
-    <div class="checkout-field">
-      <label for="upi-id">UPI ID</label>
-      <input type="text" id="upi-id" placeholder="yourname@upi" autocomplete="off" inputmode="email"/>
-      <div class="checkout-hint">e.g. 9876543210@paytm · name@gpay · name@okaxis</div>
-    </div>
-
-    <div id="checkout-error" style="font-size:.75rem;color:#e04848;margin-bottom:.6rem;display:none"></div>
-
-    <button class="btn-pay" id="btn-pay">
-      Pay &amp; Create Account →
-    </button>
-    <div class="pay-secure">🔒 Simulated payment · No real charge in demo</div>
-  </div>
-</div>
-
-<script>
-/* ══════════════════════════════════════════
-   COUNTRY CODE DATA
-══════════════════════════════════════════ */
-const COUNTRIES = [
-  { flag:'🇮🇳', name:'India',          dial:'+91'  },
-  { flag:'🇺🇸', name:'United States',  dial:'+1'   },
-  { flag:'🇬🇧', name:'United Kingdom', dial:'+44'  },
-  { flag:'🇦🇺', name:'Australia',      dial:'+61'  },
-  { flag:'🇨🇦', name:'Canada',         dial:'+1'   },
-  { flag:'🇸🇬', name:'Singapore',      dial:'+65'  },
-  { flag:'🇲🇾', name:'Malaysia',       dial:'+60'  },
-  { flag:'🇦🇪', name:'UAE',            dial:'+971' },
-  { flag:'🇧🇩', name:'Bangladesh',     dial:'+880' },
-  { flag:'🇵🇰', name:'Pakistan',       dial:'+92'  },
-  { flag:'🇱🇰', name:'Sri Lanka',      dial:'+94'  },
-  { flag:'🇳🇵', name:'Nepal',          dial:'+977' },
-  { flag:'🇮🇩', name:'Indonesia',      dial:'+62'  },
-  { flag:'🇵🇭', name:'Philippines',    dial:'+63'  },
-  { flag:'🇹🇭', name:'Thailand',       dial:'+66'  },
-  { flag:'🇻🇳', name:'Vietnam',        dial:'+84'  },
-  { flag:'🇰🇷', name:'South Korea',    dial:'+82'  },
-  { flag:'🇯🇵', name:'Japan',          dial:'+81'  },
-  { flag:'🇨🇳', name:'China',          dial:'+86'  },
-  { flag:'🇩🇪', name:'Germany',        dial:'+49'  },
-  { flag:'🇫🇷', name:'France',         dial:'+33'  },
-  { flag:'🇮🇹', name:'Italy',          dial:'+39'  },
-  { flag:'🇪🇸', name:'Spain',          dial:'+34'  },
-  { flag:'🇧🇷', name:'Brazil',         dial:'+55'  },
-  { flag:'🇲🇽', name:'Mexico',         dial:'+52'  },
-  { flag:'🇿🇦', name:'South Africa',   dial:'+27'  },
-  { flag:'🇳🇬', name:'Nigeria',        dial:'+234' },
-  { flag:'🇰🇪', name:'Kenya',          dial:'+254' },
-  { flag:'🇳🇿', name:'New Zealand',    dial:'+64'  },
-  { flag:'🇷🇺', name:'Russia',         dial:'+7'   },
-]
-
-/* ── Render list ── */
-let selectedCountry = COUNTRIES[0] // default India
-
-function renderList(filter = '') {
-  const list = document.getElementById('cc-list')
-  const q = filter.toLowerCase()
-  const filtered = COUNTRIES.filter(c =>
-    c.name.toLowerCase().includes(q) || c.dial.includes(q)
-  )
-  list.innerHTML = filtered.map((c, i) => `
-    <div class="cc-item ${c === selectedCountry ? 'selected' : ''}"
-         data-index="${COUNTRIES.indexOf(c)}">
-      <span class="cc-item-flag">${c.flag}</span>
-      <span class="cc-item-name">${c.name}</span>
-      <span class="cc-item-dial">${c.dial}</span>
-    </div>
-  `).join('')
-
-  list.querySelectorAll('.cc-item').forEach(el => {
-    el.addEventListener('click', () => {
-      selectedCountry = COUNTRIES[+el.dataset.index]
-      document.getElementById('cc-flag').textContent = selectedCountry.flag
-      document.getElementById('cc-dial').textContent = selectedCountry.dial
-      closeDropdown()
-    })
-  })
-}
-
-/* ── Dropdown open/close ── */
-const ccTrigger  = document.getElementById('cc-trigger')
-const ccDropdown = document.getElementById('cc-dropdown')
-const ccSearch   = document.getElementById('cc-search-input')
-
-function openDropdown() {
-  ccDropdown.classList.add('open')
-  ccTrigger.classList.add('open')
-  ccSearch.value = ''
-  renderList()
-  ccSearch.focus()
-}
-function closeDropdown() {
-  ccDropdown.classList.remove('open')
-  ccTrigger.classList.remove('open')
-}
-
-ccTrigger.addEventListener('click', e => {
-  e.stopPropagation()
-  ccDropdown.classList.contains('open') ? closeDropdown() : openDropdown()
-})
-ccTrigger.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openDropdown() }
-})
-ccSearch.addEventListener('input', () => renderList(ccSearch.value))
-ccSearch.addEventListener('click', e => e.stopPropagation())
-document.addEventListener('click', closeDropdown)
-
-// Init list
-renderList()
-</script>
 
 <script type="module">
-  import AUTH from '/Badminton-AI-trainer_V2/js/auth.js'
+  import AUTH from '/Badminton-AI-trainer_V3/js/auth.js'
 
   window.AUTH = AUTH
   console.log('[signup] ✅ AUTH loaded')
 
+  // Redirect if already logged in
   AUTH.requireGuest()
 
-  /* ── Premium prices per role (INR) ─────────────────────── */
-  const PREMIUM_PRICES = { student: 199, teacher: 399, coach: 699 }
-
-  /* ── State ───────────────────────────────────────────────── */
-  let role = 'student'
-  let plan = 'free'
-  let pendingSignup = null
-
-  /* ── Role selector ──────────────────────────────────────── */
-  document.querySelectorAll('.role-opt').forEach(opt => {
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.role-opt').forEach(o => o.classList.remove('selected'))
-      opt.classList.add('selected')
-      role = opt.dataset.role
-      document.getElementById('premium-price').textContent =
-        `₹${PREMIUM_PRICES[role]} / month`
-      document.getElementById('checkout-price').textContent =
-        `₹${PREMIUM_PRICES[role]}`
-      document.getElementById('school-group').style.display =
-        role !== 'student' ? 'block' : 'none'
-    })
-  })
-
-  /* ── Plan selector ──────────────────────────────────────── */
-  document.querySelectorAll('.plan-opt').forEach(opt => {
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.plan-opt').forEach(o => o.classList.remove('selected'))
-      opt.classList.add('selected')
-      plan = opt.dataset.plan
-      document.getElementById('btn-signup').innerHTML =
-        plan === 'premium' ? 'Continue to Payment →' : 'Create Account →'
-    })
-  })
-
-  /* ── Password toggle ────────────────────────────────────── */
+  // ── Password toggle ──────────────────────────────────────
   const pwEl = document.getElementById('password')
   document.getElementById('toggle-pw').onclick = () => {
-    const showing = pwEl.type === 'text'
-    pwEl.type = showing ? 'password' : 'text'
-    document.getElementById('toggle-pw').textContent = showing ? '👁' : '🙈'
+    const btn  = document.getElementById('toggle-pw')
+    const show = pwEl.type === 'password'
+    pwEl.type = show ? 'text' : 'password'
+    btn.classList.toggle('is-on', show)
+    btn.setAttribute('aria-pressed', String(show))
+    btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password')
   }
 
-  /* ── Password strength ──────────────────────────────────── */
+  // ── Password strength ────────────────────────────────────
   const STRENGTHS = [
-    { label: '',            color: 'transparent'   },
-    { label: 'Weak',        color: 'var(--red)'    },
-    { label: 'Fair',        color: 'var(--amber)'  },
-    { label: 'Good',        color: 'var(--amber)'  },
-    { label: 'Strong',      color: 'var(--accent)' },
-    { label: 'Very Strong', color: 'var(--accent)' },
+    { label: '',            color: 'transparent' },
+    { label: 'Weak',        color: '#e04848' },
+    { label: 'Fair',        color: '#f5c518' },
+    { label: 'Good',        color: '#f5c518' },
+    { label: 'Strong',      color: '#39e07a' },
+    { label: 'Very strong', color: '#39e07a' },
   ]
   pwEl.addEventListener('input', () => {
     const pw = pwEl.value
@@ -641,148 +237,91 @@ renderList()
     if (/[0-9]/.test(pw))         s++
     if (/[^a-zA-Z0-9]/.test(pw))  s++
     const st = STRENGTHS[s]
-    document.getElementById('strength-fill').style.cssText =
-      `width:${s * 20}%;background:${st.color}`
+    document.getElementById('strength-fill').style.cssText = `width:${s * 20}%;background:${st.color}`
     const lbl = document.getElementById('strength-label')
     lbl.textContent = st.label
     lbl.style.color = st.color
   })
 
-  /* ── Form UI helpers ────────────────────────────────────── */
+  // ── Banner helpers ───────────────────────────────────────
   const errB = document.getElementById('error-banner')
-
+  const sucB = document.getElementById('success-banner')
   function showErr(msg) {
     document.getElementById('error-msg').textContent = msg
-    errB.classList.add('show')
-    errB.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    errB.classList.add('show'); sucB.classList.remove('show')
   }
-  function hideErr() { errB.classList.remove('show') }
-
+  function showSuc(msg) {
+    document.getElementById('success-msg').textContent = msg
+    sucB.classList.add('show'); errB.classList.remove('show')
+  }
   function setLoading(on) {
     const b = document.getElementById('btn-signup')
     b.disabled = on
-    b.innerHTML = on
-      ? '<span class="btn-spinner"></span>Creating account…'
-      : (plan === 'premium' ? 'Continue to Payment →' : 'Create Account →')
+    b.innerHTML = on ? '<span class="btn-spinner"></span>Creating account…' : 'Create Account →'
   }
 
-  /* ── Checkout modal helpers ─────────────────────────────── */
-  const overlay = document.getElementById('checkout-overlay')
+  // ── Signup submit ────────────────────────────────────────
+  document.getElementById('signup-form').addEventListener('submit', async () => {
+    const userEl  = document.getElementById('username')
+    const emailEl = document.getElementById('email')
+    const username = userEl.value.trim()
+    const email    = emailEl.value.trim()
+    const pw       = pwEl.value
+    const terms    = document.getElementById('terms').checked
 
-  function openCheckout() {
-    document.getElementById('checkout-price').textContent = `₹${PREMIUM_PRICES[role]}`
-    document.getElementById('upi-id').value = ''
-    document.getElementById('checkout-error').style.display = 'none'
-    overlay.classList.add('open')
-    document.getElementById('upi-id').focus()
-  }
-  function closeCheckout() {
-    overlay.classList.remove('open')
-    setLoading(false)
-  }
+    for (const id of ['username-err','email-err','pw-err','terms-err']) document.getElementById(id).textContent = ''
+    for (const el of [userEl, emailEl, pwEl]) el.removeAttribute('aria-invalid')
+    errB.classList.remove('show'); sucB.classList.remove('show')
 
-  document.getElementById('checkout-close').addEventListener('click', closeCheckout)
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeCheckout() })
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCheckout() })
+    let bad = false
+    const fail = (el, errId, msg) => {
+      document.getElementById(errId).textContent = msg
+      if (el) el.setAttribute('aria-invalid', 'true')
+      bad = true
+    }
+    if (username.length < 3) fail(userEl, 'username-err', 'Username must be at least 3 characters.')
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fail(emailEl, 'email-err', 'Enter a valid email address.')
+    if (pw.length < 6) fail(pwEl, 'pw-err', 'Password must be at least 6 characters.')
+    if (!terms) fail(null, 'terms-err', 'Please accept the Terms of Service.')
+    if (bad) return
 
-  /* ── Account creation ───────────────────────────────────── */
-  async function doSignup(username, email, pw, schoolId, phone) {
+    setLoading(true)
     try {
-      // Pass phone into signup — AUTH.signup passes extra fields to DB.registerUser
-      const res = await AUTH.signup(username, email, pw, role, schoolId, phone)
-      if (!res.ok) { showErr(res.msg); return false }
-      return true
+      // Every new account starts as a Free student
+      const res = await AUTH.signup(username, email, pw, 'student', null, null)
+      if (res.ok) {
+        showSuc('Account created. Taking you to your dashboard…')
+        setTimeout(() => { window.location.href = 'dashboard.html' }, 500)
+      } else {
+        showErr(res.msg)
+        setLoading(false)
+      }
     } catch (err) {
       console.error('[signup] Unexpected error:', err)
       showErr('An unexpected error occurred. Please try again.')
-      return false
-    }
-  }
-
-  /* ── Form submit ────────────────────────────────────────── */
-  document.getElementById('signup-form').addEventListener('submit', async () => {
-    const username = document.getElementById('username').value.trim()
-    const email    = document.getElementById('email').value.trim()
-    const pw       = document.getElementById('password').value
-    const schoolId = document.getElementById('school-id').value.trim() || null
-    const terms    = document.getElementById('terms').checked
-
-    // Phone — optional, combine dial code + number if provided
-    const rawPhone = document.getElementById('phone').value.trim()
-    const phone    = rawPhone
-      ? `${window.selectedCountry?.dial ?? '+91'}${rawPhone.replace(/\s/g, '')}`
-      : null
-
-    // Validate phone digits if entered
-    if (!rawPhone) return showErr('Enter your mobile number.')
-    if (!/^\d{6,15}$/.test(rawPhone.replace(/\s/g, ''))) return showErr('Enter a valid mobile number (digits only).')
-
-    hideErr()
-
-    if (!username || username.length < 3) return showErr('Username must be at least 3 characters.')
-    if (!email || !email.includes('@'))   return showErr('Enter a valid email address.')
-    if (!pw || pw.length < 6)             return showErr('Password must be at least 6 characters.')
-    if (!terms)                           return showErr('Please accept the Terms of Service.')
-
-    if (plan === 'premium') {
-      pendingSignup = { username, email, pw, schoolId, phone }
-      openCheckout()
-      return
-    }
-
-    setLoading(true)
-    const ok = await doSignup(username, email, pw, schoolId, phone)
-    if (ok) {
-      window.location.href = 'dashboard.html'
-    } else {
       setLoading(false)
     }
   })
 
-  /* ── Checkout pay button ────────────────────────────────── */
-  document.getElementById('btn-pay').addEventListener('click', async () => {
-    const upi    = document.getElementById('upi-id').value.trim()
-    const errEl  = document.getElementById('checkout-error')
-    const btnPay = document.getElementById('btn-pay')
-
-    if (!upi || !upi.includes('@')) {
-      errEl.textContent = 'Enter a valid UPI ID (e.g. name@gpay)'
-      errEl.style.display = 'block'
-      return
-    }
-    errEl.style.display = 'none'
-
-    btnPay.disabled = true
-    btnPay.innerHTML = '<span class="btn-spinner"></span>Processing payment…'
-
-    await new Promise(r => setTimeout(r, 1800))
-
-    const { username, email, pw, schoolId, phone } = pendingSignup
-    const ok = await doSignup(username, email, pw, schoolId, phone)
-
-    if (ok) {
-      const upg = await AUTH.upgradePlan(null, 'premium').catch(() => ({ ok: false }))
-      if (!upg.ok) {
-        sessionStorage.setItem(
-          'shuttlestepz_notice',
-          "Payment received but Premium upgrade didn't complete. Please retry in Settings."
-        )
+  // ── Google sign-up (creates the profile on first use) ────
+  document.getElementById('btn-google').addEventListener('click', async () => {
+    if (typeof AUTH.loginWithGoogle !== 'function') return showErr('Google sign-in is not set up yet.')
+    const gb = document.getElementById('btn-google')
+    errB.classList.remove('show'); sucB.classList.remove('show')
+    gb.disabled = true
+    try {
+      const res = await AUTH.loginWithGoogle(true)
+      if (res.ok) {
+        showSuc('Signed in. Taking you to your dashboard…')
+        setTimeout(() => { window.location.href = 'dashboard.html' }, 500)
+        return
       }
-      window.location.href = 'dashboard.html'
-    } else {
-      btnPay.disabled = false
-      btnPay.innerHTML = 'Pay &amp; Create Account →'
-      errEl.textContent = 'Account creation failed. Check form errors and try again.'
-      errEl.style.display = 'block'
+      if (!res.cancelled) showErr(res.msg)
+    } catch (err) {
+      showErr('Google sign-in failed. Please try again.')
     }
-  })
-
-  // Expose selectedCountry for the phone validator above
-  Object.defineProperty(window, 'selectedCountry', {
-    get: () => window._selectedCountry,
-    set: v  => { window._selectedCountry = v }
+    gb.disabled = false
   })
 </script>
-<script type="module" src="js/auth.js"></script>
 </body>
 </html>
