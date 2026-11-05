@@ -1,908 +1,322 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/Badminton-AI-trainer_V2/favicon.ico">
-  <title>Shuttlestepz — AI Badminton Trainer</title>
-  <link rel="manifest" href="Manifest.json">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/base.css">
-  <style>
-    /* ── Mirror dashboard variables ── */
-    :root {
-      --bg:          #0a0d0f;
-      --bg-2:        #111518;
-      --bg-3:        #181d21;
-      --border:      rgba(255,255,255,.07);
-      --border-2:    rgba(255,255,255,.12);
-      --border-3:    rgba(57,224,122,.35);
-      --accent:      #39e07a;
-      --accent-dim:  rgba(57,224,122,.12);
-      --accent-glow: rgba(57,224,122,.35);
-      --text:        #e8ede9;
-      --text-2:      #8a9990;
-      --text-3:      #4a5550;
-      --danger:      #e05c5c;
-      --warn:        #e0b43c;
-      --radius:      12px;
-      --radius-lg:   18px;
-      --trans:       .18s cubic-bezier(.4,0,.2,1);
-      --font-display: 'Syne', sans-serif;
-      --font-mono:    'DM Mono', monospace;
-      --font-body:    'DM Sans', sans-serif;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/Badminton-AI-trainer_V2/favicon.ico">
+<title>Shuttlestepz — The future of badminton is here</title>
+<meta name="description" content="AI-powered badminton training in your browser. Real-time movement analysis, footwork feedback and progress tracking.">
+<link rel="manifest" href="Manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<style>
+:root{--bg:#0B100D;--bg2:#111813;--acc:#B7FF35;--acc-g:rgba(183,255,53,.35);--tx:#fff;--tx2:#A5ADA6;--line:rgba(255,255,255,.09);--f:'Space Grotesk',system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--f);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.g{color:var(--acc)}
+h1,h2{font-weight:700;text-transform:uppercase;letter-spacing:-.02em;line-height:1.02}
+h2{font-size:clamp(32px,4.6vw,58px);margin-bottom:18px}
+.lead{color:var(--tx2);font-size:17px;max-width:480px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 13px var(--f);letter-spacing:.08em;text-transform:uppercase;padding:15px 26px;border-radius:999px;border:1px solid var(--line);transition:transform .2s,box-shadow .2s,background .2s,border-color .2s;cursor:pointer}
+.btn-p{background:var(--acc);color:#0B100D;border-color:var(--acc);box-shadow:0 0 28px var(--acc-g)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 0 44px var(--acc-g)}
+.btn-s{background:rgba(255,255,255,.04);backdrop-filter:blur(8px)}
+.btn-s:hover{border-color:var(--acc);color:var(--acc)}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html {
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-      max-width: 100%;
-    }
+/* NAV — floating pill */
+.nav{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:50;width:min(1100px,calc(100% - 32px));height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 20px;border-radius:999px;background:rgba(11,16,13,.35);border:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);transition:background .3s,width .3s,top .3s,box-shadow .3s}
+.nav.s{background:rgba(11,16,13,.82);width:min(920px,calc(100% - 32px));top:10px;box-shadow:0 12px 40px rgba(0,0,0,.45)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px}
+.brand img{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.links{display:flex;gap:4px}
+.links a{font-size:13px;font-weight:500;color:var(--tx2);padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+.links a:hover{color:var(--tx);background:rgba(255,255,255,.07)}
+.nav-r{display:flex;align-items:center;gap:6px}
+.nav-r .lg{font-size:13px;font-weight:500;color:var(--tx2);padding:8px 14px;border-radius:999px}
+.nav-r .lg:hover{color:var(--tx)}
+.nav-r .btn{padding:11px 20px}
+.ham{display:none;width:40px;height:40px;border-radius:50%;background:none;border:1px solid var(--line);cursor:pointer;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.ham span{width:16px;height:1.5px;background:var(--tx);transition:.2s}
+.drawer{display:none;position:fixed;top:84px;left:16px;right:16px;z-index:49;background:rgba(11,16,13,.96);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:24px;padding:12px;flex-direction:column}
+.drawer.open{display:flex}
+.drawer a{padding:14px 16px;border-radius:14px;color:var(--tx2);font-weight:500}
+.drawer a:hover{background:rgba(255,255,255,.06);color:var(--tx)}
+.drawer .btn{margin-top:8px;justify-content:center;color:#0B100D}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      overflow-x: hidden;
-      max-width: 100%;
-      width: 100%;
-      -webkit-font-smoothing: antialiased;
-    }
+/* HERO */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:var(--bg) url(assets/hero-bg.jpg) 72% center/cover no-repeat;animation:drift 22s ease-in-out infinite alternate}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,var(--bg) 0%,rgba(11,16,13,.94) 30%,rgba(11,16,13,.45) 58%,rgba(11,16,13,.1) 100%),linear-gradient(0deg,var(--bg) 0%,transparent 28%)}
+@keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.09) translateX(-1%)}}
+.hero .wrap{width:100%;padding-top:110px;padding-bottom:90px}
+.hero h1{font-size:clamp(46px,8vw,112px);margin-bottom:26px}
+.hero p{color:#d3d9d4;font-size:18px;max-width:470px;margin-bottom:12px}
+.hero p b{color:var(--tx);font-weight:600}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin:30px 0 22px}
+.note{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--tx2)}
+.note i{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+.scroll{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);width:22px;height:36px;border:1.5px solid rgba(255,255,255,.35);border-radius:12px}
+.scroll::after{content:"";position:absolute;top:6px;left:50%;width:3px;height:7px;margin-left:-1.5px;border-radius:2px;background:var(--acc);animation:sc 1.8s ease-in-out infinite}
+@keyframes sc{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+.hero .rise{opacity:0;transform:translateY(24px);animation:up .8s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes up{to{opacity:1;transform:none}}
 
-    /* Guard against any child pushing the layout wider than the viewport
-       (long unbroken strings, decorative bg elements, iOS/Android
-       rendering quirks with position:fixed on an overflowed layout) */
-    img, svg, video { max-width: 100%; }
+/* INTRO */
+.sec{padding:120px 0;position:relative}
+.split{display:grid;grid-template-columns:1fr 1.05fr;gap:72px;align-items:center}
+.sec p.body{color:var(--tx2);font-size:17px;max-width:460px;margin-bottom:14px}
+.viz{position:relative;border:1px solid var(--line);border-radius:22px;background:linear-gradient(160deg,var(--bg2),#0d130f);padding:22px;overflow:hidden}
+.viz::before{content:"";position:absolute;width:300px;height:300px;right:-90px;top:-90px;background:radial-gradient(circle,var(--acc-g),transparent 70%);opacity:.35}
+.viz-h{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);margin-bottom:14px;position:relative}
+.viz-h b{color:var(--acc);font-weight:600}
+.court{position:relative;aspect-ratio:16/10;border:1px solid rgba(183,255,53,.25);border-radius:6px;background:repeating-linear-gradient(0deg,transparent 0 39px,rgba(183,255,53,.08) 39px 40px),repeating-linear-gradient(90deg,transparent 0 59px,rgba(183,255,53,.08) 59px 60px)}
+.court::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(183,255,53,.35)}
+.court::after{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(183,255,53,.2)}
+.dot{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--acc);box-shadow:0 0 18px var(--acc),0 0 50px var(--acc-g);transform:translate(-50%,-50%);transition:left .9s cubic-bezier(.5,0,.2,1),top .9s cubic-bezier(.5,0,.2,1);z-index:2}
+.dot::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid var(--acc);animation:ping 1.8s infinite}
+@keyframes ping{from{transform:scale(.6);opacity:.8}to{transform:scale(1.8);opacity:0}}
+.viz-f{display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12.5px;color:var(--tx2);position:relative}
 
-    /* ── Background layers ── */
-    /* ════════════════════════
-       NAVBAR
-    ════════════════════════ */
-    .navbar {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
-      height: 60px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 40px;
-      background: rgba(10,13,15,.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      max-width: 100vw;
-    }
+/* HOW */
+.how{background:var(--bg2);border-block:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:56px;position:relative}
+.steps::before{content:"";position:absolute;top:28px;left:8%;right:8%;height:1px;background:linear-gradient(90deg,var(--acc),rgba(183,255,53,.1));}
+.step{position:relative;padding:0 28px 0 0}
+.step .n{width:56px;height:56px;border-radius:50%;background:var(--bg);border:1px solid var(--acc);color:var(--acc);display:grid;place-items:center;font-weight:700;font-size:18px;box-shadow:0 0 22px rgba(183,255,53,.2);margin-bottom:24px;position:relative}
+.step h3{font-size:22px;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:8px}
+.step p{color:var(--tx2);font-size:15px;max-width:290px}
 
-    .nav-brand {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none; color: var(--text);
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 700;
-    }
-    .nav-brand svg { flex-shrink: 0; }
+/* FEATURES */
+.feat{display:grid;grid-template-columns:repeat(3,1fr);margin-top:56px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.f{padding:34px 30px 38px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;transition:background .25s}
+.f:hover{background:rgba(183,255,53,.045)}
+.f::before{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--acc);transition:width .35s}
+.f:hover::before{width:100%}
+.f svg{width:30px;height:30px;stroke:var(--acc);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:22px}
+.f h3{font-size:19px;margin-bottom:8px}
+.f p{color:var(--tx2);font-size:14.5px}
 
-    .nav-links {
-      display: flex; align-items: center; gap: 6px;
-    }
-    .nav-links a {
-      color: var(--text-2); text-decoration: none;
-      font-size: 13.5px; font-weight: 500;
-      padding: 7px 14px; border-radius: 8px;
-      transition: color var(--trans), background var(--trans);
-    }
-    .nav-links a:hover { color: var(--text); background: var(--bg-3); }
-    .nav-links .nav-cta {
-      background: var(--accent); color: #0a0d0f;
-      font-weight: 700; margin-left: 4px;
-      box-shadow: 0 0 16px var(--accent-glow);
-    }
-    .nav-links .nav-cta:hover {
-      background: #50e88a; color: #0a0d0f;
-      box-shadow: 0 0 24px var(--accent-glow);
-    }
+/* SHOWCASE */
+.show{background:radial-gradient(70% 60% at 50% 100%,rgba(183,255,53,.1),transparent 70%),var(--bg2);border-top:1px solid var(--line);overflow:hidden}
+.stage{position:relative;height:430px;margin-top:64px;perspective:1400px}
+.card{position:absolute;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,#151e17,#0d130f);padding:20px;box-shadow:0 30px 70px rgba(0,0,0,.55);font-size:12px;color:var(--tx2)}
+.card h4{font-size:12px;font-weight:600;color:var(--tx);margin-bottom:12px}
+.c1{left:2%;top:40px;width:40%;transform:rotateY(14deg) rotateX(4deg);z-index:2}
+.c2{left:30%;top:0;width:42%;transform:rotateX(2deg);z-index:3;border-color:rgba(183,255,53,.35)}
+.c3{right:2%;top:60px;width:36%;transform:rotateY(-14deg) rotateX(4deg);z-index:2}
+.bars{display:flex;align-items:flex-end;gap:7px;height:130px}
+.bars i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--acc),rgba(183,255,53,.15))}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.mini i{aspect-ratio:1.5;border-radius:6px;background:rgba(183,255,53,.08);border:1px solid rgba(183,255,53,.15)}
+.mini i.on{background:rgba(183,255,53,.45);box-shadow:0 0 18px var(--acc-g)}
+.fb{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.fb:first-of-type{border:0}
+.fb u{width:8px;height:8px;border-radius:50%;background:var(--acc);flex:none}
+.prog{height:6px;border-radius:3px;background:rgba(255,255,255,.08);margin:10px 0 6px}
+.prog i{display:block;height:100%;width:62%;border-radius:3px;background:var(--acc)}
+.tag{display:block;text-align:center;margin-top:22px;font-size:13px;color:var(--tx2)}
 
-    /* ════════════════════════
-       HERO
-    ════════════════════════ */
-    .hero {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 100px 40px 60px;
-      max-width: 1200px; margin: 0 auto;
-      gap: 60px;
-    }
+/* FINAL CTA */
+.final{position:relative;text-align:center;padding:150px 0;isolation:isolate;overflow:hidden}
+.final::before{content:"";position:absolute;inset:0;z-index:-2;background:url(assets/hero-bg.jpg) 78% center/cover}
+.final::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(60% 70% at 50% 50%,rgba(11,16,13,.78),rgba(11,16,13,.96)),linear-gradient(180deg,var(--bg2),transparent 25%)}
+.final h2{font-size:clamp(40px,7vw,92px)}
+.final p{color:#d3d9d4;font-size:19px;margin:6px 0 34px}
 
-    .hero-left { flex: 1; min-width: 0; }
+/* FOOTER */
+footer{border-top:1px solid var(--line);padding:48px 0 34px}
+.ft{display:flex;justify-content:space-between;gap:36px;flex-wrap:wrap}
+.ft p{color:var(--tx2);font-size:14px;margin-top:10px;max-width:260px}
+.ft nav{display:flex;gap:56px;flex-wrap:wrap}
+.ft nav div{display:flex;flex-direction:column;gap:9px;font-size:14px;color:var(--tx2)}
+.ft nav b{color:var(--tx);font-weight:600;margin-bottom:2px}
+.ft a:hover{color:var(--acc)}
+.copy{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);font-size:12.5px;color:#6d766f}
 
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--font-mono);
-      font-size: 10px; font-weight: 500; letter-spacing: 2.5px;
-      text-transform: uppercase; color: var(--accent);
-      background: var(--accent-dim);
-      border: 1px solid rgba(57,224,122,.25);
-      border-radius: 20px; padding: 5px 14px;
-      margin-bottom: 24px;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent);
-      animation: pulse-dot 1.6s ease infinite;
-    }
-    @keyframes pulse-dot {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50%      { opacity: .4; transform: scale(.7); }
-    }
+/* Reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.rv.in{opacity:1;transform:none}
 
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(38px, 5.5vw, 68px);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      color: var(--text);
-      margin-bottom: 22px;
-    }
-    .hero-title .g {
-      color: var(--accent);
-      text-shadow: 0 0 40px rgba(57,224,122,.4);
-    }
-
-    .hero-sub {
-      font-size: 16px; color: var(--text-2);
-      line-height: 1.7; max-width: 480px;
-      margin-bottom: 36px;
-    }
-
-    .hero-actions {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-      margin-bottom: 48px;
-    }
-    .btn-hero-primary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--accent); color: #0a0d0f;
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 700; letter-spacing: .5px;
-      border: none; border-radius: var(--radius);
-      padding: 14px 28px; cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 0 28px var(--accent-glow);
-      transition: all var(--trans);
-    }
-    .btn-hero-primary:hover {
-      background: #50e88a;
-      box-shadow: 0 0 40px var(--accent-glow);
-      transform: translateY(-2px);
-    }
-    .btn-hero-secondary {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: transparent; color: var(--text-2);
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 600; letter-spacing: .5px;
-      border: 1px solid var(--border-2); border-radius: var(--radius);
-      padding: 13px 24px; cursor: pointer;
-      text-decoration: none;
-      transition: all var(--trans);
-    }
-    .btn-hero-secondary:hover {
-      color: var(--text); border-color: var(--border-3);
-      background: var(--accent-dim);
-    }
-
-    /* Hero mini stats */
-    .hero-stats {
-      display: flex; gap: 28px; flex-wrap: wrap;
-    }
-    .hero-stat { }
-    .hero-stat-val {
-      font-family: var(--font-display);
-      font-size: 22px; font-weight: 800;
-      color: var(--accent); letter-spacing: -1px;
-    }
-    .hero-stat-lbl {
-      font-size: 11px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .6px;
-      color: var(--text-3); margin-top: 2px;
-    }
-
-    /* Hero right — live card */
-    .hero-right {
-      flex: 0 0 420px;
-      position: relative;
-      max-width: 100%;
-    }
-    .hero-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      position: relative; overflow: hidden;
-    }
-    .hero-card::before {
-      content: '';
-      position: absolute; top: -60px; right: -60px;
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(57,224,122,.1), transparent 70%);
-      border-radius: 50%; pointer-events: none;
-    }
-    .hero-card-top {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .hero-card-title {
-      font-family: var(--font-mono);
-      font-size: 10px; letter-spacing: 2px;
-      color: var(--text-3); text-transform: uppercase;
-    }
-    .live-badge {
-      display: flex; align-items: center; gap: 6px;
-      font-family: var(--font-mono); font-size: 10px;
-      letter-spacing: 1.5px; color: var(--accent);
-      border: 1px solid rgba(57,224,122,.25);
-      border-radius: 20px; padding: 3px 10px;
-    }
-    .live-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--accent);
-      animation: pulse-dot 1.6s ease infinite;
-    }
-
-    /* Fake court visualizer */
-    .court-viz {
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      height: 160px;
-      position: relative; overflow: hidden;
-      margin-bottom: 18px;
-    }
-    .court-line {
-      position: absolute;
-      background: rgba(57,224,122,.15);
-    }
-    .court-line.h { left: 0; right: 0; height: 1px; }
-    .court-line.v { top: 0; bottom: 0; width: 1px; }
-    .court-line.h1 { top: 50%; }
-    .court-line.v1 { left: 33.3%; }
-    .court-line.v2 { left: 66.6%; }
-    .court-border {
-      position: absolute; inset: 8px;
-      border: 1px solid rgba(57,224,122,.2);
-      border-radius: 4px;
-    }
-    .court-player {
-      position: absolute;
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 12px var(--accent-glow);
-      transform: translate(-50%, -50%);
-      transition: left .8s cubic-bezier(.4,0,.2,1), top .8s cubic-bezier(.4,0,.2,1);
-    }
-    .court-zone-indicator {
-      position: absolute; bottom: 8px; right: 10px;
-      font-family: var(--font-mono); font-size: 10px;
-      color: var(--accent); letter-spacing: 1px;
-    }
-
-    /* Metrics row */
-    .hero-metrics {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px; margin-bottom: 18px;
-    }
-    .hero-metric {
-      background: var(--bg-3);
-      border: 1px solid var(--border);
-      border-radius: 10px; padding: 12px;
-      text-align: center;
-    }
-    .hero-metric-val {
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 800;
-      color: var(--text); letter-spacing: -.5px;
-    }
-    .hero-metric-lbl {
-      font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .5px;
-      color: var(--text-3); margin-top: 3px;
-    }
-
-    .hero-card-footer {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 12px; color: var(--text-2);
-    }
-    .hero-card-footer svg { color: var(--accent); flex-shrink: 0; }
-
-    /* ════════════════════════
-       SECTION SHARED
-    ════════════════════════ */
-    section { position: relative; z-index: 1; }
-    .section-inner {
-      max-width: 1200px; margin: 0 auto;
-      padding: 80px 40px;
-    }
-    .section-eyebrow {
-      font-family: var(--font-mono);
-      font-size: 10px; letter-spacing: 3px;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 3.5vw, 42px);
-      font-weight: 800; letter-spacing: -1.5px;
-      color: var(--text); line-height: 1.1;
-      margin-bottom: 14px;
-    }
-    .section-sub {
-      font-size: 15px; color: var(--text-2);
-      line-height: 1.7; max-width: 520px;
-      margin-bottom: 48px;
-    }
-
-    /* ════════════════════════
-       FEATURES
-    ════════════════════════ */
-    .features-section {
-      border-top: 1px solid var(--border);
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .feature-card {
-      background: var(--bg-2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 28px 24px;
-      transition: border-color var(--trans), transform var(--trans), box-shadow var(--trans);
-      position: relative; overflow: hidden;
-    }
-    .feature-card::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(57,224,122,.05), transparent);
-      opacity: 0; transition: opacity var(--trans);
-    }
-    .feature-card:hover {
-      border-color: rgba(57,224,122,.3);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.3), 0 0 20px rgba(57,224,122,.06);
-    }
-    .feature-card:hover::after { opacity: 1; }
-    .feature-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: var(--accent-dim);
-      border: 1px solid rgba(57,224,122,.2);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 18px;
-    }
-    .feature-name {
-      font-family: var(--font-display);
-      font-size: 16px; font-weight: 700;
-      color: var(--text); margin-bottom: 8px;
-    }
-    .feature-desc {
-      font-size: 13.5px; color: var(--text-2);
-      line-height: 1.6;
-    }
-
-    /* ════════════════════════
-       HOW IT WORKS
-    ════════════════════════ */
-    .how-section {
-      border-top: 1px solid var(--border);
-      background: linear-gradient(180deg, transparent, rgba(57,224,122,.02) 50%, transparent);
-    }
-    .how-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 16px; position: relative;
-    }
-    .how-grid::before {
-      content: '';
-      position: absolute; top: 30px; left: 10%; right: 10%;
-      height: 1px; background: var(--border-2);
-      z-index: 0;
-    }
-    .how-step {
-      text-align: center; position: relative; z-index: 1;
-    }
-    .how-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--bg-2);
-      border: 1px solid var(--border-3);
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 18px; font-weight: 800; color: var(--accent);
-      margin: 0 auto 18px;
-      box-shadow: 0 0 20px rgba(57,224,122,.15);
-    }
-    .how-title {
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 700;
-      color: var(--text); margin-bottom: 8px;
-    }
-    .how-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.6; }
-
-    /* ════════════════════════
-       STATS BAND
-    ════════════════════════ */
-    .stats-band {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-2);
-    }
-    .stats-band-inner {
-      max-width: 1200px; margin: 0 auto;
-      padding: 40px;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-    .band-stat {
-      text-align: center; padding: 8px 16px;
-      border-right: 1px solid var(--border);
-    }
-    .band-stat:last-child { border-right: none; }
-    .band-stat-val {
-      font-family: var(--font-display);
-      font-size: 36px; font-weight: 900;
-      color: var(--accent); letter-spacing: -2px;
-    }
-    .band-stat-lbl {
-      font-size: 12px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: .8px;
-      color: var(--text-3); margin-top: 4px;
-    }
-
-    /* ════════════════════════
-       CTA BANNER
-    ════════════════════════ */
-    .cta-section { border-top: 1px solid var(--border); }
-    .cta-box {
-      background: linear-gradient(135deg, rgba(57,224,122,.1), rgba(57,224,122,.03));
-      border: 1px solid rgba(57,224,122,.25);
-      border-radius: var(--radius-lg);
-      padding: 60px 48px;
-      text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .cta-box::before {
-      content: '';
-      position: absolute; top: -80px; left: 50%;
-      transform: translateX(-50%);
-      width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(57,224,122,.12), transparent 70%);
-      pointer-events: none;
-    }
-    .cta-title {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 4vw, 48px);
-      font-weight: 800; letter-spacing: -1.5px;
-      color: var(--text); margin-bottom: 14px;
-      position: relative;
-    }
-    .cta-sub {
-      font-size: 15px; color: var(--text-2);
-      margin-bottom: 32px; position: relative;
-    }
-    .cta-actions {
-      display: flex; align-items: center; justify-content: center;
-      gap: 12px; flex-wrap: wrap;
-      position: relative;
-    }
-
-    /* ════════════════════════
-       FOOTER
-    ════════════════════════ */
-    .footer {
-      border-top: 1px solid var(--border);
-      position: relative; z-index: 1;
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-      padding: 32px 40px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; flex-wrap: wrap;
-    }
-    .footer-brand {
-      display: flex; align-items: center; gap: 8px;
-      font-family: var(--font-display);
-      font-size: 14px; font-weight: 700;
-      color: var(--text-2); text-decoration: none;
-    }
-    .footer-copy {
-      font-family: var(--font-mono); font-size: 11px;
-      color: var(--text-3); letter-spacing: .5px;
-    }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a {
-      font-size: 12.5px; color: var(--text-3);
-      text-decoration: none; transition: color var(--trans);
-    }
-    .footer-links a:hover { color: var(--text-2); }
-
-    /* ════════════════════════
-       ANIMATIONS
-    ════════════════════════ */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .anim-up { animation: fadeUp .5s cubic-bezier(.4,0,.2,1) both; }
-    .anim-d1 { animation-delay: .1s; }
-    .anim-d2 { animation-delay: .2s; }
-    .anim-d3 { animation-delay: .3s; }
-    .anim-d4 { animation-delay: .4s; }
-
-    /* ════════════════════════
-       RESPONSIVE
-    ════════════════════════ */
-    @media (max-width: 960px) {
-      .hero { flex-direction: column; padding-top: 100px; gap: 40px; }
-      .hero-right { flex: none; width: 100%; max-width: 480px; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .how-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
-      .how-grid::before { display: none; }
-      .stats-band-inner { grid-template-columns: 1fr 1fr; }
-      .band-stat { border-right: none; border-bottom: 1px solid var(--border); padding: 20px; }
-      .band-stat:last-child { border-bottom: none; }
-    }
-    @media (max-width: 640px) {
-      .navbar { padding: 0 20px; }
-      .section-inner { padding: 60px 20px; }
-      .hero { padding: 90px 20px 40px; }
-      .features-grid { grid-template-columns: 1fr; }
-      .cta-box { padding: 40px 24px; }
-      .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .how-grid { grid-template-columns: 1fr; }
-      .stats-band-inner { grid-template-columns: 1fr 1fr; }
-    }
-    /* ════════════════════════
-       MOBILE NAV HAMBURGER
-       (desktop unaffected)
-    ════════════════════════ */
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 36px; height: 36px;
-      background: none;
-      border: 1px solid var(--border-2);
-      border-radius: 8px;
-      cursor: pointer;
-      padding: 8px;
-      flex-shrink: 0;
-    }
-    .nav-hamburger span {
-      display: block;
-      height: 1.5px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all var(--trans);
-    }
-    
-    .mobile-nav-drawer {
-      display: none;
-      position: fixed;
-      top: 60px; left: 0; right: 0;
-      background: rgba(10,13,15,.97);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      z-index: 99;
-      padding: 16px 20px 24px;
-      flex-direction: column;
-      gap: 6px;
-      max-width: 100vw;
-    }
-    .mobile-nav-drawer.open { display: flex; }
-    .mobile-nav-drawer a {
-      color: var(--text-2);
-      text-decoration: none;
-      font-size: 15px; font-weight: 500;
-      padding: 12px 16px;
-      border-radius: 10px;
-      transition: background var(--trans), color var(--trans);
-    }
-    .mobile-nav-drawer a:hover,
-    .mobile-nav-drawer a:active { background: var(--bg-3); color: var(--text); }
-    .mobile-nav-drawer .nav-cta {
-      background: var(--accent); color: #0a0d0f;
-      font-weight: 700; text-align: center;
-      margin-top: 8px;
-      box-shadow: 0 0 16px var(--accent-glow);
-    }
-    
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
-    }
-  </style>
-<link rel="stylesheet" href="css/global-background.css">
+@media(max-width:960px){
+.split{grid-template-columns:1fr;gap:44px}
+.feat{grid-template-columns:1fr 1fr}
+.stage{height:auto;display:grid;gap:16px;perspective:none}
+.card{position:static;width:auto!important;transform:none!important}
+.sec{padding:84px 0}
+}
+@media(max-width:720px){
+.links,.nav-r .lg,.nav-r .btn{display:none}
+.ham{display:flex}
+.nav-r{gap:0}
+.hero::before{background-position:78% center}
+.hero::after{background:linear-gradient(180deg,rgba(11,16,13,.55),rgba(11,16,13,.88) 55%,var(--bg))}
+.hero .wrap{padding-top:120px}
+.steps{grid-template-columns:1fr;gap:34px}
+.steps::before{display:none}
+.feat{grid-template-columns:1fr}
+.wrap{padding:0 20px}
+}
+@media(prefers-reduced-motion:reduce){
+html{scroll-behavior:auto}
+*,*::before,*::after{animation:none!important;transition:none!important}
+.rv,.hero .rise{opacity:1;transform:none}
+}
+</style>
 </head>
 <body>
 
-<div class="global-bg" aria-hidden="true">
-<div class="bg-noise"></div>
-<div class="bg-radial"></div>
-</div>
-<!-- ════ NAVBAR ════ -->
-  <nav class="navbar">
-  <a href="index.html" class="nav-brand">
-    <img src="/Badminton-AI-trainer_V2/favicon.ico" 
-     width="34" height="34" 
-     style="border-radius:50%;object-fit:cover;flex-shrink:0">
-    Shuttlestepz
-  </a>
-
-  <!-- Desktop nav (hidden on mobile) -->
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
-    <a href="login.html">Log In</a>
-    <a href="signup.html" class="nav-cta">Get Started →</a>
+<header class="nav" id="nav">
+  <a href="index.html" class="brand"><img src="/Badminton-AI-trainer_V2/favicon.ico" alt="">Shuttlestepz</a>
+  <nav class="links" aria-label="Main">
+    <a href="#top">Home</a><a href="#features">Features</a><a href="#how">How It Works</a><a href="#about">About Us</a>
+  </nav>
+  <div class="nav-r">
+    <a href="login.html" class="lg">Log In</a>
+    <a href="signup.html" class="btn btn-p">Get Started ↗</a>
+    <button class="ham" id="ham" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </div>
-
-  <!-- Hamburger (mobile only) -->
-  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- Mobile drawer -->
-<div class="mobile-nav-drawer" id="mobileDrawer">
-  <a href="#features" onclick="closeDrawer()">Features</a>
-  <a href="#how" onclick="closeDrawer()">How It Works</a>
-  <a href="login.html">Log In</a>
-  <a href="signup.html" class="nav-cta">Get Started →</a>
+</header>
+<div class="drawer" id="drawer">
+  <a href="#top">Home</a><a href="#features">Features</a><a href="#how">How It Works</a><a href="#about">About Us</a><a href="login.html">Log In</a>
+  <a href="signup.html" class="btn btn-p">Get Started ↗</a>
 </div>
 
-  <!-- ════ HERO ════ -->
-  <section>
-    <div class="hero">
-      <div class="hero-left">
-        <div class="hero-eyebrow anim-up">AI-Powered · Real-Time · Free to Start</div>
-        <h1 class="hero-title anim-up anim-d1">
-          Train smarter.<br>Move <span class="g">faster.</span><br>Win bigger.
-        </h1>
-        <p class="hero-sub anim-up anim-d2">
-          Real-time AI pose detection gives you the coaching feedback of a pro trainer — right in your browser. No equipment. No downloads.
-        </p>
-        <div class="hero-actions anim-up anim-d3">
-          <a href="trainer.html" class="btn-hero-primary">Start Training Free →</a>
-          <a href="login.html" class="btn-hero-secondary">Log In</a>
-        </div>
-        <div class="hero-stats anim-up anim-d4">
-          <div class="hero-stat">
-            <div class="hero-stat-val">60fps</div>
-            <div class="hero-stat-lbl">AI Tracking</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-val">±50ms</div>
-            <div class="hero-stat-lbl">Precision</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-val">8</div>
-            <div class="hero-stat-lbl">Court Zones</div>
-          </div>
-          <div class="hero-stat">
-            <div class="hero-stat-val">$0</div>
-            <div class="hero-stat-lbl">To Start</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-right anim-up anim-d2">
-        <div class="hero-card">
-          <div class="hero-card-top">
-            <span class="hero-card-title">Live Session</span>
-            <span class="live-badge"><span class="live-dot"></span>AI Active</span>
-          </div>
-          <div class="court-viz" id="courtViz">
-            <div class="court-border"></div>
-            <div class="court-line h h1"></div>
-            <div class="court-line v v1"></div>
-            <div class="court-line v v2"></div>
-            <div class="court-player" id="courtPlayer" style="left:50%;top:50%"></div>
-            <div class="court-zone-indicator" id="zoneLabel">ZONE 5</div>
-          </div>
-          <div class="hero-metrics">
-            <div class="hero-metric">
-              <div class="hero-metric-val" id="reactionVal">248</div>
-              <div class="hero-metric-lbl">React ms</div>
-            </div>
-            <div class="hero-metric">
-              <div class="hero-metric-val" id="accuracyVal">94%</div>
-              <div class="hero-metric-lbl">Accuracy</div>
-            </div>
-            <div class="hero-metric">
-              <div class="hero-metric-val" id="xpVal">+12 XP</div>
-              <div class="hero-metric-lbl">Earned</div>
-            </div>
-          </div>
-          <div class="hero-card-footer">
-            <svg width="14" height="14" fill="none" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" stroke="#39e07a" stroke-width="1.5"/><path d="M8 5v3.5M8 11v.5" stroke="#39e07a" stroke-width="1.5" stroke-linecap="round"/></svg>
-            No video stored · AI runs locally in your browser
-          </div>
-        </div>
-      </div>
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <h1 class="rise" style="animation-delay:.1s">The <span class="g">future</span> of<br>badminton<br>is <span class="g">here.</span></h1>
+    <p class="rise" style="animation-delay:.3s"><b>Train smarter. Move faster. Play better.</b></p>
+    <p class="rise" style="animation-delay:.4s">Badminton training powered by AI movement analysis and clear performance feedback.</p>
+    <div class="cta rise" style="animation-delay:.55s">
+      <a href="trainer.html" class="btn btn-p">Start Training</a>
+      <a href="#about" class="btn btn-s">Explore the technology</a>
     </div>
-  </section>
+    <div class="note rise" style="animation-delay:.7s"><i></i>No video stored · AI runs locally in your browser</div>
+  </div>
+  <span class="scroll" aria-hidden="true"></span>
+</section>
 
-  <!-- ════ STATS BAND ════ -->
-  <div class="stats-band">
-    <div class="stats-band-inner">
-      <div class="band-stat">
-        <div class="band-stat-val">10K+</div>
-        <div class="band-stat-lbl">Sessions Played</div>
-      </div>
-      <div class="band-stat">
-        <div class="band-stat-val">8</div>
-        <div class="band-stat-lbl">Skill Levels</div>
-      </div>
-      <div class="band-stat">
-        <div class="band-stat-val">60fps</div>
-        <div class="band-stat-lbl">AI Tracking</div>
-      </div>
-      <div class="band-stat">
-        <div class="band-stat-val">Free</div>
-        <div class="band-stat-lbl">Forever Plan</div>
-      </div>
+<!-- INTRO -->
+<section class="sec" id="about">
+  <div class="wrap split">
+    <div class="rv">
+      <h2>Your game.<br>Understood <span class="g">by AI.</span></h2>
+      <p class="body">Every movement matters. Shuttlestepz brings artificial intelligence into badminton training, helping you understand your movement, find what to improve, and train with purpose.</p>
+      <p class="body">Open it in your browser, switch on the camera and start. No equipment, no downloads.</p>
+    </div>
+    <div class="viz rv" aria-label="Animated sample of court zone tracking">
+      <div class="viz-h"><span>Court tracking · sample</span><b id="zone">Zone 5</b></div>
+      <div class="court"><span class="dot" id="dot" style="left:50%;top:50%"></span></div>
+      <div class="viz-f"><span class="g">●</span> Illustration of how movement is mapped to court zones</div>
     </div>
   </div>
+</section>
 
-  <!-- ════ FEATURES ════ -->
-  <section id="features">
-    <div class="section-inner">
-      <div class="section-eyebrow">What You Get</div>
-      <h2 class="section-title">Everything a pro coach gives you</h2>
-      <p class="section-sub">Built on real-time computer vision — no wearables, no special equipment, just your phone or laptop camera.</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <div class="feature-name">Reaction Tracking</div>
-          <div class="feature-desc">Millisecond-precise reaction time measurement across all 8 court zones. Know exactly where you're slow.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <div class="feature-name">AI Pose Detection</div>
-          <div class="feature-desc">Real-time body pose analysis at 60fps. The AI sees your movement and corrects your footwork live.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎙️</div>
-          <div class="feature-name">Voice Coaching</div>
-          <div class="feature-desc">Audio prompts guide your session hands-free. React to voice cues exactly like in a real training drill.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <div class="feature-name">Session Analytics</div>
-          <div class="feature-desc">Deep stats after every session — accuracy by zone, average reaction, XP earned, and trend over time.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🏆</div>
-          <div class="feature-name">XP & Leaderboard</div>
-          <div class="feature-desc">Earn XP on every session, level up, and compete with players globally on the ranked leaderboard.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔒</div>
-          <div class="feature-name">100% Private</div>
-          <div class="feature-desc">AI runs entirely in your browser. No video is recorded, stored, or sent anywhere. Your privacy is guaranteed.</div>
-        </div>
+<!-- HOW -->
+<section class="sec how" id="how">
+  <div class="wrap">
+    <div class="rv">
+      <h2>From movement<br>to <span class="g">mastery.</span></h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="n">1</div><h3>Record</h3><p>Allow camera access and stand 1.5–2 m back with your full body in view.</p></div>
+      <div class="step rv"><div class="n">2</div><h3>Analyse</h3><p>The AI reads your pose and footwork in real time, right in your browser.</p></div>
+      <div class="step rv"><div class="n">3</div><h3>Improve</h3><p>See where you are slow, earn XP and track progress session by session.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="rv"><h2>Train with<br><span class="g">intelligence.</span></h2><p class="lead">Built on computer vision. Just your phone or laptop camera.</p></div>
+    <div class="feat rv">
+      <div class="f"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg><h3>Reaction tracking</h3><p>Measure your reaction time across the court zones and see exactly where you are slow.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v6m-5-4 5 2 5-2m-7 12 2-8 2 8"/></svg><h3>AI pose detection</h3><p>Real-time body pose analysis that follows your movement and footwork as you train.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3"/></svg><h3>Voice coaching</h3><p>Audio prompts guide your drill hands-free, like a real training session.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/></svg><h3>Session analytics</h3><p>Accuracy by zone, average reaction and XP after every session.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24"><path d="M8 21h8m-4-4v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3m10-4h3v1a3 3 0 0 1-3 3"/></svg><h3>XP and leaderboard</h3><p>Earn XP, level up and compete on the ranked leaderboard.</p></div>
+      <div class="f"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><h3>Private by design</h3><p>The AI runs in your browser. No video is recorded or stored.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="sec show" id="preview">
+  <div class="wrap">
+    <div class="rv"><h2>See your game<br><span class="g">differently.</span></h2></div>
+    <div class="stage rv" aria-hidden="true">
+      <div class="card c1"><h4>Footwork feedback</h4>
+        <div class="fb"><u></u>Recover to centre faster after back-court shots</div>
+        <div class="fb"><u></u>Keep your knees bent on the split step</div>
+        <div class="fb"><u></u>Good balance on front-court lunges</div>
+      </div>
+      <div class="card c2"><h4>Accuracy by zone</h4>
+        <div class="bars"><i style="height:62%"></i><i style="height:80%"></i><i style="height:48%"></i><i style="height:90%"></i><i style="height:70%"></i><i style="height:55%"></i><i style="height:84%"></i><i style="height:66%"></i></div>
+        <div class="mini" style="margin-top:14px"><i></i><i class="on"></i><i></i><i></i><i></i><i class="on"></i></div>
+      </div>
+      <div class="card c3"><h4>Progress</h4>
+        <div>Level progress</div><div class="prog"><i></i></div>
+        <div class="bars" style="height:80px;margin-top:14px"><i style="height:30%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:66%"></i><i style="height:78%"></i></div>
       </div>
     </div>
-  </section>
+    <span class="tag">Interface preview with sample data. Not real user results.</span>
+  </div>
+</section>
 
-  <!-- ════ HOW IT WORKS ════ -->
-  <section id="how" class="how-section">
-    <div class="section-inner">
-      <div class="section-eyebrow">Getting Started</div>
-      <h2 class="section-title">Up and training in 60 seconds</h2>
-      <p class="section-sub">No app download, no equipment to buy, no coach to book. Just open the browser and go.</p>
-      <div class="how-grid">
-        <div class="how-step">
-          <div class="how-num">1</div>
-          <div class="how-title">Create your account</div>
-          <div class="how-desc">Sign up free in 30 seconds. No credit card needed for the free plan.</div>
-        </div>
-        <div class="how-step">
-          <div class="how-num">2</div>
-          <div class="how-title">Allow camera access</div>
-          <div class="how-desc">Grant camera permission. No video is stored — AI runs locally in your browser.</div>
-        </div>
-        <div class="how-step">
-          <div class="how-num">3</div>
-          <div class="how-title">Position yourself</div>
-          <div class="how-desc">Stand 1.5–2m from camera. Full body visible. AI calibrates your position automatically.</div>
-        </div>
-        <div class="how-step">
-          <div class="how-num">4</div>
-          <div class="how-title">Train and improve</div>
-          <div class="how-desc">React to voice prompts, earn XP, and track your progress session by session.</div>
-        </div>
-      </div>
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="wrap rv">
+    <h2>Your next level<br>starts <span class="g">here.</span></h2>
+    <p>Stop guessing. Start understanding your game.</p>
+    <a href="signup.html" class="btn btn-p">Get started</a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div><a href="index.html" class="brand"><img src="/Badminton-AI-trainer_V2/favicon.ico" alt="">Shuttlestepz</a><p>The future of badminton is here.</p></div>
+      <nav aria-label="Footer">
+        <div><b>Product</b><a href="#features">Features</a><a href="#how">How it works</a><a href="#about">About</a></div>
+        <div><b>Account</b><a href="login.html">Log in</a><a href="signup.html">Sign up</a></div>
+        <div><b>Legal</b><a href="#">Contact</a><a href="#">Privacy Policy</a><a href="#">Terms and Conditions</a></div>
+      </nav>
     </div>
-  </section>
+    <div class="copy">© 2026 Shuttlestepz. All rights reserved.</div>
+  </div>
+</footer>
 
-  <!-- ════ CTA ════ -->
-  <section class="cta-section">
-    <div class="section-inner">
-      <div class="cta-box">
-        <h2 class="cta-title">Ready to train like a pro?</h2>
-        <p class="cta-sub">Join thousands of players improving their game with AI coaching. Free forever.</p>
-        <div class="cta-actions">
-          <a href="trainer.html" class="btn-hero-primary">Start Training Free →</a>
-          <a href="login.html" class="btn-hero-secondary">Already have an account</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ════ FOOTER ════ -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <a href="index.html" class="footer-brand">
-        <img src="/Badminton-AI-trainer_V2/favicon.ico" 
-         width="34" height="34" 
-         style="border-radius:50%;object-fit:cover;flex-shrink:0">
-        Shuttlestepz
-      </a>
-      <span class="footer-copy">© 2025 Shuttlestepz. All rights reserved.</span>
-      <div class="footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="login.html">Login</a>
-        <a href="signup.html">Sign Up</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Animated court player -->
-  <script>
-    const zones = [
-      { left: '16%', top: '25%', label: 'ZONE 1' },
-      { left: '50%', top: '25%', label: 'ZONE 2' },
-      { left: '84%', top: '25%', label: 'ZONE 3' },
-      { left: '16%', top: '50%', label: 'ZONE 4' },
-      { left: '50%', top: '50%', label: 'ZONE 5' },
-      { left: '84%', top: '50%', label: 'ZONE 6' },
-      { left: '16%', top: '78%', label: 'ZONE 7' },
-      { left: '50%', top: '78%', label: 'ZONE 8' },
-      { left: '84%', top: '78%', label: 'ZONE 9' },
-    ];
-    const reactions = [212, 248, 195, 267, 231, 189, 244, 203];
-    const accuracies = ['91%','94%','88%','96%','92%','97%','89%','95%'];
-    const xpVals = ['+10 XP','+12 XP','+8 XP','+15 XP','+11 XP','+14 XP','+9 XP','+13 XP'];
-    let idx = 0;
-
-    function animatePlayer() {
-      idx = (idx + 1) % zones.length;
-      const z = zones[idx];
-      document.getElementById('courtPlayer').style.left = z.left;
-      document.getElementById('courtPlayer').style.top = z.top;
-      document.getElementById('zoneLabel').textContent = z.label;
-      document.getElementById('reactionVal').textContent = reactions[idx % reactions.length];
-      document.getElementById('accuracyVal').textContent = accuracies[idx % accuracies.length];
-      document.getElementById('xpVal').textContent = xpVals[idx % xpVals.length];
-    }
-    setInterval(animatePlayer, 1800);
-  </script>
 <script>
-  const hamburger = document.getElementById('navHamburger');
-  const drawer = document.getElementById('mobileDrawer');
-  hamburger.addEventListener('click', () => drawer.classList.toggle('open'));
-  function closeDrawer() { drawer.classList.remove('open'); }
-  // Close on outside tap
-  document.addEventListener('click', e => {
-    if (!hamburger.contains(e.target) && !drawer.contains(e.target))
-      drawer.classList.remove('open');
-  });
-</script>
+(function(){
+  var nav=document.getElementById('nav'),ham=document.getElementById('ham'),dr=document.getElementById('drawer');
+  function sc(){nav.classList.toggle('s',window.scrollY>30)}sc();addEventListener('scroll',sc,{passive:true});
+  function tog(o){var v=typeof o==='boolean'?o:!dr.classList.contains('open');dr.classList.toggle('open',v);ham.setAttribute('aria-expanded',v)}
+  ham.addEventListener('click',function(e){e.stopPropagation();tog()});
+  dr.addEventListener('click',function(e){if(e.target.tagName==='A')tog(false)});
+  document.addEventListener('click',function(e){if(!dr.contains(e.target))tog(false)});
 
-<script type="module" src="/Badminton-AI-trainer_V2/js/auth.js"></script>
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
+  var rv=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.15});
+    rv.forEach(function(el){io.observe(el)});
+  }else rv.forEach(function(el){el.classList.add('in')});
+
+  var Z=[[16,25],[50,25],[84,25],[16,50],[50,50],[84,50],[16,78],[50,78],[84,78]],i=4,dot=document.getElementById('dot'),zl=document.getElementById('zone');
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    setInterval(function(){var n;do{n=Math.floor(Math.random()*Z.length)}while(n===i);i=n;dot.style.left=Z[i][0]+'%';dot.style.top=Z[i][1]+'%';zl.textContent='Zone '+(i+1)},1800);
   }
+})();
 </script>
+<script type="module" src="/Badminton-AI-trainer_V2/js/auth.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js')}</script>
 </body>
 </html>
