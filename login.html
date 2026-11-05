@@ -207,6 +207,78 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
   window.AUTH = AUTH
   console.log('[login] ✅ AUTH loaded')
 
+  // ── ShuttleStepz handshake transition ──────────────────
+  function playHandshakeAndGo() {
+    const overlay = document.createElement('div');
+    overlay.id = 'ss-transition';
+
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      inset: '0',
+      zIndex: '999999',
+      background: '#050906',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      opacity: '0',
+      transition: 'opacity 500ms ease'
+    });
+
+    const video = document.createElement('video');
+    video.src = '/Badminton-AI-trainer_V3/assets/handshake.mp4';
+    video.autoplay = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+
+    Object.assign(video.style, {
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain'
+    });
+
+    const skip = document.createElement('button');
+    skip.textContent = 'Skip';
+
+    Object.assign(skip.style, {
+      position: 'absolute',
+      bottom: '28px',
+      right: '28px',
+      padding: '10px 22px',
+      borderRadius: '30px',
+      border: '1px solid #B7FF35',
+      background: 'rgba(183,255,53,.12)',
+      color: '#B7FF35',
+      fontFamily: 'Sora, sans-serif',
+      cursor: 'pointer'
+    });
+
+    overlay.append(video, skip);
+    document.body.appendChild(overlay);
+
+    let finished = false;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      window.location.href = 'dashboard.html';
+    }
+
+    video.addEventListener('ended', finish);
+    skip.addEventListener('click', finish);
+
+    setTimeout(() => {
+      overlay.style.opacity = '1';
+    }, 30);
+
+    video.play().catch(() => {
+      finish();
+    });
+
+    // Safety fallback if the video fails to finish
+    setTimeout(finish, 15000);
+  }
+
   // Redirect if already logged in
   AUTH.requireGuest()
 
@@ -256,8 +328,8 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
     try {
       const res = await AUTH.login(email, pw, document.getElementById('remember').checked)
       if (res.ok) {
-        showSuc('Signed in. Taking you to your dashboard…')
-        setTimeout(() => { window.location.href = 'dashboard.html' }, 500)
+        showSuc('Signed in. Preparing your ShuttleStepz experience…')
+        playHandshakeAndGo();
       } else {
         showErr(res.msg)
         setLoading(false)
@@ -277,8 +349,8 @@ body{font-family:'Sora',system-ui,sans-serif;background:#0a1410;color:#e8f2ec}
     try {
       const res = await AUTH.loginWithGoogle(document.getElementById('remember').checked)
       if (res.ok) {
-        showSuc('Signed in. Taking you to your dashboard…')
-        setTimeout(() => { window.location.href = 'dashboard.html' }, 500)
+        showSuc('Signed in. Preparing your ShuttleStepz experience…')
+        playHandshakeAndGo();
         return
       }
       if (!res.cancelled) showErr(res.msg)
