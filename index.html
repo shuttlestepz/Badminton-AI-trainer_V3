@@ -157,6 +157,13 @@ footer{border-top:1px solid var(--line);padding:48px 0 34px}
 .feat{grid-template-columns:1fr}
 .wrap{padding:0 20px}
 }
+/* Shuttle cursor */
+html.shuttle-cursor,html.shuttle-cursor *{cursor:none!important}
+html.shuttle-cursor input,html.shuttle-cursor textarea{cursor:text!important}
+.shuttle{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;z-index:9999;opacity:0;transition:opacity .2s;will-change:transform}
+.shuttle svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 7px var(--sc));transition:transform .18s}
+.shuttle.on svg{transform:scale(1.3)}
+#trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998}
 @media(prefers-reduced-motion:reduce){
 html{scroll-behavior:auto}
 *,*::before,*::after{animation:none!important;transition:none!important}
@@ -310,13 +317,6 @@ html{scroll-behavior:auto}
     setInterval(function(){var n;do{n=Math.floor(Math.random()*Z.length)}while(n===i);i=n;dot.style.left=Z[i][0]+'%';dot.style.top=Z[i][1]+'%';zl.textContent='Zone '+(i+1)},1800);
   }
 })();
-/* Shuttle cursor */
-html.shuttle-cursor,html.shuttle-cursor *{cursor:none!important}
-html.shuttle-cursor input,html.shuttle-cursor textarea{cursor:text!important}
-.shuttle{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;z-index:9999;opacity:0;transition:opacity .2s;will-change:transform}
-.shuttle svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 7px var(--sc));transition:transform .18s}
-.shuttle.on svg{transform:scale(1.3)}
-#trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998}
 </script>
 <script>
 (function(){
