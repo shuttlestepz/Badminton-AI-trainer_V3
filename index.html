@@ -310,6 +310,53 @@ html{scroll-behavior:auto}
     setInterval(function(){var n;do{n=Math.floor(Math.random()*Z.length)}while(n===i);i=n;dot.style.left=Z[i][0]+'%';dot.style.top=Z[i][1]+'%';zl.textContent='Zone '+(i+1)},1800);
   }
 })();
+/* Shuttle cursor */
+html.shuttle-cursor,html.shuttle-cursor *{cursor:none!important}
+html.shuttle-cursor input,html.shuttle-cursor textarea{cursor:text!important}
+.shuttle{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;pointer-events:none;z-index:9999;opacity:0;transition:opacity .2s;will-change:transform}
+.shuttle svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 7px var(--sc));transition:transform .18s}
+.shuttle.on svg{transform:scale(1.3)}
+#trail{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9998}
+</script>
+<script>
+(function(){
+  if(!matchMedia('(hover:hover) and (pointer:fine)').matches||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var root=document.documentElement,cs=getComputedStyle(root);
+  var acc=(cs.getPropertyValue('--acc')||cs.getPropertyValue('--accent')||'#39e07a').trim();
+  root.classList.add('shuttle-cursor');
+
+  var s=document.createElement('div');s.className='shuttle';s.style.setProperty('--sc',acc);
+  s.innerHTML='<svg viewBox="0 0 32 32"><path d="M16 11 7 29q9 3 18 0z" fill="rgba(255,255,255,.92)"/><path d="M16 11 11 30M16 11v20M16 11l5 19" stroke="'+acc+'" stroke-width="1" fill="none" opacity=".7"/><circle cx="16" cy="8" r="5" fill="'+acc+'"/></svg>';
+  var c=document.createElement('canvas');c.id='trail';
+  document.body.appendChild(c);document.body.appendChild(s);
+
+  var ctx=c.getContext('2d'),dpr=Math.min(devicePixelRatio||1,2),W,H;
+  function rs(){W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
+  rs();addEventListener('resize',rs);
+
+  var mx=-100,my=-100,px=-100,py=-100,ang=-45,ta=-45,pts=[],LIFE=450;
+  addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY;s.style.opacity=1;
+    s.classList.toggle('on',!!(e.target.closest&&e.target.closest('a,button')))});
+  document.addEventListener('mouseleave',function(){s.style.opacity=0});
+
+  (function loop(){
+    var dx=mx-px,dy=my-py,now=performance.now();
+    if(dx*dx+dy*dy>4)ta=Math.atan2(dy,dx)*180/Math.PI+90;
+    if(dx*dx+dy*dy>0.25)pts.push({x:mx,y:my,t:now});
+    px=mx;py=my;
+    var d=((ta-ang+540)%360)-180;ang+=d*.2;
+    s.style.transform='translate('+mx+'px,'+my+'px) rotate('+ang+'deg)';
+    ctx.clearRect(0,0,W,H);
+    while(pts.length&&now-pts[0].t>LIFE)pts.shift();
+    ctx.fillStyle=acc;
+    for(var i=0;i<pts.length;i++){
+      var l=1-(now-pts[i].t)/LIFE;
+      ctx.globalAlpha=l*.65;
+      ctx.beginPath();ctx.arc(pts[i].x,pts[i].y,l*4.5,0,6.283);ctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
 </script>
 <script type="module" src="/Badminton-AI-trainer_V2/js/auth.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js')}</script>
