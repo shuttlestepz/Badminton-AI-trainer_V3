@@ -2,110 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>History — Shuttlestepz</title>
-<link rel="icon" href="/Badminton-AI-trainer_V2/favicon.ico">
+<link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#090c0e; --bg-2:#0f1315; --bg-3:#161b1e; --bg-4:#1d2427;
-  --border:rgba(255,255,255,.06); --border-2:rgba(255,255,255,.11);
-  --accent:#39e07a; --accent-dim:rgba(57,224,122,.12); --accent-glow:rgba(57,224,122,.3); --accent-2:#60eba0;
-  --text:#eaf0eb; --text-2:#7a9080; --text-3:#3d4f44;
-  --danger:#e05c5c; --warn:#e0b43c; --sidebar-w:252px; --topbar-h:64px;
-  --radius:12px; --radius-lg:18px; --trans:.18s cubic-bezier(.4,0,.2,1);
-}
+:root{--bg:#0B100D;--glass:rgba(15,20,17,.62);--bg-3:rgba(255,255,255,.05);--bg-4:rgba(255,255,255,.09);--border:rgba(255,255,255,.07);--border-2:rgba(255,255,255,.14);--accent:#39e07a;--accent-dim:rgba(57,224,122,.12);--accent-glow:rgba(57,224,122,.3);--accent-2:#60eba0;--text:#eaf0eb;--text-2:#8aa090;--text-3:#4d6054;--danger:#e05c5c;--warn:#e0b43c;--radius:14px;--trans:.18s cubic-bezier(.4,0,.2,1)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html,body{font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.hist-bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(rgba(11,16,13,.55),rgba(11,16,13,.82)),url("assets/Dashboard%20bg.jpg") center/cover no-repeat;background-color:var(--bg)}
 
-/* BG */
-/* TOPBAR */
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:rgba(9,12,14,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;z-index:300}
-.hamburger{width:40px;height:40px;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;transition:border-color var(--trans),background var(--trans)}
-.hamburger:hover{border-color:var(--border-2);background:var(--bg-4)}
-.hamburger span{display:block;width:18px;height:1.5px;background:var(--text-2);border-radius:2px;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s,background var(--trans)}
-.hamburger:hover span{background:var(--text)}
-.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.topbar-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);font-size:15px;font-weight:800;letter-spacing:-.4px;flex-shrink:0}
-.topbar-label{flex:1;font-size:13px;font-weight:600;color:var(--text-2);letter-spacing:-.2px;padding-left:4px}
-.topbar-xp{display:flex;align-items:center;gap:6px;background:var(--accent-dim);border:1px solid rgba(57,224,122,.2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
-.topbar-xp-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.btn-topbar-train{display:flex;align-items:center;gap:7px;background:var(--accent);color:#060908;border:none;border-radius:10px;padding:9px 18px;font-family:'Sora',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 0 20px var(--accent-glow);transition:all var(--trans);flex-shrink:0}
-.btn-topbar-train:hover{background:var(--accent-2);transform:translateY(-1px)}
+/* PILL NAV */
+.pill-nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 28px));z-index:1000;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 10px 8px 16px;background:rgba(14,20,16,.55);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid var(--border-2);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.45);transition:background .25s,border-color .25s}
+.pill-nav.scrolled{background:rgba(11,16,13,.84);border-color:rgba(57,224,122,.2)}
+.pn-brand{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-weight:500;font-size:15px}
+.pn-brand img{width:26px;height:26px;border-radius:8px}
+.pn-brand b{font-weight:800;color:var(--accent)}
+.pn-links{display:flex;gap:4px}
+.pn-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
+.pn-links a:hover{color:#fff;background:var(--bg-3)}
+.pn-links a.active{color:var(--accent);background:var(--accent-dim)}
+.pn-right{display:flex;align-items:center;gap:8px}
+.pn-xp{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(57,224,122,.25);border-radius:999px;white-space:nowrap}
+.pn-xp i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.pn-cta{color:#06130b;background:var(--accent);font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;transition:transform .2s,box-shadow .2s}
+.pn-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(57,224,122,.4)}
+.pn-out,.pn-burger{width:38px;height:38px;color:var(--text-2);font-size:16px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:50%;cursor:pointer;transition:color .2s,border-color .2s}
+.pn-out{display:flex;align-items:center;justify-content:center;color:var(--text);border-color:rgba(57,224,122,.35)}
+.pn-out:hover{color:var(--danger);border-color:var(--danger)}
+.pn-links{flex:1;min-width:0;justify-content:center;overflow-x:auto;scrollbar-width:none}
+.pn-links::-webkit-scrollbar{display:none}
+.pn-links a{white-space:nowrap;flex-shrink:0}
+@media(max-width:960px){
+  .pn-xp,.pn-brand span{display:none}
+  .pn-links{justify-content:flex-start}
+  .pn-links a{padding:8px 11px;font-size:13px}
+  .pn-cta{padding:9px 14px}
+}
+@media(max-width:600px){.pn-cta{display:none}}
 
-/* SIDEBAR */
-.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg-2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:250;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1),box-shadow .28s;overflow:hidden}
-.sidebar.open{transform:translateX(0);box-shadow:4px 0 48px rgba(0,0,0,.55)}
-.sidebar-top{flex:1;padding:20px 14px 12px;overflow-y:auto}
-.sidebar-top::-webkit-scrollbar{width:4px}
-.sidebar-top::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:99px}
-.sidebar-bottom{padding:14px;border-top:1px solid var(--border)}
-.role-badge{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(57,224,122,.2);border-radius:20px;padding:4px 10px;margin-bottom:16px}
-.role-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
-.nav{display:flex;flex-direction:column;gap:2px}
-.nav-section-label{font-size:9.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3);padding:12px 10px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--text-2);cursor:pointer;text-decoration:none;transition:background var(--trans),color var(--trans);position:relative}
-.nav-item svg{flex-shrink:0;opacity:.6;transition:opacity var(--trans)}
-.nav-item:hover{background:var(--bg-3);color:var(--text)}
-.nav-item:hover svg{opacity:1}
-.nav-item.active{background:var(--accent-dim);color:var(--accent);font-weight:600}
-.nav-item.active svg{opacity:1;stroke:var(--accent)}
-.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2.5px;border-radius:0 2px 2px 0;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.xp-mini{margin-bottom:10px}
-.xp-mini-top{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--text-2);margin-bottom:6px}
-.xp-bar-track{height:3.5px;border-radius:99px;background:var(--bg-4);overflow:hidden}
-.xp-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px var(--accent-glow)}
-.btn-logout{width:100%;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:9px;background:none;border:1px solid var(--border);color:var(--text-2);font-family:'Sora',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all var(--trans)}
-.btn-logout:hover{border-color:var(--danger);color:var(--danger);background:rgba(224,92,92,.07)}
-.sidebar-overlay{position:fixed;inset:0;top:var(--topbar-h);background:rgba(0,0,0,.6);z-index:240;opacity:0;pointer-events:none;transition:opacity .28s}
-.sidebar-overlay.open{opacity:1;pointer-events:auto}
+/* LAYOUT */
+.main{max-width:1100px;margin:0 auto;padding:104px 20px 72px}
+.glass,.stat-card,.panel,.ms,.session-item{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius)}
+.page-title{font-size:26px;font-weight:800;letter-spacing:-.6px}
+.page-sub{font-size:13px;color:var(--text-2);margin:5px 0 26px}
+.sec-title{font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
 
-/* MAIN */
-.main{margin-top:var(--topbar-h);min-height:calc(100vh - var(--topbar-h));padding:32px 36px 72px;position:relative;z-index:1}
-@media(min-width:900px){.sidebar.open~.main{margin-left:var(--sidebar-w)}}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px}
-.page-title{font-size:24px;font-weight:800;letter-spacing:-.6px;line-height:1.2;color:var(--text)}
-.page-sub{font-size:13px;color:var(--text-2);margin-top:5px;font-weight:400}
-
-/* STATS ROW */
+/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:22px}
-.stat-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;text-align:center;transition:border-color var(--trans)}
-.stat-card:hover{border-color:var(--border-2)}
-.stat-val{font-size:26px;font-weight:900;color:var(--text);letter-spacing:-1px}
+.stat-card{padding:18px 16px;text-align:center}
+.stat-val{font-size:26px;font-weight:900;letter-spacing:-1px}
 .stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-3);margin-top:4px}
+
+/* MILESTONES */
+.ms-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:22px}
+.ms{display:flex;align-items:center;gap:11px;padding:12px 14px;opacity:.55;transition:opacity var(--trans),border-color var(--trans)}
+.ms.on{opacity:1;border-color:rgba(57,224,122,.4);box-shadow:0 0 22px rgba(57,224,122,.1)}
+.ms-ic{font-size:22px;flex-shrink:0}
+.ms-n{font-size:12.5px;font-weight:700}
+.ms-s{font-size:11px;color:var(--text-2);margin-top:2px}
+.ms.on .ms-s{color:var(--accent)}
+.ms-b{height:3px;border-radius:99px;background:var(--bg-4);margin-top:6px;overflow:hidden}
+.ms-b i{display:block;height:100%;background:var(--accent);border-radius:99px}
+
+/* CHART PANELS */
+.panel{padding:20px 16px;margin-bottom:16px;display:none}
+.pa-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.pa-toggle-group,.pa-metric-group{display:flex;gap:6px;flex-wrap:wrap}
+.pa-toggle,.pa-metric{background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);font-family:inherit;font-size:11.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;transition:all var(--trans);white-space:nowrap}
+.pa-toggle:hover,.pa-metric:hover{border-color:var(--border-2);color:var(--text)}
+.pa-toggle.active,.pa-metric.active{background:var(--accent-dim);border-color:rgba(57,224,122,.3);color:var(--accent)}
+canvas{width:100%;display:block;height:140px}
 
 /* SESSIONS */
 .sessions-list{display:flex;flex-direction:column;gap:8px}
-.session-item{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:13px 16px;display:flex;align-items:center;gap:14px;transition:border-color var(--trans)}
-.session-item:hover{border-color:var(--border-2)}
+.session-item{overflow:hidden;transition:border-color var(--trans)}
+.session-item:hover,.session-item.open{border-color:var(--border-2)}
+.s-head{display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer}
 .session-icon{width:38px;height:38px;border-radius:9px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
 .session-info{flex:1;min-width:0}
-.session-name{font-size:13.5px;font-weight:600;color:var(--text)}
-.session-meta{font-size:11.5px;color:var(--text-2);margin-top:2px}
-.session-xp{font-size:12.5px;font-weight:700;color:var(--accent);white-space:nowrap}
-.session-score{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap}
-.empty-state{display:flex;flex-direction:column;align-items:center;gap:10px;padding:52px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed rgba(255,255,255,.06);border-radius:var(--radius-lg)}
+.session-name{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.session-meta{font-size:11.5px;color:var(--text-2);margin-top:3px}
+.session-xp{font-size:12.5px;font-weight:700;color:var(--accent);white-space:nowrap;text-align:right}
+.session-score{font-size:12.5px;font-weight:600;color:var(--text-2);white-space:nowrap;text-align:right}
+.chev{color:var(--text-3);font-size:12px;transition:transform .25s}
+.session-item.open .chev{transform:rotate(180deg);color:var(--accent)}
+.tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.tag-pb{color:var(--warn);background:rgba(224,180,60,.12);border:1px solid rgba(224,180,60,.3)}
+.tag-st{color:#ff9a4d;background:rgba(255,154,77,.1);border:1px solid rgba(255,154,77,.28)}
+.s-body{display:none;padding:2px 16px 18px;border-top:1px solid var(--border)}
+.session-item.open .s-body{display:block;animation:open .25s both}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.empty-state{display:flex;flex-direction:column;align-items:center;gap:10px;padding:52px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed var(--border-2);border-radius:var(--radius)}
 .empty-icon{font-size:38px}
 
-/* SESSION MODAL */
-.session-item{cursor:pointer}
-.session-item:active{transform:scale(.995)}
-.sm-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
-.sm-overlay.open{display:flex;animation:fadeUp .25s both}
-.sm-box{background:var(--bg-2);border:1px solid var(--border-2);border-radius:24px;padding:26px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;position:relative}
-.sm-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);cursor:pointer;font-size:14px}
-.sm-close:hover{color:var(--text);border-color:var(--border-2)}
-.sm-title{font-size:20px;font-weight:800;letter-spacing:-.4px}
-.sm-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-2);margin:4px 0 20px}
-.sm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
-.sm-stat{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.sm-val{font-size:22px;font-weight:900;color:var(--accent);letter-spacing:-1px}
-.sm-lbl{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);margin-top:4px}
+/* SESSION DETAIL */
+.d-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:8px;margin:16px 0 4px}
+.d-t{background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.d-v{font-size:20px;font-weight:900;color:var(--accent);letter-spacing:-.8px}
+.d-v.na{color:var(--text-3)}
+.d-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.1px;text-transform:uppercase;color:var(--text-3);margin-top:4px}
 .sm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text-2)}
 .sm-row b{color:var(--text);font-weight:700}
 .sm-bd-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin:18px 0 10px}
@@ -115,437 +113,308 @@ html,body{height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--b
 .sm-bd-fill{height:100%;background:var(--accent);border-radius:99px}
 .sm-bd-pct{min-width:34px;text-align:right;color:var(--accent)}
 .sm-fb{font-size:12.5px;line-height:1.65;color:var(--text-2);background:var(--bg-3);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:8px}
-.sm-fb b{color:var(--text)}
-.sm-fb-weak{border-color:rgba(224,92,92,.25)}
-.sm-fb-best{border-color:rgba(57,224,122,.25)}
 .sm-fb p{margin:6px 0 8px}
+.sm-fb-weak{border-color:rgba(224,92,92,.28)}.sm-fb-best{border-color:rgba(57,224,122,.28)}
 .sm-fb-sum{color:var(--text);font-weight:600}
 .sm-fb-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .sm-badge{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 8px;border-radius:20px}
-.sm-badge-weak{color:var(--danger);background:rgba(224,92,92,.1)}
-.sm-badge-best{color:var(--accent);background:var(--accent-dim)}
+.sm-badge-weak{color:var(--danger);background:rgba(224,92,92,.1)}.sm-badge-best{color:var(--accent);background:var(--accent-dim)}
 .sm-fb-zone{font-weight:800;color:var(--text);font-size:13px}
 .sm-fb-item{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .sm-fb-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
 .sm-fb-ttl{color:var(--text);font-weight:700;margin-bottom:2px}
 
-/* GRAPH */
-#score-graph-wrap{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 16px 14px;margin-bottom:16px;display:none}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.anim-up{animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both}
-.anim-d1{animation-delay:.07s}.anim-d2{animation-delay:.14s}.anim-d3{animation-delay:.21s}
-
-@media(max-width:600px){.main{padding:22px 14px 60px}.page-title{font-size:20px}.stats-row{grid-template-columns:1fr 1fr}.topbar-xp{display:none}.btn-topbar-train span{display:none}.btn-topbar-train{padding:9px 12px}}
-.pa-toggle-group,.pa-metric-group{display:flex;gap:6px;flex-wrap:wrap}
-.pa-toggle,.pa-metric{background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);font-family:'Sora',sans-serif;font-size:11.5px;font-weight:600;padding:7px 13px;border-radius:20px;cursor:pointer;transition:all var(--trans);white-space:nowrap}
-.pa-toggle:hover,.pa-metric:hover{border-color:var(--border-2);color:var(--text)}
-.pa-toggle.active,.pa-metric.active{background:var(--accent-dim);border-color:rgba(57,224,122,.3);color:var(--accent)}
+@media(max-width:600px){.main{padding:96px 14px 60px}.page-title{font-size:21px}.stats-row{grid-template-columns:1fr 1fr}.pn-cta{font-size:12px}.session-score{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="css/global-background.css">
 </head>
 <body>
-<div class="global-bg" aria-hidden="true">
-<div class="bg-noise"></div>
-<div class="bg-radial"></div>
-</div>
-<!-- TOPBAR -->
-<header class="topbar">
-  <button class="hamburger" id="hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-  <a href="/Badminton-AI-trainer_V2/dashboard.html" class="topbar-brand">
-    <img src="/Badminton-AI-trainer_V2/favicon.ico" width="28" height="28" style="border-radius:50%;object-fit:cover;flex-shrink:0">
-    <span style="font-weight:700">Shuttle</span><span style="font-weight:400">stepz</span>
-  </a>
-  <div class="topbar-label">History</div>
-  <div class="topbar-xp"><div class="topbar-xp-dot"></div><span id="topbar-xp">0 XP</span></div>
-  <button class="btn-topbar-train" onclick="window.location.href='/Badminton-AI-trainer_V2/trainer.html'">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-    <span>Start Training</span>
-  </button>
+<div class="hist-bg" aria-hidden="true"></div>
+
+<header class="pill-nav" id="pillNav">
+  <a class="pn-brand" href="dashboard.html"><img src="icon/icon-192.png" alt=""><span>Shuttle<b>stepz</b></span></a>
+  <nav class="pn-links" id="pnLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="trainer.html">Trainer</a>
+    <a href="history.html" class="active">History</a>
+    <a href="leaderboard.html">Leaderboard</a>
+    <a href="social.html">Social</a>
+    <a href="profile.html">Profile</a>
+    <a href="manage.html" id="nav-manage" style="display:none">Students</a>
+  </nav>
+  <div class="pn-right">
+    <span class="pn-xp"><i></i><span id="topbar-xp">0 XP</span></span>
+    <a class="pn-cta" href="trainer.html">▶ Start Training</a>
+    <button class="pn-out" onclick="doLogout()" title="Log out" aria-label="Log out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
+  </div>
 </header>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-top">
-    <div class="role-badge"><span class="role-badge-dot"></span><span id="role-badge">Student</span></div>
-    <nav class="nav">
-      <div class="nav-section-label">Main</div>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/dashboard.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        Overview
-      </a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/trainer.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Train
-      </a>
-      <a class="nav-item active" href="/Badminton-AI-trainer_V2/history.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-        History
-      </a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/leaderboard.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
-        Leaderboard
-      </a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/social.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        Social
-      </a>
-      <div class="nav-section-label" style="margin-top:4px">Account</div>
-      <a class="nav-item" id="nav-manage" style="display:none" href="/Badminton-AI-trainer_V2/manage.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span id="nav-manage-label">Students</span>
-      </a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/profile.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Profile
-      </a>
-    </nav>
-  </div>
-  <div class="sidebar-bottom">
-    <div class="xp-mini">
-      <div class="xp-mini-top"><span id="sb-xp-label">0 XP</span><span id="sb-level-label">Lv.1</span></div>
-      <div class="xp-bar-track"><div class="xp-bar-fill" id="sb-xp-fill"></div></div>
-    </div>
-    <button class="btn-logout" onclick="doLogout()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Log Out
-    </button>
-  </div>
-</aside>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
-
-<!-- MAIN -->
-<main class="main" id="main">
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Session History</h1>
-      <p class="page-sub">All your training records.</p>
-    </div>
-  </div>
+<main class="main">
+  <h1 class="page-title">Session History</h1>
+  <p class="page-sub">All your training records.</p>
 
   <div class="stats-row">
-    <div class="stat-card anim-up"><div class="stat-val" id="h-total-sessions">0</div><div class="stat-lbl">Total Sessions</div></div>
-    <div class="stat-card anim-up anim-d1"><div class="stat-val" id="h-total-xp">0</div><div class="stat-lbl">Total XP</div></div>
-    <div class="stat-card anim-up anim-d2"><div class="stat-val" id="h-best-streak">0🔥</div><div class="stat-lbl">Best Streak</div></div>
-    <div class="stat-card anim-up anim-d3"><div class="stat-val" id="h-avg-score">—</div><div class="stat-lbl">Avg Score</div></div>
+    <div class="stat-card"><div class="stat-val" id="h-total-sessions">0</div><div class="stat-lbl">Total Sessions</div></div>
+    <div class="stat-card"><div class="stat-val" id="h-total-xp">0</div><div class="stat-lbl">Total XP</div></div>
+    <div class="stat-card"><div class="stat-val" id="h-best-streak">0🔥</div><div class="stat-lbl">Best Streak</div></div>
+    <div class="stat-card"><div class="stat-val" id="h-avg-score">—</div><div class="stat-lbl">Avg Score</div></div>
   </div>
 
-  <div id="progress-analysis" style="background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 16px;margin-bottom:16px;display:none">
-  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px">
-    <div style="font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3)">📊 Progress Analysis</div>
-    <div class="pa-toggle-group" id="pa-period-toggle">
-      <button class="pa-toggle active" data-period="weekly">Weekly</button>
-      <button class="pa-toggle" data-period="monthly">Monthly</button>
+  <div class="sec-title">🥇 Milestones</div>
+  <div class="ms-row" id="ms-row"></div>
+
+  <div class="panel" id="progress-analysis">
+    <div class="pa-head">
+      <div class="sec-title" style="margin:0">📊 Progress Analysis</div>
+      <div class="pa-toggle-group" id="pa-period-toggle">
+        <button class="pa-toggle active" data-period="weekly">Weekly</button>
+        <button class="pa-toggle" data-period="monthly">Monthly</button>
+      </div>
     </div>
-  </div>
-  <div class="pa-metric-group" id="pa-metric-toggle">
-    <button class="pa-metric active" data-metric="overall">Overall</button>
-    <button class="pa-metric" data-metric="reaction">Reaction Time</button>
-    <button class="pa-metric" data-metric="splitstep">Split Step</button>
-    <button class="pa-metric" data-metric="technique">Technique</button>
-  </div>
-  <canvas id="pa-graph" height="140" style="width:100%;display:block;border-radius:6px;margin-top:14px"></canvas>
-  <div id="pa-summary" style="margin-top:14px;font-size:13px;color:var(--text-2);line-height:1.6"></div>
-</div>
-
-  <div id="score-graph-wrap">
-    <div style="font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3);margin-bottom:14px">📈 Score Over Time</div>
-    <canvas id="score-graph" height="140" style="width:100%;display:block;border-radius:6px"></canvas>
+    <div class="pa-metric-group" id="pa-metric-toggle">
+      <button class="pa-metric active" data-metric="overall">Overall</button>
+      <button class="pa-metric" data-metric="reaction">Reaction Time</button>
+      <button class="pa-metric" data-metric="splitstep">Split Step</button>
+      <button class="pa-metric" data-metric="technique">Technique</button>
+    </div>
+    <canvas id="pa-graph" style="margin-top:14px"></canvas>
+    <div id="pa-summary" style="margin-top:14px;font-size:13px;color:var(--text-2);line-height:1.6"></div>
   </div>
 
+  <div class="panel" id="score-graph-wrap">
+    <div class="sec-title">📈 Score Over Time</div>
+    <canvas id="score-graph"></canvas>
+  </div>
+
+  <div class="sec-title">🏸 Sessions</div>
   <div class="sessions-list" id="history-sessions">
-    <div class="empty-state">
-      <div class="empty-icon">📋</div>
-      <div>No sessions recorded yet. Complete a drill to see your history here.</div>
-    </div>
+    <div class="empty-state"><div class="empty-icon">📋</div><div>No sessions recorded yet. Complete a drill to see your history here.</div></div>
   </div>
 </main>
 
-<!-- SESSION SUMMARY MODAL -->
-<div class="sm-overlay" id="session-modal" onclick="if(event.target===this)closeSessionModal()">
-  <div class="sm-box">
-    <button class="sm-close" onclick="closeSessionModal()">✕</button>
-    <div class="sm-title" id="sm-title">Footwork Drill</div>
-    <div class="sm-date" id="sm-date"></div>
-    <div class="sm-grid">
-      <div class="sm-stat"><div class="sm-val" id="sm-score">0</div><div class="sm-lbl">Score</div></div>
-      <div class="sm-stat"><div class="sm-val" id="sm-acc">0%</div><div class="sm-lbl">Accuracy</div></div>
-      <div class="sm-stat"><div class="sm-val" id="sm-xp">+0</div><div class="sm-lbl">XP</div></div>
-    </div>
-    <div id="sm-rows"></div>
-    <div id="sm-bd"></div>
-    <div id="sm-extra"></div>
-  </div>
-</div>
-
 <script>
-window.toggleSidebar = function() {
-  const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebar-overlay'),hb=document.getElementById('hamburger-btn');
-  const o=sb.classList.toggle('open');
-  ov.classList.toggle('open',o); hb.classList.toggle('open',o);
-};
+const pn=document.getElementById('pillNav');
+addEventListener('scroll',()=>pn.classList.toggle('scrolled',scrollY>10),{passive:true});
 </script>
 
 <script type="module">
-import DB from '/Badminton-AI-trainer_V2/js/database.js'
-const tx=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v}
-const $=id=>document.getElementById(id)
+import DB from './js/database.js'
+const $=id=>document.getElementById(id),tx=(id,v)=>{const e=$(id);if(e)e.textContent=v}
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+const dt=ts=>ts?(ts.toDate?ts.toDate():new Date(ts)):null
+const dn=d=>Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5)
 
-window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='/Badminton-AI-trainer_V2/login.html'}
+window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}location.href='login.html'}
 
-const XP_THRESHOLDS=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
-function renderXP(xp,level){
-  const cur=XP_THRESHOLDS[level-1]||0,nxt=XP_THRESHOLDS[level]||XP_THRESHOLDS[XP_THRESHOLDS.length-1]
-  const pct=Math.min(Math.max((xp-cur)/(nxt-cur||1),0),1)
-  const sf=$('sb-xp-fill');if(sf)sf.style.width=(pct*100)+'%'
-  tx('sb-xp-label',xp+' XP'); tx('sb-level-label','Lv.'+level); tx('topbar-xp',xp+' XP')
-}
+const XP_T=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
+const renderXP=(xp,lv)=>tx('topbar-xp',xp+' XP · Lv.'+lv)
 
 function fmtDate(ts){
-  if(!ts)return'Just now'
-  const d=ts.toDate?ts.toDate():new Date(ts),diff=Date.now()-d.getTime()
+  const d=dt(ts);if(!d)return'Just now'
+  const diff=Date.now()-d.getTime()
   if(diff<60000)return'Just now'
   if(diff<3600000)return Math.floor(diff/60000)+'m ago'
   if(diff<86400000)return Math.floor(diff/3600000)+'h ago'
   return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})
 }
 
-function buildCard(s,i){
-  const total=s.totalRounds||1
-  const acc=s.accuracy!=null?s.accuracy+'%':Math.round(((s.hits||0)/total)*100)+'%'
-  const xpe=s.xpEarned||(50+(s.hits||0)*2)
+/* ── metric helpers (real fields first, derived as fallback) ── */
+const accOf=s=>{const t=s.totalRounds||0;return s.accuracy!=null?s.accuracy:(t?Math.round((s.hits||0)/t*100):0)}
+const reactOf=s=>{
+  if(s.reactionTime!=null||s.avgReactionTime!=null||s.reaction_time!=null)return s.reactionTime??s.avgReactionTime??s.reaction_time
+  const r=(Array.isArray(s.results)?s.results:[]).filter(x=>x.hit&&x.responseMs).map(x=>x.responseMs)
+  const a=r.length?r:(Array.isArray(s.roundTimings)?s.roundTimings:[])
+  return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):null
+}
+const splitOf=s=>s.splitStepScore??s.splitStepAccuracy??s.splitstep??null
+const techOf=s=>s.techniqueScore??s.technique??null
+
+/* ── analysis: day streak, PB + streak-day tags ── */
+function analyse(sessions){
+  const asc=[...sessions].reverse()
+  const days=new Set(asc.map(s=>dt(s.createdAt)).filter(Boolean).map(dn))
+  let best=0,run=0,prev=null
+  ;[...days].sort((a,b)=>a-b).forEach(d=>{run=(prev!==null&&d===prev+1)?run+1:1;prev=d;best=Math.max(best,run)})
+  let max=-Infinity;const tags=new Map()
+  asc.forEach(s=>{
+    const t=[],sc=s.score||0,d=dt(s.createdAt)
+    if(sc>max){if(max>-Infinity)t.push('pb');max=sc}
+    if(d&&days.has(dn(d)-1))t.push('streak')
+    tags.set(s,t)
+  })
+  return{best,tags}
+}
+
+/* ── milestones ── */
+const MS=[['🏸','First Serve','n',1],['🔟','10 Sessions','n',10],['⭐','50 Sessions','n',50],['👑','100 Sessions','n',100],['🔥','3-Day Streak','days',3],['⚡','7-Day Streak','days',7],['🚀','30-Day Streak','days',30],['🎯','Perfect Session','perfect',1]]
+function renderMilestones(ss,A){
+  const st={n:ss.length,days:A.best,perfect:ss.filter(s=>accOf(s)>=100).length}
+  $('ms-row').innerHTML=MS.map(([ic,nm,k,t])=>{
+    const v=st[k],on=v>=t
+    return`<div class="ms ${on?'on':''}"><span class="ms-ic">${on?ic:'🔒'}</span><div style="flex:1;min-width:0"><div class="ms-n">${nm}</div><div class="ms-s">${on?'Unlocked ✓':v+' / '+t}</div>${on?'':`<div class="ms-b"><i style="width:${Math.round(v/t*100)}%"></i></div>`}</div></div>`
+  }).join('')
+}
+
+/* ── session card + expandable detail ── */
+function card(s,i,tags){
+  const acc=accOf(s),xpe=s.xpEarned||(50+(s.hits||0)*2)
   const drill=(s.drill||s.mode||'footwork').replace(/^\w/,c=>c.toUpperCase())
+  const tg=(tags.includes('pb')?'<span class="tag tag-pb">🏆 New PB</span>':'')+(tags.includes('streak')?'<span class="tag tag-st">🔥 Streak day</span>':'')
   return`<div class="session-item" data-idx="${i}">
-    <div class="session-icon">🏸</div>
-    <div class="session-info">
-      <div class="session-name">${drill} Drill</div>
-      <div class="session-meta">Score ${s.score||0} · Acc ${acc} · Streak ${s.bestStreak||0}🔥 · ${fmtDate(s.createdAt)}</div>
+    <div class="s-head">
+      <div class="session-icon">🏸</div>
+      <div class="session-info">
+        <div class="session-name">${esc(drill)} Drill ${tg}</div>
+        <div class="session-meta">Score ${s.score||0} · Acc ${acc}% · Streak ${s.bestStreak||0}🔥 · ${fmtDate(s.createdAt)}</div>
+      </div>
+      <div><div class="session-xp">+${xpe} XP</div><div class="session-score">${s.score||0} pts</div></div>
+      <span class="chev">▼</span>
     </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px">
-      <div class="session-xp">+${xpe} XP</div>
-      <div class="session-score">${s.score||0} pts</div>
-    </div>
+    <div class="s-body"></div>
   </div>`
 }
 
-/* ── Session summary modal ── */
-function openSessionModal(s){
-  const total=s.totalRounds||0,hits=s.hits||0
-  const acc=s.accuracy!=null?s.accuracy:(total?Math.round(hits/total*100):0)
-  const xpe=s.xpEarned||(50+hits*2)
-  const drill=(s.drill||s.mode||'footwork').replace(/^\w/,c=>c.toUpperCase())
-  const d=s.createdAt?(s.createdAt.toDate?s.createdAt.toDate():new Date(s.createdAt)):null
-  tx('sm-title',drill+' Drill')
-  tx('sm-date',d?d.toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}):'')
-  tx('sm-score',s.score||0);tx('sm-acc',acc+'%');tx('sm-xp','+'+xpe)
-
-  const gradeTxt=acc>=90?'S — Elite':acc>=75?'A — Sharp':acc>=60?'B — Solid':acc>=40?'C — Keep going':'D — Needs work'
-  const rt=Array.isArray(s.roundTimings)?s.roundTimings:[]
-  const avgMs=rt.length?Math.round(rt.reduce((a,b)=>a+b,0)/rt.length):null
-  const rows=[
-    ['Grade',gradeTxt],
-    ['Avg speed',avgMs?(avgMs/1000).toFixed(2)+'s':null],
-    ['Rounds',total||null],
-    ['Hits',hits+(total?' / '+total:'')],
-    ['Best streak',(s.bestStreak||0)+' 🔥'],
-    ['Difficulty',s.difficulty],
-    ['Duration',s.duration?s.duration+'s':null]
-  ].filter(r=>r[1]!=null&&r[1]!=='')
-  $('sm-rows').innerHTML=rows.map(r=>`<div class="sm-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')
+function detail(s){
+  const total=s.totalRounds||0,hits=s.hits||0,acc=accOf(s),react=reactOf(s),sp=splitOf(s),te=techOf(s)
+  const tile=(v,l,u)=>`<div class="d-t"><div class="d-v ${v==null?'na':''}">${v==null?'—':v+u}</div><div class="d-l">${l}</div></div>`
+  const grade=acc>=90?'S — Elite':acc>=75?'A — Sharp':acc>=60?'B — Solid':acc>=40?'C — Keep going':'D — Needs work'
+  const rows=[['Grade',grade],['Rounds',total||null],['Hits',hits+(total?' / '+total:'')],['Best streak',(s.bestStreak||0)+' 🔥'],['Difficulty',s.difficulty],['Duration',s.duration?s.duration+'s':null]].filter(r=>r[1]!=null&&r[1]!=='')
+  let h=`<div class="d-grid">${tile(acc,'Accuracy','%')}${tile(react,'Reaction',' ms')}${tile(sp,'Split step','%')}${tile(te,'Technique','%')}</div>`
+  h+=rows.map(r=>`<div class="sm-row"><span>${r[0]}</span><b>${esc(r[1])}</b></div>`).join('')
 
   const bd=s.breakdown||s.zoneBreakdown||s.zoneStats||s.dirStats
-  const bdEl=$('sm-bd')
   if(bd&&typeof bd==='object'&&Object.keys(bd).length){
-    bdEl.innerHTML='<div class="sm-bd-title">Zone breakdown</div>'+Object.entries(bd).map(([k,v])=>{
+    h+='<div class="sm-bd-title">Zone breakdown</div>'+Object.entries(bd).map(([k,v])=>{
       const pct=typeof v==='number'?Math.round(v):(v&&v.total?Math.round(((v.hits??v.hit)||0)/v.total*100):0)
-      return`<div class="sm-bd-row"><span class="sm-bd-name">${k}</span><div class="sm-bd-bar"><div class="sm-bd-fill" style="width:${pct}%"></div></div><span class="sm-bd-pct">${pct}%</span></div>`
+      return`<div class="sm-bd-row"><span class="sm-bd-name">${esc(k)}</span><div class="sm-bd-bar"><div class="sm-bd-fill" style="width:${pct}%"></div></div><span class="sm-bd-pct">${pct}%</span></div>`
     }).join('')
-  }else bdEl.innerHTML=''
+  }
 
-  const e2=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
-  const results=Array.isArray(s.results)?s.results:[]
-  const slowMs=(s.timePerDir||0)*700
-  const missed={}
+  const results=Array.isArray(s.results)?s.results:[],slowMs=(s.timePerDir||0)*700,missed={}
   results.forEach(r=>{if(!r.hit)missed[r.dir]=(missed[r.dir]||0)+1})
   const slow=results.filter(r=>r.hit&&r.responseMs&&slowMs&&r.responseMs>slowMs).length
   const mk=Object.entries(missed).sort((a,b)=>b[1]-a[1])
-  let html=''
   if(mk.length||slow){
-    html+='<div class="sm-bd-title">Mistakes</div>'
-    html+=mk.map(([z,n])=>`<div class="sm-row"><span>Missed ${e2(z)}</span><b style="color:var(--danger)">${n}×</b></div>`).join('')
-    if(slow)html+=`<div class="sm-row"><span>Slow hits (over 70% of time limit)</span><b style="color:var(--warn)">${slow}×</b></div>`
-  }else if(results.length){
-    html+='<div class="sm-bd-title">Mistakes</div><div class="sm-fb">No misses. Clean session 🎯</div>'
-  }
+    h+='<div class="sm-bd-title">Mistakes</div>'+mk.map(([z,n])=>`<div class="sm-row"><span>Missed ${esc(z)}</span><b style="color:var(--danger)">${n}×</b></div>`).join('')
+    if(slow)h+=`<div class="sm-row"><span>Slow hits (over 70% of time limit)</span><b style="color:var(--warn)">${slow}×</b></div>`
+  }else if(results.length)h+='<div class="sm-bd-title">Mistakes</div><div class="sm-fb">No misses. Clean session 🎯</div>'
+
   const fb=s.feedback
   if(fb){
-    html+='<div class="sm-bd-title">AI coach feedback</div>'
-    if(fb.summary)html+=`<div class="sm-fb sm-fb-sum">${e2(fb.summary)}</div>`
+    h+='<div class="sm-bd-title">AI coach feedback</div>'
+    if(fb.summary)h+=`<div class="sm-fb sm-fb-sum">${esc(fb.summary)}</div>`
     const w=fb.weakest_zone
-    if(w)html+=`<div class="sm-fb sm-fb-weak">
-      <div class="sm-fb-head"><span class="sm-badge sm-badge-weak">⚠ Weakest zone</span><span class="sm-fb-zone">${e2(w.zone)}</span></div>
-      <p>${e2(w.why)}</p>
-      <div class="sm-fb-item"><div class="sm-fb-lbl">🏸 Drill</div><div class="sm-fb-ttl">${e2(w.drill)}</div><div>${e2(w.drill_desc)}</div></div>
-      <div class="sm-fb-item"><div class="sm-fb-lbl">💪 Exercise</div><div class="sm-fb-ttl">${e2(w.exercise)}</div><div>${e2(w.exercise_desc)}</div></div>
-    </div>`
+    if(w)h+=`<div class="sm-fb sm-fb-weak"><div class="sm-fb-head"><span class="sm-badge sm-badge-weak">⚠ Weakest zone</span><span class="sm-fb-zone">${esc(w.zone)}</span></div><p>${esc(w.why)}</p>
+      <div class="sm-fb-item"><div class="sm-fb-lbl">🏸 Drill</div><div class="sm-fb-ttl">${esc(w.drill)}</div><div>${esc(w.drill_desc)}</div></div>
+      <div class="sm-fb-item"><div class="sm-fb-lbl">💪 Exercise</div><div class="sm-fb-ttl">${esc(w.exercise)}</div><div>${esc(w.exercise_desc)}</div></div></div>`
     const b=fb.best_zone
-    if(b)html+=`<div class="sm-fb sm-fb-best">
-      <div class="sm-fb-head"><span class="sm-badge sm-badge-best">✓ Strongest zone</span><span class="sm-fb-zone">${e2(b.zone)}</span></div>
-      <p>${e2(b.praise)}</p>
-    </div>`
-    if(fb.reaction_tip)html+=`<div class="sm-fb"><div class="sm-fb-lbl">⚡ Reaction tip</div>${e2(fb.reaction_tip)}</div>`
-    if(fb.focus_next)html+=`<div class="sm-fb"><div class="sm-fb-lbl">🎯 Focus next session</div>${e2(fb.focus_next)}</div>`
-  }else if(results.length){
-    html+='<div class="sm-bd-title">AI coach feedback</div><div class="sm-fb">No feedback was saved for this session.</div>'
-  }
-  $('sm-extra').innerHTML=html
-  $('session-modal').classList.add('open')
+    if(b)h+=`<div class="sm-fb sm-fb-best"><div class="sm-fb-head"><span class="sm-badge sm-badge-best">✓ Strongest zone</span><span class="sm-fb-zone">${esc(b.zone)}</span></div><p>${esc(b.praise)}</p></div>`
+    if(fb.reaction_tip)h+=`<div class="sm-fb"><div class="sm-fb-lbl">⚡ Reaction tip</div>${esc(fb.reaction_tip)}</div>`
+    if(fb.focus_next)h+=`<div class="sm-fb"><div class="sm-fb-lbl">🎯 Focus next session</div>${esc(fb.focus_next)}</div>`
+  }else if(results.length)h+='<div class="sm-bd-title">AI coach feedback</div><div class="sm-fb">No feedback was saved for this session.</div>'
+  return h
 }
-window.closeSessionModal=()=>$('session-modal').classList.remove('open')
-document.addEventListener('keydown',e=>{if(e.key==='Escape')window.closeSessionModal()})
+
 $('history-sessions').addEventListener('click',e=>{
-  const el=e.target.closest('.session-item');if(!el)return
-  const s=(window._histSessions||[])[el.dataset.idx];if(s)openSessionModal(s)
+  const head=e.target.closest('.s-head');if(!head)return
+  const el=head.parentElement,body=el.querySelector('.s-body')
+  if(!body.dataset.f){const s=(window._histSessions||[])[el.dataset.idx];if(s){body.innerHTML=detail(s);body.dataset.f=1}}
+  el.classList.toggle('open')
 })
 
-function drawGraph(sessions){
-  const wrap=$('score-graph-wrap'),canvas=$('score-graph')
-  const recent=[...sessions].reverse().slice(-20)
-  if(recent.length<2){if(wrap)wrap.style.display='none';return}
-  wrap.style.display='block'
-  const dpr=window.devicePixelRatio||1,W=canvas.offsetWidth||520,H=140
-  canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px'
-  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H)
-  const pL=16,pR=16,pT=14,pB=28,cW=W-pL-pR,cH=H-pT-pB
-  const scores=recent.map(s=>s.score||0)
-  const minS=Math.min(...scores),maxS=Math.max(...scores)||1,range=maxS-minS||1
-  ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1
-  for(let i=0;i<=3;i++){const y=pT+(cH/3)*i;ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(W-pR,y);ctx.stroke()}
-  const pts=scores.map((s,i)=>({x:pL+(i/(scores.length-1))*cW,y:pT+(1-(s-minS)/range)*cH}))
-  const grad=ctx.createLinearGradient(0,pT,0,pT+cH)
-  grad.addColorStop(0,'rgba(57,224,122,0.2)');grad.addColorStop(1,'rgba(57,224,122,0.01)')
-  ctx.beginPath();ctx.moveTo(pts[0].x,pT+cH);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,pT+cH);ctx.closePath();ctx.fillStyle=grad;ctx.fill()
-  ctx.beginPath();ctx.strokeStyle='#39e07a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round'
-  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.stroke()
-  pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fillStyle='#39e07a';ctx.fill();ctx.strokeStyle='#111f14';ctx.lineWidth=2;ctx.stroke()})
+/* ── charts ── */
+function plot(c,vals){
+  if(vals.length<2){c.style.display='none';return}
+  c.style.display='block'
+  const dpr=devicePixelRatio||1,W=c.offsetWidth||520,H=140
+  c.width=W*dpr;c.height=H*dpr
+  const x=c.getContext('2d');x.scale(dpr,dpr);x.clearRect(0,0,W,H)
+  const pL=16,pR=16,pT=14,pB=14,cW=W-pL-pR,cH=H-pT-pB
+  const mn=Math.min(...vals),mx=Math.max(...vals)||1,rg=(mx-mn)||1
+  x.strokeStyle='rgba(255,255,255,0.05)';x.lineWidth=1
+  for(let i=0;i<=3;i++){const y=pT+(cH/3)*i;x.beginPath();x.moveTo(pL,y);x.lineTo(W-pR,y);x.stroke()}
+  const p=vals.map((v,i)=>({x:pL+(i/(vals.length-1))*cW,y:pT+(1-(v-mn)/rg)*cH}))
+  const g=x.createLinearGradient(0,pT,0,pT+cH);g.addColorStop(0,'rgba(57,224,122,0.22)');g.addColorStop(1,'rgba(57,224,122,0.01)')
+  x.beginPath();x.moveTo(p[0].x,pT+cH);p.forEach(q=>x.lineTo(q.x,q.y));x.lineTo(p[p.length-1].x,pT+cH);x.closePath();x.fillStyle=g;x.fill()
+  x.beginPath();x.strokeStyle='#39e07a';x.lineWidth=2.5;x.lineJoin='round';x.lineCap='round'
+  p.forEach((q,i)=>i?x.lineTo(q.x,q.y):x.moveTo(q.x,q.y));x.stroke()
+  p.forEach(q=>{x.beginPath();x.arc(q.x,q.y,3.5,0,Math.PI*2);x.fillStyle='#39e07a';x.fill();x.strokeStyle='#111f14';x.lineWidth=2;x.stroke()})
+}
+function drawGraph(ss){
+  const wrap=$('score-graph-wrap'),r=[...ss].reverse().slice(-20)
+  if(r.length<2){wrap.style.display='none';return}
+  wrap.style.display='block';plot($('score-graph'),r.map(s=>s.score||0))
 }
 
-const METRIC_CONFIG={
+const MC={
   overall:{label:'Overall Score',key:s=>s.score!=null?s.score:Math.round(((s.hits||0)/(s.totalRounds||1))*100),lowerBetter:false,unit:'pts'},
-  reaction:{label:'Reaction Time',key:s=>s.reactionTime??s.avgReactionTime??s.reaction_time,lowerBetter:true,unit:'ms'},
-  splitstep:{label:'Split Step',key:s=>s.splitStepScore??s.splitStepAccuracy??s.splitstep,lowerBetter:false,unit:'%'},
-  technique:{label:'Technique',key:s=>s.techniqueScore??s.technique,lowerBetter:false,unit:'%'}
+  reaction:{label:'Reaction Time',key:reactOf,lowerBetter:true,unit:'ms'},
+  splitstep:{label:'Split Step',key:splitOf,lowerBetter:false,unit:'%'},
+  technique:{label:'Technique',key:techOf,lowerBetter:false,unit:'%'}
 }
-
-let paState={period:'weekly',metric:'overall',sessions:[]}
+const pa={period:'weekly',metric:'overall',sessions:[]}
 
 function periodKey(date,period){
-  const d=date.toDate?date.toDate():new Date(date)
+  const d=dt(date)
   if(period==='monthly')return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
-  const onejan=new Date(d.getFullYear(),0,1)
-  const week=Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7)
-  return d.getFullYear()+'-W'+String(week).padStart(2,'0')
+  const j=new Date(d.getFullYear(),0,1),w=Math.ceil((((d-j)/864e5)+j.getDay()+1)/7)
+  return d.getFullYear()+'-W'+String(w).padStart(2,'0')
 }
-
-function aggregate(sessions,period,metric){
-  const cfg=METRIC_CONFIG[metric]
-  const groups={}
-  sessions.forEach(s=>{
+function aggregate(ss,period,metric){
+  const cfg=MC[metric],g={}
+  ss.forEach(s=>{
     if(!s.createdAt)return
-    const v=cfg.key(s)
-    if(v==null||isNaN(v))return
-    const k=periodKey(s.createdAt,period)
-    if(!groups[k])groups[k]={sum:0,count:0}
-    groups[k].sum+=v;groups[k].count++
+    const v=cfg.key(s);if(v==null||isNaN(v))return
+    const k=periodKey(s.createdAt,period);(g[k]=g[k]||{sum:0,count:0});g[k].sum+=v;g[k].count++
   })
-  return Object.keys(groups).sort().map(k=>({label:k,avg:groups[k].sum/groups[k].count}))
+  return Object.keys(g).sort().map(k=>({label:k,avg:g[k].sum/g[k].count}))
 }
-
-function drawPaGraph(points,cfg){
-  const canvas=$('pa-graph')
-  if(!canvas)return
-  if(points.length<2){canvas.style.display='none';return}
-  canvas.style.display='block'
-  const dpr=window.devicePixelRatio||1,W=canvas.offsetWidth||520,H=140
-  canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.width=W+'px';canvas.style.height=H+'px'
-  const ctx=canvas.getContext('2d');ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H)
-  const pL=16,pR=16,pT=14,pB=14,cW=W-pL-pR,cH=H-pT-pB
-  const vals=points.map(p=>p.avg)
-  const minV=Math.min(...vals),maxV=Math.max(...vals)||1,range=(maxV-minV)||1
-  ctx.strokeStyle='rgba(255,255,255,0.05)';ctx.lineWidth=1
-  for(let i=0;i<=3;i++){const y=pT+(cH/3)*i;ctx.beginPath();ctx.moveTo(pL,y);ctx.lineTo(W-pR,y);ctx.stroke()}
-  const pts=vals.map((v,i)=>({x:pL+(i/(vals.length-1))*cW,y:pT+(1-(v-minV)/range)*cH}))
-  const grad=ctx.createLinearGradient(0,pT,0,pT+cH)
-  grad.addColorStop(0,'rgba(57,224,122,0.2)');grad.addColorStop(1,'rgba(57,224,122,0.01)')
-  ctx.beginPath();ctx.moveTo(pts[0].x,pT+cH);pts.forEach(p=>ctx.lineTo(p.x,p.y));ctx.lineTo(pts[pts.length-1].x,pT+cH);ctx.closePath();ctx.fillStyle=grad;ctx.fill()
-  ctx.beginPath();ctx.strokeStyle='#39e07a';ctx.lineWidth=2.5;ctx.lineJoin='round';ctx.lineCap='round'
-  pts.forEach((p,i)=>i===0?ctx.moveTo(p.x,p.y):ctx.lineTo(p.x,p.y));ctx.stroke()
-  pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,3.5,0,Math.PI*2);ctx.fillStyle='#39e07a';ctx.fill();ctx.strokeStyle='#111f14';ctx.lineWidth=2;ctx.stroke()})
-}
-
-function renderSummary(points,cfg){
-  const el=$('pa-summary')
-  if(!el)return
-  if(points.length<2){el.textContent="Keep training — once you have a couple of weeks of sessions, we'll show how much you've improved.";return}
-  const first=points[0].avg,last=points[points.length-1].avg
-  let deltaPct=((last-first)/(first||1))*100
-  if(cfg.lowerBetter)deltaPct=-deltaPct
-  const improved=deltaPct>=0
-  const arrow=improved?'📈':'📉'
-  const word=improved?'improved':'dropped'
-  el.innerHTML=`${arrow} Your <b style="color:var(--accent)">${cfg.label}</b> has ${word} <b style="color:${improved?'var(--accent)':'var(--danger)'}">${Math.abs(deltaPct).toFixed(1)}%</b> since you joined ShuttleStepz — from ${first.toFixed(1)}${cfg.unit} to ${last.toFixed(1)}${cfg.unit}.`
-}
-
-function renderProgressAnalysis(){
+function renderPA(){
   const wrap=$('progress-analysis')
-  if(!paState.sessions.length){if(wrap)wrap.style.display='none';return}
+  if(!pa.sessions.length){wrap.style.display='none';return}
   wrap.style.display='block'
-  const cfg=METRIC_CONFIG[paState.metric]
-  const points=aggregate(paState.sessions,paState.period,paState.metric)
-  requestAnimationFrame(()=>drawPaGraph(points,cfg))
-  renderSummary(points,cfg)
+  const cfg=MC[pa.metric],pts=aggregate(pa.sessions,pa.period,pa.metric),el=$('pa-summary')
+  plot($('pa-graph'),pts.map(p=>p.avg))
+  if(pts.length<2){el.textContent=pa.metric==='overall'?"Keep training — once you have a couple of weeks of sessions, we'll show how much you've improved.":`No ${cfg.label} data saved in your sessions yet.`;return}
+  const f=pts[0].avg,l=pts[pts.length-1].avg
+  let d=((l-f)/(f||1))*100;if(cfg.lowerBetter)d=-d
+  const up=d>=0
+  el.innerHTML=`${up?'📈':'📉'} Your <b style="color:var(--accent)">${cfg.label}</b> has ${up?'improved':'dropped'} <b style="color:${up?'var(--accent)':'var(--danger)'}">${Math.abs(d).toFixed(1)}%</b> since you joined ShuttleStepz — from ${f.toFixed(1)}${cfg.unit} to ${l.toFixed(1)}${cfg.unit}.`
 }
+$('pa-period-toggle').addEventListener('click',e=>{
+  const b=e.target.closest('.pa-toggle');if(!b)return
+  document.querySelectorAll('#pa-period-toggle .pa-toggle').forEach(x=>x.classList.remove('active'))
+  b.classList.add('active');pa.period=b.dataset.period;renderPA()
+})
+$('pa-metric-toggle').addEventListener('click',e=>{
+  const b=e.target.closest('.pa-metric');if(!b)return
+  document.querySelectorAll('#pa-metric-toggle .pa-metric').forEach(x=>x.classList.remove('active'))
+  b.classList.add('active');pa.metric=b.dataset.metric;renderPA()
+})
+let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{renderPA();drawGraph(window._histSessions||[])},150)})
 
-document.getElementById('pa-period-toggle')?.addEventListener('click',e=>{
-  const btn=e.target.closest('.pa-toggle');if(!btn)return
-  document.querySelectorAll('#pa-period-toggle .pa-toggle').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active');paState.period=btn.dataset.period;renderProgressAnalysis()
-})
-document.getElementById('pa-metric-toggle')?.addEventListener('click',e=>{
-  const btn=e.target.closest('.pa-metric');if(!btn)return
-  document.querySelectorAll('#pa-metric-toggle .pa-metric').forEach(b=>b.classList.remove('active'))
-  btn.classList.add('active');paState.metric=btn.dataset.metric;renderProgressAnalysis()
-})
-  
-DB.onAuthReady(async(user)=>{
-  if(!user){window.location.href='/Badminton-AI-trainer_V2/login.html';return}
+DB.onAuthReady(async user=>{
+  if(!user){location.href='login.html';return}
   try{
-    const prof=await DB.getUserProfile(user.uid),p=prof.profile||{}
-    const role=p.role||'student'
-    tx('role-badge',role.charAt(0).toUpperCase()+role.slice(1))
+    const prof=await DB.getUserProfile(user.uid),p=prof.profile||{},role=p.role||'student'
     renderXP(prof.xp||0,prof.level||1)
     const nm=$('nav-manage')
-    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='flex';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
-    DB.listenUserProfile(d=>{renderXP(d.xp||0,d.level||1)})
+    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='';nm.textContent=role==='coach'?'Athletes':'Students'}
+    DB.listenUserProfile(d=>renderXP(d.xp||0,d.level||1))
     DB.listenSessions(sessions=>{
-      const hs=$('history-sessions')
       window._histSessions=sessions
-      if(hs){
-        hs.innerHTML=sessions.length===0
-          ?`<div class="empty-state"><div class="empty-icon">📋</div><div>No sessions yet.</div></div>`
-          :sessions.map(buildCard).join('')
-      }
-      const totalXP=sessions.reduce((a,s)=>a+(s.xpEarned||(50+(s.hits||0)*2)),0)
-      const bestStr=sessions.reduce((a,s)=>Math.max(a,s.bestStreak||0),0)
-      const avgScore=sessions.length?Math.round(sessions.reduce((a,s)=>a+(s.score||0),0)/sessions.length):0
+      const A=analyse(sessions)
+      $('history-sessions').innerHTML=sessions.length
+        ?sessions.map((s,i)=>card(s,i,A.tags.get(s)||[])).join('')
+        :'<div class="empty-state"><div class="empty-icon">📋</div><div>No sessions yet. Start a drill and your history shows up here.</div></div>'
+      const xp=sessions.reduce((a,s)=>a+(s.xpEarned||(50+(s.hits||0)*2)),0)
+      const bs=sessions.reduce((a,s)=>Math.max(a,s.bestStreak||0),0)
       tx('h-total-sessions',sessions.length)
-      tx('h-total-xp',totalXP.toLocaleString()+' XP')
-      tx('h-best-streak',bestStr+'🔥')
-      tx('h-avg-score',sessions.length?avgScore:'—')
-      paState.sessions=sessions
-      renderProgressAnalysis()
+      tx('h-total-xp',xp.toLocaleString()+' XP')
+      tx('h-best-streak',bs+'🔥')
+      tx('h-avg-score',sessions.length?Math.round(sessions.reduce((a,s)=>a+(s.score||0),0)/sessions.length):'—')
+      renderMilestones(sessions,A)
+      pa.sessions=sessions;renderPA()
       requestAnimationFrame(()=>drawGraph(sessions))
     },500)
   }catch(e){console.error(e)}
