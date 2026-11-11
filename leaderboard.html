@@ -74,7 +74,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .seg button{border:0;background:none;color:var(--text-2);font:500 13px 'Sora',system-ui,sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background var(--trans),color var(--trans)}
 .seg button:hover:not(:disabled){color:var(--text)}
-.seg button[aria-selected="true"]{color:var(--accent);background:var(--accent-dim)}
+.seg button[aria-selected="true"],.seg button[aria-pressed="true"]{color:var(--accent);background:var(--accent-dim)}
 .seg button:disabled{opacity:.4;cursor:not-allowed}
 
 /* Your rank */
@@ -201,9 +201,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
       <button role="tab" id="tab-friends" aria-selected="false" data-tab="friends">Friends</button>
     </div>
     <div class="seg" role="group" aria-label="Time period">
-      <button aria-selected="true">All time</button>
-      <button disabled title="Weekly boards arrive with rank tracking">Weekly</button>
-      <button disabled title="Monthly boards arrive with rank tracking">Monthly</button>
+      <button data-period="all" aria-pressed="true">All time</button>
+      <button data-period="week" aria-pressed="false">Weekly</button>
+      <button data-period="month" aria-pressed="false">Monthly</button>
     </div>
   </div>
 
@@ -230,8 +230,18 @@ const fmt = n => (n || 0).toLocaleString()
 
 window.doLogout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
 
-const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false }
+const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false, period: 'all', pdata: { week: null, month: null }, fp: {}, myEntry: null }
 let loadTimer = null
+
+/* Period keys: weeks start Monday 00:00 IST, months on the 1st (must match functions/index.js) */
+const IST = 330 * 60000
+function periodKey(p) {
+  const d = new Date(Date.now() + IST), y = d.getUTCFullYear(), m = d.getUTCMonth(), day = d.getUTCDate()
+  const pad = n => String(n).padStart(2, '0')
+  if (p === 'month') return `m${y}-${pad(m + 1)}`
+  const mon = new Date(Date.UTC(y, m, day - ((d.getUTCDay() + 6) % 7)))
+  return `w${mon.getUTCFullYear()}-${pad(mon.getUTCMonth() + 1)}-${pad(mon.getUTCDate())}`
+}
 
 const nameOf = e => e.displayName || e.username || 'Player'
 const subOf = e => e.username ? '@' + e.username : (e.role ? e.role.charAt(0).toUpperCase() + e.role.slice(1) : '')
@@ -244,9 +254,14 @@ function avatar(e, extra = '') {
 }
 
 function currentList() {
-  if (state.tab === 'global') return state.global
+  if (state.tab === 'global') return state.period === 'all' ? state.global : state.pdata[state.period]
   if (state.friends === null || !state.me) return null
-  const all = state.friends.filter(f => f.uid !== state.uid).concat([{ ...state.me }])
+  let all = state.friends.filter(f => f.uid !== state.uid).concat([{ ...state.me }])
+  if (state.period !== 'all') {
+    const pm = state.fp[periodKey(state.period)]
+    if (!pm) return null
+    all = all.map(p => ({ ...p, ...(pm[p.uid] || {}), xp: (pm[p.uid] || {}).xp || 0 }))
+  }
   all.sort((a, b) => (b.xp || 0) - (a.xp || 0))
   return all.map((e, i) => ({ ...e, rank: i + 1 }))
 }
@@ -280,7 +295,7 @@ function renderMe(list) {
   const idx = list.findIndex(e => e.uid === state.uid)
   const mine = idx >= 0 ? list[idx] : null
   const rank = mine ? idx + 1 : (state.tab === 'global' ? state.myRank : null)
-  const xp = mine ? (mine.xp || 0) : (state.me.xp || 0)
+  const xp = mine ? (mine.xp || 0) : (state.period === 'all' ? (state.me.xp || 0) : (state.myEntry ? state.myEntry.xp || 0 : 0))
   tx('me-rank', rank ? '#' + rank : '#—')
   tx('me-name', nameOf(state.me))
   tx('me-xp', fmt(xp))
@@ -289,13 +304,15 @@ function renderMe(list) {
   else if (idx === 0) gap = `Leading by ${fmt((list[0].xp || 0) - (list[1].xp || 0))} XP`
   else if (idx > 0) gap = `${fmt(Math.max(1, (list[idx - 1].xp || 0) - xp + 1))} XP to pass ${nameOf(list[idx - 1])}`
   else if (list.length) gap = `${fmt(Math.max(1, (list[list.length - 1].xp || 0) - xp + 1))} XP to reach the top ${list.length}`
+  if (!mine && state.period !== 'all' && !state.myRank) gap = `No XP yet this ${state.period}. Start a session to join the board.`
   tx('me-gap', gap)
 }
 
 function render() {
   const list = currentList()
   const pod = $('podium'), board = $('board')
-  $('sub').textContent = state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by total XP.' : 'You and your friends, ranked by total XP.'
+  const when = { all: 'total XP', week: 'XP earned this week (resets Monday, IST)', month: 'XP earned this month (resets on the 1st, IST)' }[state.period]
+  $('sub').textContent = (state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by ' : 'You and your friends, ranked by ') + when + '.'
   if (list === null) {
     pod.innerHTML = ''
     board.className = 'board'
@@ -318,7 +335,7 @@ function render() {
   board.className = 'board' + (hasStats ? ' has-stats' : '')
   let html = rest.map((e, i) => rowHTML(e, i + 4)).join('')
   if (state.tab === 'global' && state.me && !list.some(e => e.uid === state.uid)) {
-    html += `<div class="you-gap">Your position</div>` + rowHTML({ ...state.me }, state.myRank ? state.myRank : '–')
+    html += `<div class="you-gap">Your position</div>` + rowHTML(state.period === 'all' ? { ...state.me } : (state.myEntry || { ...state.me, xp: 0 }), state.myRank ? state.myRank : '–')
   }
   if (state.tab === 'friends' && list.length === 1) {
     html += '<div class="empty"><div>No friends on the board yet.</div><a href="social.html">Find players in Social</a></div>'
@@ -328,22 +345,57 @@ function render() {
   document.querySelectorAll('.av img').forEach(img => img.addEventListener('error', () => img.replaceWith(document.createTextNode(img.dataset.ini || '?')), { once: true }))
 }
 
+function loadFriendPeriod() {
+  if (state.tab !== 'friends' || state.period === 'all' || !state.friends || !state.me) return
+  const key = periodKey(state.period)
+  const uids = state.friends.map(f => f.uid).concat([state.uid])
+  DB.getPeriodEntries(key, uids)
+    .then(rows => { state.fp[key] = Object.fromEntries(rows.map(r => [r.uid, r])); render() })
+    .catch(() => { state.fp[key] = {}; render() })
+}
+
+function syncMyRank(entries) {
+  if (entries.some(e => e.uid === state.uid)) { state.myRank = null; state.myEntry = null; return }
+  if (state.rankBusy || !state.uid) return
+  state.rankBusy = true
+  const p = state.period
+  const job = p === 'all' ? DB.getUserRank(state.uid).then(r => (r ? { rank: r } : null)) : DB.getPeriodRank(periodKey(p), state.uid)
+  job.then(r => { if (state.period !== p) return; state.myRank = r ? r.rank : null; state.myEntry = r ? r.entry || null : null; render() })
+    .catch(() => {}).finally(() => { state.rankBusy = false })
+}
+
+function listenPeriod() {
+  const p = state.period
+  if (p === 'all') return
+  DB.listenPeriodLeaderboard(periodKey(p), entries => {
+    if (state.period !== p) return
+    state.failed = false
+    state.pdata[p] = entries
+    syncMyRank(entries)
+    render()
+  }, () => { state.failed = true; state.pdata[p] = null; render() })
+}
+
 function setTab(tab) {
   state.tab = tab
   document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)))
   if (tab === 'friends' && !state.friendsOn) {
     state.friendsOn = true
-    DB.listenFriends(list => { state.friends = list; render() })
+    DB.listenFriends(list => { state.friends = list; loadFriendPeriod(); render() })
   }
+  loadFriendPeriod()
+  render()
+}
+function setPeriod(p) {
+  state.period = p
+  state.myRank = null; state.myEntry = null
+  document.querySelectorAll('[data-period]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.period === p)))
+  if (p === 'all') { DB.unsubscribe('leaderboardPeriod'); if (state.global) syncMyRank(state.global) } else listenPeriod()
+  loadFriendPeriod()
   render()
 }
 document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)))
-
-function refreshMyRank() {
-  if (state.rankBusy || !state.uid) return
-  state.rankBusy = true
-  DB.getUserRank(state.uid).then(r => { state.myRank = r; render() }).catch(() => {}).finally(() => { state.rankBusy = false })
-}
+document.querySelectorAll('[data-period]').forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.period)))
 
 render()
 
@@ -368,7 +420,7 @@ DB.onAuthReady(async firebaseUser => {
       clearTimeout(loadTimer)
       state.failed = false
       state.global = entries
-      if (!entries.some(e => e.uid === state.uid)) refreshMyRank(); else state.myRank = null
+      if (state.period === 'all') syncMyRank(entries)
       render()
     })
   } catch (err) { console.error('[leaderboard] boot error:', err.message); state.failed = true; render() }
