@@ -463,6 +463,51 @@ export function listenLeaderboard(callback, topN = 50) {
   return unsub
 }
 
+/* ── Weekly / monthly boards (written only by the Cloud Function) ── */
+function _periodEntry(id, d) {
+  const sessions = d.sessions || 0
+  return {
+    uid: id, displayName: d.displayName, username: d.username || null,
+    avatarURL: d.avatarURL || null, role: d.role, level: d.level || 1,
+    xp: d.xp || 0, sessions,
+    avgScore: sessions ? Math.round((d.scoreTotal || 0) / sessions) : 0,
+    bestScore: d.bestScore || 0,
+  }
+}
+
+export function listenPeriodLeaderboard(periodKey, callback, onError, topN = 50) {
+  _teardown('leaderboardPeriod')
+  const q = query(
+    collection(db, 'leaderboardPeriods', periodKey, 'players'),
+    orderBy('xp', 'desc'),
+    limit(topN)
+  )
+  const unsub = onSnapshot(
+    q,
+    (snap) => callback(snap.docs.map((d, i) => ({ ..._periodEntry(d.id, d.data()), rank: i + 1 }))),
+    (err) => { console.error('[period board]', err.message); if (onError) onError(err) }
+  )
+  _unsubscribers['leaderboardPeriod'] = unsub
+  return unsub
+}
+
+export async function getPeriodEntries(periodKey, uids) {
+  const snaps = await Promise.all(uids.map(u =>
+    getDoc(doc(db, 'leaderboardPeriods', periodKey, 'players', u)).catch(() => null)))
+  return snaps.filter(s => s && s.exists()).map(s => _periodEntry(s.id, s.data()))
+}
+
+export async function getPeriodRank(periodKey, uid) {
+  const snap = await getDoc(doc(db, 'leaderboardPeriods', periodKey, 'players', uid))
+  if (!snap.exists()) return null
+  const entry = _periodEntry(uid, snap.data())
+  const above = await getDocs(query(
+    collection(db, 'leaderboardPeriods', periodKey, 'players'),
+    where('xp', '>', entry.xp)
+  ))
+  return { rank: above.size + 1, entry }
+}
+
 export async function getUserRank(uid = null) {
   const id   = uid || _requireUID()
   const snap = await getDoc(doc(db, 'leaderboard', id))
@@ -679,7 +724,7 @@ export default {
   getUserProfile, updateUserProfile, listenUserProfile,
   awardXP, getXPProgress,
   saveSession, updateSession, getSessions, listenSessions, getSessionStats, deleteSession,
-  listenLeaderboard, getUserRank,
+  listenLeaderboard, listenPeriodLeaderboard, getPeriodEntries, getPeriodRank, getUserRank,
   getSettings, saveSettings, listenSettings,
   getStudentsBySchoolCode, listenStudentsBySchoolCode,
   unsubscribeAll, unsubscribe, resetUserData, saveAITips, getAITips, deleteUserData,
