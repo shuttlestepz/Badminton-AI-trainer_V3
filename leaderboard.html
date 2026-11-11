@@ -4,460 +4,374 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leaderboard — Shuttlestepz</title>
-<link rel="icon" href="/Badminton-AI-trainer_V2/favicon.ico">
+<link rel="icon" href="icon/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/dashboard.css">
-
 <style>
-:root {
-  --bg:          #090c0e;
-  --bg-2:        #0f1315;
-  --bg-3:        #161b1e;
-  --bg-4:        #1d2427;
-  --border:      rgba(255,255,255,.06);
-  --border-2:    rgba(255,255,255,.11);
-  --accent:      #39e07a;
-  --accent-dim:  rgba(57,224,122,.12);
-  --accent-glow: rgba(57,224,122,.3);
-  --accent-2:    #60eba0;
-  --text:        #eaf0eb;
-  --text-2:      #7a9080;
-  --text-3:      #3d4f44;
-  --danger:      #e05c5c;
-  --warn:        #e0b43c;
-  --sidebar-w:   252px;
-  --topbar-h:    64px;
-  --radius:      12px;
-  --radius-lg:   18px;
-  --radius-xl:   24px;
-  --trans:       .18s cubic-bezier(.4,0,.2,1);
-  --shadow:      0 8px 32px rgba(0,0,0,.4);
+:root{
+  --bg:#0B100D; --bg-2:#111813; --bg-3:#172019; --bg-4:#1f2a21;
+  --glass:rgba(20,29,22,.55); --border:rgba(255,255,255,.08); --border-2:rgba(255,255,255,.14);
+  --accent:#39e07a; --accent-dim:rgba(57,224,122,.1); --accent-glow:rgba(57,224,122,.35);
+  --text:#EEF3EA; --text-2:#8A9A86; --text-3:#4F5E4C;
+  --danger:#e05c5c; --warn:#e0b43c;
+  --silver:#b9c4bd; --bronze:#c98f5a;
+  --r:14px; --r-xl:26px; --trans:.18s cubic-bezier(.4,0,.2,1);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+/* ShuttleStepz cinematic dashboard background */
+body {
+    background-color: #0B100D;
+    background-image:
+        linear-gradient(
+            rgba(5, 10, 7, 0.30),
+            rgba(5, 10, 7, 0.48)
+        ),
+        url('./assets/Dashboard bg.jpg');
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+/* Background: court-line grid + aurora */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(57,224,122,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(57,224,122,.05) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,#000 15%,transparent 75%);mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,#000 15%,transparent 75%)}
+body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(600px 420px at 88% 4%,rgba(57,224,122,.16),transparent 70%),radial-gradient(520px 380px at 6% 30%,rgba(40,210,140,.1),transparent 70%)}
 
-html, body {
-  height: 100%;
-  font-family: 'Sora', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+/* Floating glass pill nav (same as dashboard) */
+.pill{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));height:58px;border-radius:999px;background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--border);box-shadow:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;z-index:300}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;letter-spacing:-.3px;flex-shrink:0}
+.brand b + span{margin-left:-7px}
+.brand img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.brand b{font-weight:700}.brand span{font-weight:400}
+.pl{display:flex;gap:2px;margin:0 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.pl::-webkit-scrollbar{display:none}
+.pl a{white-space:nowrap;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--text-2);transition:background var(--trans),color var(--trans)}
+.pl a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+.pl a.active{color:var(--accent);background:var(--accent-dim)}
+.xp-chip{display:flex;align-items:center;gap:6px;border:1px solid rgba(57,224,122,.25);background:var(--accent-dim);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+.xp-chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.btn-train{display:flex;align-items:center;gap:7px;background:var(--accent);color:#0B100D;border:none;border-radius:999px;padding:10px 18px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 0 22px var(--accent-glow);transition:transform var(--trans),box-shadow var(--trans)}
+.btn-train:hover{transform:translateY(-1px);box-shadow:0 0 32px var(--accent-glow)}
+.out-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border-2);background:var(--bg-3);color:var(--text-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:color var(--trans),border-color var(--trans)}
+.out-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.5)}
 
-/* TOPBAR */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0;
-  height: var(--topbar-h);
-  background: rgba(9,12,14,.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center;
-  padding: 0 20px;
-  gap: 12px;
-  z-index: 300;
-}
-.hamburger {
-  width: 40px; height: 40px;
-  background: var(--bg-3); border: 1px solid var(--border);
-  border-radius: 10px; cursor: pointer;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 5px; flex-shrink: 0;
-  transition: border-color var(--trans), background var(--trans);
-}
-.hamburger:hover { border-color: var(--border-2); background: var(--bg-4); }
-.hamburger span {
-  display: block; width: 18px; height: 1.5px;
-  background: var(--text-2); border-radius: 2px;
-  transition: transform .25s cubic-bezier(.4,0,.2,1), opacity .2s, background var(--trans), width .2s;
-}
-.hamburger:hover span { background: var(--text); }
-.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); width: 18px; }
-.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); width: 18px; }
+/* Layout */
+.main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:104px 20px 72px}
+.hello h1{font-size:30px;font-weight:700;letter-spacing:-.9px;line-height:1.15}
+.hello p{font-size:13.5px;color:var(--text-2);margin-top:6px}
 
-.topbar-brand {
-  display: flex; align-items: center; gap: 9px;
-  text-decoration: none; color: var(--text);
-  font-size: 15px; font-weight: 800; letter-spacing: -.4px;
-  flex-shrink: 0;
-}
-.topbar-label {
-  flex: 1;
-  font-size: 13px; font-weight: 600;
-  color: var(--text-2);
-  letter-spacing: -.2px;
-  padding-left: 4px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.topbar-xp {
-  display: flex; align-items: center; gap: 6px;
-  background: var(--accent-dim);
-  border: 1px solid rgba(57,224,122,.2);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 12px; font-weight: 700; color: var(--accent);
-  white-space: nowrap;
-}
-.topbar-xp-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: .5; transform: scale(.7); }
-}
-.btn-topbar-train {
-  display: flex; align-items: center; gap: 7px;
-  background: var(--accent); color: #060908;
-  border: none; border-radius: 10px;
-  padding: 9px 18px;
-  font-family: 'Sora', sans-serif;
-  font-size: 12.5px; font-weight: 700; letter-spacing: -.2px;
-  cursor: pointer; white-space: nowrap;
-  box-shadow: 0 0 20px var(--accent-glow), 0 2px 8px rgba(0,0,0,.3);
-  transition: all var(--trans);
-  flex-shrink: 0;
-}
-.btn-topbar-train:hover {
-  background: var(--accent-2);
-  box-shadow: 0 0 30px var(--accent-glow), 0 4px 16px rgba(0,0,0,.35);
-  transform: translateY(-1px);
-}
+/* Controls */
+.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px}
+.seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.seg button{border:0;background:none;color:var(--text-2);font:500 13px 'Sora',system-ui,sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background var(--trans),color var(--trans)}
+.seg button:hover:not(:disabled){color:var(--text)}
+.seg button[aria-selected="true"]{color:var(--accent);background:var(--accent-dim)}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
 
-/* SIDEBAR */
-.sidebar {
-  position: fixed; top: var(--topbar-h); left: 0; bottom: 0;
-  width: var(--sidebar-w);
-  background: var(--bg-2);
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  z-index: 250;
-  transform: translateX(-100%);
-  transition: transform .28s cubic-bezier(.4,0,.2,1), box-shadow .28s;
-  will-change: transform;
-  overflow: hidden;
-}
-.sidebar.open {
-  transform: translateX(0);
-  box-shadow: 4px 0 48px rgba(0,0,0,.55);
-}
-.sidebar-top { flex: 1; padding: 20px 14px 12px; overflow-y: auto; overflow-x: hidden; }
-.sidebar-top::-webkit-scrollbar { width: 4px; }
-.sidebar-top::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 99px; }
-.sidebar-bottom { padding: 14px; border-top: 1px solid var(--border); }
+/* Your rank */
+.me-card{margin-top:18px;display:flex;align-items:center;gap:20px;padding:18px 26px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(57,224,122,.25);border-radius:var(--r-xl);position:relative;overflow:hidden}
+.me-card::after{content:'';position:absolute;left:8%;right:8%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(57,224,122,.5),transparent)}
+.me-rank{font-size:38px;font-weight:800;letter-spacing:-1.6px;color:var(--accent);line-height:1;min-width:70px;font-variant-numeric:tabular-nums}
+.me-info{flex:1;min-width:0}
+.me-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.me-gap{font-size:12.5px;color:var(--text-2);margin-top:3px}
+.me-xp{text-align:right;font-size:22px;font-weight:700;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+.me-xp small{display:block;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--text-2);margin-top:2px}
 
-.role-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 9.5px; font-weight: 700; letter-spacing: .9px;
-  text-transform: uppercase; color: var(--accent);
-  background: var(--accent-dim);
-  border: 1px solid rgba(57,224,122,.2);
-  border-radius: 20px; padding: 4px 10px;
-  margin-bottom: 16px;
-}
-.role-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+/* Avatars */
+.av{--ring:transparent;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--accent-dim);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;overflow:hidden;border:2px solid var(--ring)}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
 
-.nav { display: flex; flex-direction: column; gap: 2px; }
-.nav-section-label {
-  font-size: 9.5px; font-weight: 700; letter-spacing: .9px;
-  text-transform: uppercase; color: var(--text-3);
-  padding: 12px 10px 6px;
-}
-.nav-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 10px;
-  font-size: 13.5px; font-weight: 500;
-  color: var(--text-2);
-  cursor: pointer; text-decoration: none;
-  transition: background var(--trans), color var(--trans);
-  user-select: none; position: relative;
-}
-.nav-item svg { flex-shrink: 0; opacity: .6; transition: opacity var(--trans); }
-.nav-item:hover { background: var(--bg-3); color: var(--text); }
-.nav-item:hover svg { opacity: 1; }
-.nav-item.active { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
-.nav-item.active svg { opacity: 1; stroke: var(--accent); }
-.nav-item.active::before {
-  content: '';
-  position: absolute; left: 0; top: 20%; bottom: 20%;
-  width: 2.5px; border-radius: 0 2px 2px 0;
-  background: var(--accent);
-  box-shadow: 0 0 8px var(--accent);
-}
-.xp-mini { margin-bottom: 10px; }
-.xp-mini-top { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; color: var(--text-2); margin-bottom: 6px; }
-.xp-bar-track { height: 3.5px; border-radius: 99px; background: var(--bg-4); overflow: hidden; }
-.xp-bar-fill {
-  height: 100%; border-radius: 99px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  width: 0%;
-  transition: width .7s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 0 8px var(--accent-glow);
-}
-.btn-logout {
-  width: 100%; display: flex; align-items: center; gap: 8px;
-  padding: 9px 12px; border-radius: 9px;
-  background: none; border: 1px solid var(--border);
-  color: var(--text-2); font-family: 'Sora', sans-serif;
-  font-size: 12.5px; font-weight: 600;
-  cursor: pointer; transition: all var(--trans);
-}
-.btn-logout:hover { border-color: var(--danger); color: var(--danger); background: rgba(224,92,92,.07); }
-.sidebar-overlay {
-  position: fixed; inset: 0; top: var(--topbar-h);
-  background: rgba(0,0,0,.6);
-  z-index: 240; opacity: 0; pointer-events: none;
-  transition: opacity .28s;
-}
-.sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+/* Podium */
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:end;max-width:760px;margin:38px auto 0}
+.pod{display:flex;flex-direction:column;align-items:center;min-width:0}
+.pod-who{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;margin-bottom:12px;width:100%;min-width:0}
+.pod .av{width:58px;height:58px;font-size:18px;margin-bottom:6px}
+.pod-1 .av{width:80px;height:80px;font-size:24px}
+.pod-1 .av{--ring:var(--accent)}.pod-2 .av{--ring:var(--silver)}.pod-3 .av{--ring:var(--bronze)}
+.pod-name{font-size:14px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod-sub{font-size:12px;color:var(--text-2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod-xp{font-size:15px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;margin-top:2px}
+.pod-block{width:100%;display:flex;justify-content:center;padding-top:12px;font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1;color:var(--text-3);background:var(--glass);border:1px solid var(--border);border-bottom:0;border-radius:var(--r) var(--r) 0 0;transform-origin:bottom}
+.pod-1 .pod-block{height:150px;color:var(--accent);border-color:rgba(57,224,122,.35);box-shadow:inset 0 1px 0 rgba(57,224,122,.5)}
+.pod-2 .pod-block{height:112px}
+.pod-3 .pod-block{height:86px}
+.pod.open .av{border-style:dashed;--ring:var(--border-2);background:transparent;color:var(--text-3)}
+.pod.open .pod-name{color:var(--text-3);font-weight:500}
+.pod.me .pod-name::after{content:' (you)';color:var(--accent);font-weight:500}
+.podium.intro .pod-block{animation:rise-up .7s cubic-bezier(.2,.7,.2,1) both}
+.podium.intro .pod-1 .pod-block{animation-delay:.12s}
+.podium.intro .pod-3 .pod-block{animation-delay:.24s}
+@keyframes rise-up{from{transform:scaleY(.15);opacity:0}to{transform:none;opacity:1}}
 
-/* MAIN */
-.main {
-  margin-top: var(--topbar-h);
-  min-height: calc(100vh - var(--topbar-h));
-  padding: 32px 36px 72px;
-  position: relative; z-index: 1;
-  transition: margin-left .28s cubic-bezier(.4,0,.2,1);
-}
-@media (min-width: 900px) { .sidebar.open ~ .main { margin-left: var(--sidebar-w); } }
+/* Rows */
+.board{margin-top:22px;display:flex;flex-direction:column;gap:8px}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) 56px 104px;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:11px 16px;transition:border-color var(--trans)}
+.board.has-stats .row{grid-template-columns:44px minmax(0,1fr) repeat(3,68px) 56px 104px}
+.row:hover{border-color:var(--border-2)}
+.row.me{border-color:rgba(57,224,122,.35);background:rgba(57,224,122,.06)}
+.pos{text-align:center;font-size:14px;font-weight:700;color:var(--text-2);font-variant-numeric:tabular-nums;line-height:1.2}
+.mv{display:block;font-size:10.5px;font-weight:600}
+.mv.up{color:var(--accent)}.mv.down{color:var(--danger)}.mv.same{color:var(--text-3)}
+.who{display:flex;align-items:center;gap:12px;min-width:0}
+.who-t{min-width:0}
+.who-n{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who-s{font-size:12px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.cell{font-size:13px;color:var(--text-2);text-align:right;font-variant-numeric:tabular-nums}
+.lvl{font-size:12px;font-weight:600;color:var(--text-2);text-align:center;border:1px solid var(--border);border-radius:999px;padding:3px 0}
+.xpv{font-size:14px;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.you-gap{text-align:center;font-size:12px;color:var(--text-3);padding:6px 0}
+.empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed var(--border-2);border-radius:var(--r)}
+.empty a{color:var(--accent);font-weight:600}
 
-.page-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 30px; }
-.page-title { font-size: 24px; font-weight: 800; letter-spacing: -.6px; line-height: 1.2; color: var(--text); }
-.page-sub { font-size: 13px; color: var(--text-2); margin-top: 5px; font-weight: 400; }
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* LEADERBOARD */
-.lb-your-rank {
-  background: linear-gradient(135deg, rgba(57,224,122,.1), rgba(57,224,122,.03));
-  border: 1px solid rgba(57,224,122,.25);
-  border-radius: var(--radius-lg); padding: 18px 22px;
-  display: flex; align-items: center; gap: 14px;
-  margin-bottom: 20px;
+@media(max-width:900px){
+  .btn-train span,.brand b,.brand span{display:none}
+  .pl a{padding:8px 11px}
+  .btn-train{padding:10px 12px}
 }
-.lb-rank-num  { font-size: 30px; font-weight: 900; color: var(--accent); letter-spacing: -1.5px; min-width: 52px; }
-.lb-rank-info { flex: 1; }
-.lb-rank-name { font-size: 14px; font-weight: 700; color: var(--text); }
-.lb-rank-xp   { font-size: 12.5px; color: var(--text-2); margin-top: 2px; }
-.lb-rank-badge {
-  font-size: 9.5px; font-weight: 700; letter-spacing: .8px;
-  text-transform: uppercase; color: var(--accent);
-  background: var(--accent-dim); border-radius: 20px; padding: 4px 12px;
+@media(max-width:760px){
+  .board.has-stats .row{grid-template-columns:44px minmax(0,1fr) 56px 104px}
+  .board.has-stats .cell{display:none}
 }
-.lb-list { display: flex; flex-direction: column; gap: 6px; }
-.lb-loading { text-align: center; color: var(--text-2); padding: 40px; font-size: 13.5px; }
-.lb-item {
-  background: var(--bg-2); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 11px 16px;
-  display: flex; align-items: center; gap: 12px;
-  transition: border-color var(--trans);
-}
-.lb-item:hover { border-color: var(--border-2); }
-.lb-item--me  { border-color: rgba(57,224,122,.3); background: rgba(57,224,122,.04); }
-.lb-pos { font-size: 13px; font-weight: 800; color: var(--text-2); width: 26px; text-align: center; flex-shrink: 0; }
-.lb-pos.gold   { color: #ffd700; }
-.lb-pos.silver { color: #b0bec5; }
-.lb-pos.bronze { color: #cd7f32; }
-.lb-avatar {
-  width: 34px; height: 34px; border-radius: 50%;
-  background: var(--accent-dim);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: var(--accent); flex-shrink: 0;
-}
-.lb-name-col { flex: 1; min-width: 0; }
-.lb-lb-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-lb-role { font-size: 10.5px; color: var(--text-3); }
-.lb-xp-val  { font-size: 13px; font-weight: 700; color: var(--accent); white-space: nowrap; }
-
-@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-.anim-up { animation: fadeUp .4s cubic-bezier(.4,0,.2,1) both; }
-
-@media (max-width: 600px) {
-  .main { padding: 22px 14px 60px; }
-  .page-title { font-size: 20px; }
-  .btn-topbar-train span { display: none; }
-  .btn-topbar-train { padding: 9px 12px; }
-  .topbar-xp { display: none; }
+@media(max-width:600px){
+  .main{padding:92px 14px 60px}
+  .hello h1{font-size:23px}
+  .xp-chip{display:none}
+  .me-card{padding:16px 18px;gap:14px}
+  .me-rank{font-size:30px;min-width:52px}
+  .podium{gap:8px}
+  .pod .av{width:46px;height:46px;font-size:15px}
+  .pod-1 .av{width:62px;height:62px;font-size:20px}
+  .pod-name{font-size:12.5px}
+  .pod-xp{font-size:13px}
+  .pod-block{font-size:34px}
+  .row{grid-template-columns:40px minmax(0,1fr) 92px;gap:10px;padding:10px 12px}
+  .board.has-stats .row{grid-template-columns:40px minmax(0,1fr) 92px}
+  .lvl{display:none}
 }
 </style>
-<link rel="stylesheet" href="css/global-background.css">
 </head>
 <body>
 
-<div class="global-bg" aria-hidden="true">
-<div class="bg-noise"></div>
-<div class="bg-radial"></div>
-</div>
-<!-- TOPBAR -->
-<header class="topbar">
-  <button class="hamburger" id="hamburger-btn" onclick="toggleSidebar()" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-  <a href="index.html" class="topbar-brand">
-    <img src="/Badminton-AI-trainer_V2/favicon.ico" width="28" height="28" style="border-radius:50%;object-fit:cover;flex-shrink:0">
-    <span style="font-weight:700">Shuttle</span><span style="font-weight:400">stepz</span>
+<header class="pill">
+  <a href="index.html" class="brand">
+    <img src="icon/icon-192.png" alt="">
+    <b>Shuttle</b><span>stepz</span>
   </a>
-  <div class="topbar-label">Leaderboard</div>
-  <div class="topbar-xp">
-    <div class="topbar-xp-dot"></div>
-    <span id="topbar-xp">0 XP</span>
-  </div>
-  <button class="btn-topbar-train" onclick="window.location.href='trainer.html'">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-    <span>Start Training</span>
+  <nav class="pl" aria-label="Main">
+    <a href="dashboard.html">Overview</a>
+    <a href="trainer.html">Train</a>
+    <a href="history.html">History</a>
+    <a href="leaderboard.html" class="active" aria-current="page">Leaderboard</a>
+    <a href="social.html">Social</a>
+    <a href="plans.html">Plans</a>
+    <a href="manage.html" id="nav-manage" style="display:none"><span id="nav-manage-label">Students</span></a>
+    <a href="profile.html">Profile</a>
+  </nav>
+  <div class="xp-chip"><i></i><span id="topbar-xp">0 XP</span></div>
+  <button class="btn-train" onclick="location.href='trainer.html'">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Start Training</span>
+  </button>
+  <button class="out-btn" onclick="doLogout()" aria-label="Log out" title="Log out">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
   </button>
 </header>
 
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-top">
-    <div class="role-badge"><span class="role-badge-dot"></span><span id="role-badge">Student</span></div>
-    <nav class="nav">
-      <div class="nav-section-label">Main</div>
-      <a class="nav-item" href="dashboard.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        Overview
-      </a>
-      <a class="nav-item" href="trainer.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Train
-      </a>
-      <a class="nav-item" href="history.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-        History
-      </a>
-      <a class="nav-item active" href="leaderboard.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>
-        Leaderboard
-      </a>
-      <a class="nav-item" href="social.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-        Social
-      </a>
-      <div class="nav-section-label" style="margin-top:4px">Account</div>
-      <a class="nav-item" id="nav-manage" style="display:none" href="manage.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <span id="nav-manage-label">Students</span>
-      </a>
-      <a class="nav-item" href="profile.html">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Profile
-      </a>
-    </nav>
+<main class="main">
+  <div class="hello">
+    <h1>Leaderboard</h1>
+    <p id="sub">Everyone on ShuttleStepz, ranked by total XP.</p>
   </div>
-  <div class="sidebar-bottom">
-    <div class="xp-mini">
-      <div class="xp-mini-top"><span id="sb-xp-label">0 XP</span><span id="sb-level-label">Lv.1</span></div>
-      <div class="xp-bar-track"><div class="xp-bar-fill" id="sb-xp-fill"></div></div>
-    </div>
-    <button class="btn-logout" onclick="doLogout()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Log Out
-    </button>
-  </div>
-</aside>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-<!-- MAIN -->
-<main class="main" id="main">
-  <div class="page-header">
-    <div>
-      <h1 class="page-title">Leaderboard</h1>
-      <p class="page-sub">Global rankings by XP.</p>
+  <div class="controls">
+    <div class="seg" role="tablist" aria-label="Board">
+      <button role="tab" id="tab-global" aria-selected="true" data-tab="global">Global</button>
+      <button role="tab" id="tab-friends" aria-selected="false" data-tab="friends">Friends</button>
+    </div>
+    <div class="seg" role="group" aria-label="Time period">
+      <button aria-selected="true">All time</button>
+      <button disabled title="Weekly boards arrive with rank tracking">Weekly</button>
+      <button disabled title="Monthly boards arrive with rank tracking">Monthly</button>
     </div>
   </div>
 
-  <div class="lb-your-rank anim-up" id="lb-your-rank">
-    <div class="lb-rank-num" id="lb-rank-num">#—</div>
-    <div class="lb-rank-info">
-      <div class="lb-rank-name" id="lb-rank-name">You</div>
-      <div class="lb-rank-xp"  id="lb-rank-xp">0 XP</div>
+  <section class="me-card" aria-label="Your rank">
+    <div class="me-rank" id="me-rank">#—</div>
+    <div class="me-info">
+      <div class="me-name" id="me-name">You</div>
+      <div class="me-gap" id="me-gap">Loading your position…</div>
     </div>
-    <div class="lb-rank-badge">Your Rank</div>
-  </div>
+    <div class="me-xp"><span id="me-xp">0</span><small>XP</small></div>
+  </section>
 
-  <div class="lb-list" id="lb-list">
-    <div class="lb-loading">Loading leaderboard…</div>
-  </div>
+  <div class="podium" id="podium" aria-label="Top three players"></div>
+  <div class="board" id="board" aria-live="polite"></div>
 </main>
-
-<!-- SCRIPTS -->
-<script>
-window.toggleSidebar = function() {
-  var sb=document.getElementById('sidebar'),ov=document.getElementById('sidebar-overlay'),hb=document.getElementById('hamburger-btn');
-  var isOpen=sb.classList.toggle('open');
-  ov.classList.toggle('open',isOpen);hb.classList.toggle('open',isOpen);
-};
-function setText(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
-function setWidth(id,p){const e=document.getElementById(id);if(e)e.style.width=p+'%'}
-</script>
 
 <script type="module">
 import DB from './js/database.js'
 window.AUTH = DB
-const tx=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v}
-const $=id=>document.getElementById(id)
+const $ = id => document.getElementById(id)
+const tx = (id, v) => { const e = $(id); if (e) e.textContent = v }
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+const fmt = n => (n || 0).toLocaleString()
 
-window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='login.html'}
+window.doLogout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
 
-const XP_THRESHOLDS=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
-function renderXPData(xp,level){
-  const cur=XP_THRESHOLDS[level-1]||0,nxt=XP_THRESHOLDS[level]||XP_THRESHOLDS[XP_THRESHOLDS.length-1]
-  const pct=Math.min(Math.max((xp-cur)/(nxt-cur||1),0),1)
-  tx('sb-xp-label',xp+' XP');tx('sb-level-label','Lv.'+level)
-  const sf=$('sb-xp-fill');if(sf)sf.style.width=(pct*100)+'%'
-  tx('topbar-xp',xp+' XP')
+const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false }
+let loadTimer = null
+
+const nameOf = e => e.displayName || e.username || 'Player'
+const subOf = e => e.username ? '@' + e.username : (e.role ? e.role.charAt(0).toUpperCase() + e.role.slice(1) : '')
+const okUrl = u => typeof u === 'string' && /^(https:\/\/|data:image\/)/.test(u)
+
+function avatar(e, extra = '') {
+  const ini = esc(nameOf(e).trim().slice(0, 2).toUpperCase())
+  const inner = okUrl(e.avatarURL) ? `<img src="${esc(e.avatarURL)}" alt="" loading="lazy" data-ini="${ini}">` : ini
+  return `<div class="av ${extra}">${inner}</div>`
 }
 
-function renderLeaderboard(entries, myUID){
-  const el=$('lb-list')
-  if(!el)return
-  if(!entries.length){el.innerHTML='<div class="lb-loading">No entries yet.</div>';return}
-  const posEmoji=['🥇','🥈','🥉'], posClass=['gold','silver','bronze']
-  el.innerHTML = entries.map((e,i)=>`
-    <div class="lb-item ${e.uid===myUID?'lb-item--me':''}">
-      <div class="lb-pos ${posClass[i]||''}">${posEmoji[i]||i+1}</div>
-      ${e.avatarURL ? `<div class="lb-avatar" style="background-image:url(${e.avatarURL});background-size:cover;background-position:center;font-size:0"></div>` : `<div class="lb-avatar">${(e.displayName||'?').slice(0,2).toUpperCase()}</div>`}
-      <div class="lb-name-col">
-        <div class="lb-lb-name">${e.username||e.displayName||'Player'}${e.uid===myUID?' (You)':''}</div>
-        <div class="lb-lb-role">${e.username ? '@'+e.username : (e.role||'student').charAt(0).toUpperCase()+(e.role||'student').slice(1)}</div>
-      </div>
-      <div class="lb-xp-val">${(e.xp||0).toLocaleString()} XP</div>
-    </div>`).join('')
-  const me=entries.find(e=>e.uid===myUID)
-  if(me){
-    tx('lb-rank-num','#'+me.rank)
-    tx('lb-rank-name',me.displayName||'You')
-    tx('lb-rank-xp',(me.xp||0).toLocaleString()+' XP')
+function currentList() {
+  if (state.tab === 'global') return state.global
+  if (state.friends === null || !state.me) return null
+  const all = state.friends.filter(f => f.uid !== state.uid).concat([{ ...state.me }])
+  all.sort((a, b) => (b.xp || 0) - (a.xp || 0))
+  return all.map((e, i) => ({ ...e, rank: i + 1 }))
+}
+
+function movement(e) {
+  if (typeof e.rankDelta !== 'number') return ''
+  if (e.rankDelta > 0) return `<span class="mv up">▲${e.rankDelta}</span>`
+  if (e.rankDelta < 0) return `<span class="mv down">▼${Math.abs(e.rankDelta)}</span>`
+  return '<span class="mv same">–</span>'
+}
+
+function podiumSlot(e, place) {
+  if (!e) return `<div class="pod pod-${place} open"><div class="pod-who"><div class="av">?</div><div class="pod-name">Open spot</div></div><div class="pod-block">${place}</div></div>`
+  const me = e.uid === state.uid ? ' me' : ''
+  return `<div class="pod pod-${place}${me}"><div class="pod-who">${avatar(e)}<div class="pod-name">${esc(nameOf(e))}</div><div class="pod-sub">${esc(subOf(e))} · Lv.${e.level || 1}</div><div class="pod-xp">${fmt(e.xp)} XP</div></div><div class="pod-block">${place}</div></div>`
+}
+
+function rowHTML(e, rank) {
+  const stats = `<div class="cell">${e.sessions != null ? fmt(e.sessions) : '–'}</div><div class="cell">${e.avgScore != null ? fmt(Math.round(e.avgScore)) : '–'}</div><div class="cell">${e.bestScore != null ? fmt(e.bestScore) : '–'}</div>`
+  return `<div class="row${e.uid === state.uid ? ' me' : ''}">
+    <div class="pos">${rank}${movement(e)}</div>
+    <div class="who">${avatar(e)}<div class="who-t"><div class="who-n">${esc(nameOf(e))}${e.uid === state.uid ? ' (you)' : ''}</div><div class="who-s">${esc(subOf(e))}</div></div></div>
+    ${stats}
+    <div class="lvl">Lv.${e.level || 1}</div>
+    <div class="xpv">${fmt(e.xp)} XP</div>
+  </div>`
+}
+
+function renderMe(list) {
+  if (!state.me) return
+  const idx = list.findIndex(e => e.uid === state.uid)
+  const mine = idx >= 0 ? list[idx] : null
+  const rank = mine ? idx + 1 : (state.tab === 'global' ? state.myRank : null)
+  const xp = mine ? (mine.xp || 0) : (state.me.xp || 0)
+  tx('me-rank', rank ? '#' + rank : '#—')
+  tx('me-name', nameOf(state.me))
+  tx('me-xp', fmt(xp))
+  let gap = ''
+  if (list.length === 1 && mine) gap = state.tab === 'friends' ? 'Add friends from Social to start competing.' : "You're the first on the board."
+  else if (idx === 0) gap = `Leading by ${fmt((list[0].xp || 0) - (list[1].xp || 0))} XP`
+  else if (idx > 0) gap = `${fmt(Math.max(1, (list[idx - 1].xp || 0) - xp + 1))} XP to pass ${nameOf(list[idx - 1])}`
+  else if (list.length) gap = `${fmt(Math.max(1, (list[list.length - 1].xp || 0) - xp + 1))} XP to reach the top ${list.length}`
+  tx('me-gap', gap)
+}
+
+function render() {
+  const list = currentList()
+  const pod = $('podium'), board = $('board')
+  $('sub').textContent = state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by total XP.' : 'You and your friends, ranked by total XP.'
+  if (list === null) {
+    pod.innerHTML = ''
+    board.className = 'board'
+    board.innerHTML = `<div class="empty">${state.failed ? "Can't load the leaderboard. Check your connection and refresh." : 'Loading leaderboard…'}</div>`
+    return
   }
+  renderMe(list)
+  if (!list.length) {
+    pod.innerHTML = ''
+    board.className = 'board'
+    board.innerHTML = '<div class="empty"><div>No one is on the board yet.</div><a href="trainer.html">Start a session to claim #1</a></div>'
+    return
+  }
+  pod.classList.toggle('intro', state.intro)
+  pod.innerHTML = podiumSlot(list[1], 2) + podiumSlot(list[0], 1) + podiumSlot(list[2], 3)
+  state.intro = false
+
+  const rest = list.slice(3)
+  const hasStats = list.some(e => e.sessions != null || e.avgScore != null || e.bestScore != null)
+  board.className = 'board' + (hasStats ? ' has-stats' : '')
+  let html = rest.map((e, i) => rowHTML(e, i + 4)).join('')
+  if (state.tab === 'global' && state.me && !list.some(e => e.uid === state.uid)) {
+    html += `<div class="you-gap">Your position</div>` + rowHTML({ ...state.me }, state.myRank ? state.myRank : '–')
+  }
+  if (state.tab === 'friends' && list.length === 1) {
+    html += '<div class="empty"><div>No friends on the board yet.</div><a href="social.html">Find players in Social</a></div>'
+  }
+  board.innerHTML = html
+
+  document.querySelectorAll('.av img').forEach(img => img.addEventListener('error', () => img.replaceWith(document.createTextNode(img.dataset.ini || '?')), { once: true }))
 }
 
-DB.onAuthReady(async(firebaseUser)=>{
-  if(!firebaseUser){window.location.href='login.html';return}
-  try{
-    const prof=await DB.getUserProfile(firebaseUser.uid),p=prof.profile||{}
-    const xp=prof.xp||0,lv=prof.level||1
-    const role=p.role||'student'
-    renderXPData(xp,lv)
-    tx('role-badge',role.charAt(0).toUpperCase()+role.slice(1))
+function setTab(tab) {
+  state.tab = tab
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)))
+  if (tab === 'friends' && !state.friendsOn) {
+    state.friendsOn = true
+    DB.listenFriends(list => { state.friends = list; render() })
+  }
+  render()
+}
+document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)))
 
-    const nm=$('nav-manage')
-    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='flex';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
+function refreshMyRank() {
+  if (state.rankBusy || !state.uid) return
+  state.rankBusy = true
+  DB.getUserRank(state.uid).then(r => { state.myRank = r; render() }).catch(() => {}).finally(() => { state.rankBusy = false })
+}
 
-    DB.listenUserProfile(data=>{
-      renderXPData(data.xp||0,data.level||1)
+render()
+
+DB.onAuthReady(async firebaseUser => {
+  if (!firebaseUser) { window.location.href = 'login.html'; return }
+  state.uid = firebaseUser.uid
+  loadTimer = setTimeout(() => { if (state.global === null) { state.failed = true; render() } }, 8000)
+  try {
+    const prof = await DB.getUserProfile(firebaseUser.uid), p = prof.profile || {}
+    state.me = { uid: firebaseUser.uid, displayName: p.displayName || firebaseUser.displayName || 'You', username: p.username || null, avatarURL: p.avatarURL || null, role: p.role || 'student', xp: prof.xp || 0, level: prof.level || 1 }
+    tx('topbar-xp', fmt(state.me.xp) + ' XP')
+    const role = p.role || 'student', nm = $('nav-manage')
+    if (nm && (role === 'teacher' || role === 'coach')) { nm.style.display = 'block'; tx('nav-manage-label', role === 'coach' ? 'Athletes' : 'Students') }
+
+    DB.listenUserProfile(data => {
+      state.me.xp = data.xp || 0
+      state.me.level = data.level || 1
+      tx('topbar-xp', fmt(state.me.xp) + ' XP')
+      render()
     })
-
-    DB.listenLeaderboard(entries=>renderLeaderboard(entries,firebaseUser.uid))
-
-    console.log('[leaderboard] ✅ booted')
-  }catch(err){console.error('[leaderboard] boot error:',err.message)}
+    DB.listenLeaderboard(entries => {
+      clearTimeout(loadTimer)
+      state.failed = false
+      state.global = entries
+      if (!entries.some(e => e.uid === state.uid)) refreshMyRank(); else state.myRank = null
+      render()
+    })
+  } catch (err) { console.error('[leaderboard] boot error:', err.message); state.failed = true; render() }
 })
 </script>
 </body>
