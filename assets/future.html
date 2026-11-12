@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShuttleStepz — One Platform. Every Sport.</title>
+<meta name="description" content="A conceptual look at how ShuttleStepz could grow from badminton into a multi-sport AI training ecosystem.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--g:#B7FF35;--bg:#0B100D;--bg2:#121a15;--bg3:#18231c;--tx:#EAF2E6;--mu:#93a398;--ln:rgba(183,255,53,.18)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:'Space Grotesk',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;overflow-x:hidden}
+body.lock{overflow:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--g);color:#000;padding:8px 14px;z-index:100}
+.skip:focus{left:8px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+
+/* nav */
+.nav{position:fixed;inset:0 0 auto 0;height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:0 clamp(20px,4vw,48px);background:rgba(11,16,13,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln);z-index:50}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.1rem;letter-spacing:.02em}
+.logo{display:grid;place-items:center;width:32px;height:32px;border-radius:8px;background:var(--g);color:#0B100D;font-weight:700}
+.tagline{font-size:.72rem;letter-spacing:.28em;color:var(--mu)}
+.links{display:flex;align-items:center;gap:28px;font-size:.92rem}
+.links a:hover{color:var(--g)}
+.burger{display:none;background:none;border:0;width:40px;height:40px;cursor:pointer;position:relative}
+.burger span{position:absolute;left:8px;right:8px;height:2px;background:var(--tx);transition:.3s}
+.burger span:first-child{top:15px}.burger span:last-child{top:23px}
+.burger[aria-expanded=true] span:first-child{top:19px;transform:rotate(45deg)}
+.burger[aria-expanded=true] span:last-child{top:19px;transform:rotate(-45deg)}
+
+/* buttons */
+.btn,.btn-ghost{font:inherit;font-weight:700;cursor:pointer;border-radius:999px;transition:transform .2s,box-shadow .2s,background .2s}
+.btn{display:inline-block;background:var(--g);color:#0B100D;border:0;padding:16px 34px;letter-spacing:.08em;font-size:.95rem}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(183,255,53,.35)}
+.btn-ghost{background:transparent;color:var(--g);border:1px solid var(--g);padding:8px 20px;font-size:.88rem}
+.btn-ghost:hover{background:var(--g);color:#0B100D}
+
+/* hero */
+.hero{min-height:100vh;display:grid;align-items:center;position:relative;padding:120px clamp(20px,4vw,48px) 80px;background:radial-gradient(ellipse 70% 60% at 75% 30%,rgba(183,255,53,.14),transparent 65%),linear-gradient(180deg,#0B100D,#0E1511)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--ln) 1px,transparent 1px),linear-gradient(90deg,var(--ln) 1px,transparent 1px);background-size:64px 64px;opacity:.35;mask-image:radial-gradient(ellipse at 70% 40%,#000,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 70% 40%,#000,transparent 70%)}
+.hero-inner{position:relative;max-width:1240px;margin:0 auto;width:100%}
+h1{font-size:clamp(2.8rem,9vw,8rem);line-height:.95;letter-spacing:-.03em;font-weight:700;animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+h1 em{font-style:normal;color:var(--g);text-shadow:0 0 60px rgba(183,255,53,.35)}
+.lead{font-size:clamp(1.1rem,2vw,1.5rem);margin:32px 0 12px;max-width:34ch}
+.sub{color:var(--mu);max-width:58ch;margin-bottom:40px}
+@keyframes rise{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+
+/* sports grid */
+.sports,.vision,.cta{padding:clamp(72px,10vw,140px) 0}
+h2{font-size:clamp(1.8rem,4.5vw,3.4rem);line-height:1.05;letter-spacing:-.02em}
+.note{color:var(--mu);margin:12px 0 40px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.card{position:relative;aspect-ratio:3/4;border-radius:18px;overflow:hidden;border:1px solid transparent;cursor:pointer;text-align:left;font:inherit;color:inherit;background:var(--bg2);padding:0;transition:border-color .3s,box-shadow .3s,transform .3s}
+.card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,16,13,.05) 30%,rgba(11,16,13,.92))}
+.card .txt{position:absolute;left:0;right:0;bottom:0;padding:22px;z-index:2}
+.card h3{font-size:1.3rem;letter-spacing:.04em;margin-bottom:4px}
+.card p{font-size:.88rem;color:#c3d0c6}
+.card:hover,.card:focus-visible{border-color:var(--g);box-shadow:0 0 0 1px var(--g),0 18px 50px rgba(183,255,53,.18)}
+.card:hover .img,.card:focus-visible .img{transform:scale(1.1)}
+.card.picked{animation:pick .5s ease}
+@keyframes pick{40%{transform:scale(.96);box-shadow:0 0 0 3px var(--g),0 0 60px rgba(183,255,53,.6)}}
+
+/* vision */
+.vision{background:var(--bg2);border-block:1px solid var(--ln)}
+.vtext{color:var(--mu);max-width:62ch;margin:24px 0 48px;font-size:1.1rem}
+.steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ln)}
+.steps li{padding:32px 28px 0 0;position:relative}
+.steps li+li{padding-left:28px;border-left:1px solid var(--ln)}
+.steps span{display:block;font-size:3.4rem;font-weight:700;color:var(--g);line-height:1;margin-bottom:12px}
+.steps h3{letter-spacing:.12em;margin-bottom:6px}
+.steps p{color:var(--mu)}
+
+/* cta */
+.cta{text-align:center;background:radial-gradient(ellipse 60% 70% at 50% 100%,rgba(183,255,53,.14),transparent 70%)}
+.cta .vtext{margin:20px auto 56px}
+.mark{font-size:clamp(2rem,6vw,4.5rem);font-weight:700;letter-spacing:.1em;color:var(--g)}
+.mark-sub{color:var(--mu);margin-bottom:48px}
+.final{max-width:60ch;margin:0 auto;font-size:.95rem;color:var(--mu);border-top:1px solid var(--ln);padding-top:32px}
+
+/* preview */
+.preview{position:fixed;inset:0;z-index:80;overflow-y:auto;background:var(--bg);opacity:0;transform:scale(1.03);transition:opacity .45s ease,transform .45s ease}
+.preview.open{opacity:1;transform:none}
+.pv-bg{position:fixed;inset:0;background-size:cover;background-position:center}
+.pv-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,16,13,.95) 25%,rgba(11,16,13,.55)),linear-gradient(0deg,var(--bg),transparent 40%)}
+.pv-body{position:relative;min-height:100%;max-width:1240px;margin:0 auto;padding:104px clamp(20px,4vw,48px) 64px;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.badge{border:1px solid var(--g);color:var(--g);border-radius:999px;padding:4px 14px;font-size:.72rem;letter-spacing:.2em;margin-top:32px}
+.preview h2{font-size:clamp(2.6rem,8vw,6.5rem);letter-spacing:-.03em;color:var(--g)}
+.pv-head{font-size:clamp(1.4rem,3vw,2.2rem);font-weight:500}
+.pv-desc{max-width:56ch;color:#c3d0c6}
+.feats{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;max-width:760px;margin-top:16px}
+.feats li{padding:18px 20px;border-radius:14px;background:rgba(18,26,21,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--ln);font-weight:500;display:flex;gap:12px;align-items:center}
+.feats li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g);flex:none}
+.disclaimer{font-size:.85rem;color:var(--mu);max-width:60ch;border-left:2px solid var(--g);padding-left:14px;margin-top:12px}
+
+/* responsive */
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.tagline{display:none}}
+@media(max-width:720px){
+  .burger{display:block}
+  .links{position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:flex-start;gap:18px;padding:24px;background:rgba(11,16,13,.96);border-bottom:1px solid var(--ln);transform:translateY(-130%);transition:transform .35s}
+  .links.open{transform:none}
+  .steps{grid-template-columns:1fr}
+  .steps li,.steps li+li{padding:24px 0;border-left:0;border-bottom:1px solid var(--ln)}
+  .feats{grid-template-columns:1fr}
+}
+@media(max-width:480px){.grid{grid-template-columns:1fr}.card{aspect-ratio:4/3}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#sports">Skip to sports</a>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="ShuttleStepz home"><span class="logo" aria-hidden="true">S</span>ShuttleStepz</a>
+  <p class="tagline">THE FUTURE OF SPORTS TRAINING</p>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="links"><span></span><span></span></button>
+  <nav class="links" id="links" aria-label="Main">
+    <a href="#vision">Our Vision</a>
+    <a href="#sports">Sports</a>
+    <button class="btn-ghost" id="backBtn" type="button">&larr; Back</button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <h1>ONE PLATFORM.<br><em>EVERY SPORT.</em></h1>
+      <p class="lead">Starting with badminton. Expanding towards a smarter sporting future for India.</p>
+      <p class="sub">Discover how AI-powered movement analysis and intelligent training technology could transform the way athletes train across multiple sports.</p>
+      <a class="btn" href="#sports" id="explore">EXPLORE SPORTS</a>
+    </div>
+  </section>
+
+  <section class="sports" id="sports" aria-labelledby="sports-h">
+    <div class="wrap">
+      <h2 id="sports-h">Choose a sport</h2>
+      <p class="note">One platform. Multiple sports. Unlimited possibilities. Every preview is a concept.</p>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="vision" id="vision">
+    <div class="wrap">
+      <h2>WE STARTED WITH BADMINTON.<br>WE'RE THINKING BEYOND IT.</h2>
+      <p class="vtext">Every sport has different movements, techniques and challenges. Our long-term vision is to adapt intelligent training technology to the unique requirements of different sports and make performance insights more accessible to athletes across India.</p>
+      <ol class="steps">
+        <li><span>01</span><h3>START</h3><p>Building intelligent badminton training technology.</p></li>
+        <li><span>02</span><h3>EXPAND</h3><p>Adapting movement analysis to different sports.</p></li>
+        <li><span>03</span><h3>EMPOWER</h3><p>Supporting the wider sporting community of India.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>THE FUTURE OF SPORTS IS OPEN.</h2>
+      <p class="vtext">One vision. Multiple disciplines. A stronger sporting future.</p>
+      <p class="mark">SHUTTLESTEPZ</p>
+      <p class="mark-sub">The future of badminton is here.</p>
+      <p class="final">ShuttleStepz begins with badminton, but its vision extends to the entire sporting community of India. We want to explore how intelligent technology can empower athletes across different sports, one discipline at a time.</p>
+    </div>
+  </section>
+</main>
+
+<section class="preview" id="preview" role="dialog" aria-modal="true" aria-labelledby="pv-name" hidden>
+  <div class="pv-bg" id="pvBg"></div>
+  <div class="pv-body">
+    <button class="btn" id="pvBack" type="button">&larr; BACK TO SPORTS</button>
+    <p class="badge">CONCEPT PREVIEW</p>
+    <h2 id="pv-name"></h2>
+    <p class="pv-head" id="pvHead"></p>
+    <p class="pv-desc" id="pvDesc"></p>
+    <ul class="feats" id="pvFeats"></ul>
+    <p class="disclaimer">These features are conceptual previews of future possibilities. They are not currently operational AI models.</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  'use strict';
+  var FALLBACK='https://shuttlestepz.github.io/Badminton-AI-trainer_V3/';
+  var S=[
+    {id:'badminton',n:'BADMINTON',d:'Intelligent footwork and movement analysis.',h:'Train smarter. Move better.',p:'ShuttleStepz already starts here. Imagine every split step, lunge and recovery turned into clear, usable feedback.',f:['AI Footwork Analysis','Movement Classification','Performance Analytics','Training Progress'],c:'#1d3a12'},
+    {id:'football',n:'FOOTBALL',d:'Explore movement, agility and performance training.',h:'Understand every movement.',p:'Imagine turning sprints, changes of direction and positioning into insights a player or coach can act on.',f:['Agility Analysis','Movement Tracking','Positioning Insights','Training Progress'],c:'#12361f'},
+    {id:'basketball',n:'BASKETBALL',d:'Explore agility, jumping and movement analysis.',h:'Elevate your performance.',p:'Imagine understanding how athletes jump, land and move on the court, one session at a time.',f:['Jump Movement Analysis','Agility Training','Movement Tracking','Performance Insights'],c:'#3a2412'},
+    {id:'cricket',n:'CRICKET',d:'Explore batting, bowling and movement training.',h:'Analyse every movement.',p:'Imagine breaking down a batting stance or a bowling action into movements you can study and improve.',f:['Batting Movement Analysis','Bowling Technique Insights','Movement Tracking','Training Progress'],c:'#2a3512'},
+    {id:'athletics',n:'ATHLETICS',d:'Explore running technique and performance development.',h:'Every stride matters.',p:'Imagine seeing stride, posture and pacing patterns that are hard to notice with the naked eye.',f:['Running Technique Analysis','Movement Tracking','Performance Insights','Training Progress'],c:'#2b2a12'},
+    {id:'tennis',n:'TENNIS',d:'Explore court movement and footwork analysis.',h:'Move smarter on the court.',p:'Imagine understanding how players read the ball, position themselves and recover between shots.',f:['Footwork Analysis','Agility Training','Movement Tracking','Performance Analytics'],c:'#2f3a12'},
+    {id:'volleyball',n:'VOLLEYBALL',d:'Explore jumping, agility and movement training.',h:'Reach your next level.',p:'Imagine studying approach steps, jumps and landings to help players move with more control.',f:['Jump Movement Analysis','Agility Training','Movement Tracking','Performance Insights'],c:'#123a35'},
+    {id:'other',n:'OTHER SPORTS',d:"Imagine what's possible across the wider sporting community.",h:'Every athlete deserves smarter training.',p:"The long-term vision of ShuttleStepz extends beyond these eight cards, to additional sporting disciplines across India, adapted one sport at a time.",f:['Sport-specific movement models','Accessible performance insights','Built for Indian athletes','Community-led expansion'],c:'#1a2a1f'}
+  ];
+  var $=function(i){return document.getElementById(i)};
+  var grid=$('grid'),pv=$('preview'),lastCard=null,timer;
+
+  function bg(id,c){
+    // Add your own photo at assets/sports/<id>.jpg — the gradient shows if it is missing.
+    return "url('assets/sports/"+id+".jpg'),radial-gradient(circle at 70% 25%,"+c+",#0B100D 75%)";
+  }
+
+  S.forEach(function(s){
+    var b=document.createElement('button');
+    b.className='card';b.type='button';b.dataset.id=s.id;
+    b.setAttribute('aria-label',s.n+': '+s.d+' Open concept preview.');
+    b.innerHTML='<div class="img"></div><div class="txt"><h3></h3><p></p></div>';
+    b.querySelector('.img').style.backgroundImage=bg(s.id,s.c);
+    b.querySelector('h3').textContent=s.n;
+    b.querySelector('p').textContent=s.d;
+    b.addEventListener('click',function(){
+      b.classList.remove('picked');void b.offsetWidth;b.classList.add('picked');
+      lastCard=b;
+      setTimeout(function(){open(s.id,true)},280);
+    });
+    grid.appendChild(b);
+  });
+
+  function open(id,push){
+    var s=S.filter(function(x){return x.id===id})[0];
+    if(!s)return;
+    clearTimeout(timer);
+    $('pv-name').textContent=s.n;
+    $('pvHead').textContent=s.h;
+    $('pvDesc').textContent=s.p;
+    $('pvBg').style.backgroundImage=bg(s.id,s.c);
+    var ul=$('pvFeats');ul.innerHTML='';
+    s.f.forEach(function(t){var li=document.createElement('li');li.textContent=t;ul.appendChild(li)});
+    pv.hidden=false;pv.scrollTop=0;
+    requestAnimationFrame(function(){requestAnimationFrame(function(){pv.classList.add('open')})});
+    document.body.classList.add('lock');
+    if(push)history.pushState({sport:id},'','#'+id);
+    $('pvBack').focus({preventScroll:true});
+  }
+
+  function close(fromPop){
+    if(pv.hidden)return;
+    pv.classList.remove('open');
+    document.body.classList.remove('lock');
+    timer=setTimeout(function(){pv.hidden=true},450);
+    if(!fromPop&&location.hash&&location.hash!=='#sports')history.back();
+    if(lastCard)lastCard.focus({preventScroll:true});
+  }
+
+  $('pvBack').addEventListener('click',function(){close(false)});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&!pv.hidden)close(false);
+    if(e.key==='Tab'&&!pv.hidden){ // keep focus inside the preview
+      var b=$('pvBack');e.preventDefault();b.focus();
+    }
+  });
+
+  window.addEventListener('popstate',function(){
+    var id=location.hash.slice(1);
+    if(S.some(function(x){return x.id===id}))open(id,false);else close(true);
+  });
+  // Deep link: index.html#football opens that preview directly
+  var first=location.hash.slice(1);
+  if(S.some(function(x){return x.id===first}))open(first,false);
+
+  // Back button: referring site if there is one, otherwise the main app
+  $('backBtn').addEventListener('click',function(){
+    var r=document.referrer,ext=false;
+    try{ext=!!r&&new URL(r).origin!==location.origin}catch(e){}
+    window.location.href=ext?r:FALLBACK;
+  });
+
+  // Mobile menu
+  var burger=$('burger'),links=$('links');
+  function menu(o){links.classList.toggle('open',o);burger.setAttribute('aria-expanded',o)}
+  burger.addEventListener('click',function(){menu(!links.classList.contains('open'))});
+  links.addEventListener('click',function(e){if(e.target.tagName==='A')menu(false)});
+})();
+</script>
+</body>
+</html>
