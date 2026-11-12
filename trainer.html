@@ -394,6 +394,38 @@ input[type=range]{width:100%;height:4px;-webkit-appearance:none;background:var(-
 .guest-note { font-size: 10.5px; color: #364e3a; margin-top: 14px; line-height: 1.6; }
 </style>
 <link rel="stylesheet" href="css/global-background.css">
+
+<style id="dashboard-background-theme">
+/* Match the dashboard's shared cinematic background */
+body {
+  background-color: #0B100D;
+  background-image:
+    linear-gradient(rgba(5, 10, 7, 0.30), rgba(5, 10, 7, 0.48)),
+    url('./assets/Dashboard bg.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Keep the shared texture/glow, but let the dashboard image show through */
+.global-bg { background: transparent; }
+.global-bg::before { display: none; }
+.bg-radial {
+  background:
+    radial-gradient(600px 420px at 88% 4%, rgba(57,224,122,.12), transparent 70%),
+    radial-gradient(520px 380px at 6% 30%, rgba(40,210,140,.08), transparent 70%);
+}
+
+/* Frosted surfaces so the background remains visible without hurting contrast */
+.train-bar { background: rgba(5, 10, 7, .72); backdrop-filter: blur(18px) saturate(140%); }
+.sidebar { background: rgba(8, 16, 13, .78); backdrop-filter: blur(16px) saturate(130%); }
+.card, .dir-card { background: rgba(14, 22, 16, .76); backdrop-filter: blur(14px); }
+#screen-setup, #screen-results {
+  background: rgba(5, 9, 8, .58);
+  backdrop-filter: blur(16px);
+}
+</style>
 </head>
 <body>
 
