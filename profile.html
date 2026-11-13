@@ -4,218 +4,399 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Profile — Shuttlestepz</title>
-<link rel="icon" href="/Badminton-AI-trainer_V2/favicon.ico">
+<link rel="icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#090c0e;--bg-2:#0f1315;--bg-3:#161b1e;--bg-4:#1d2427;--border:rgba(255,255,255,.06);--border-2:rgba(255,255,255,.11);--accent:#39e07a;--accent-dim:rgba(57,224,122,.12);--accent-glow:rgba(57,224,122,.3);--accent-2:#60eba0;--text:#eaf0eb;--text-2:#7a9080;--text-3:#3d4f44;--danger:#e05c5c;--sidebar-w:252px;--topbar-h:64px;--radius:12px;--radius-lg:18px;--trans:.18s cubic-bezier(.4,0,.2,1)}
+:root{
+  --bg:#0b100d;--bg-2:rgba(255,255,255,.035);--bg-3:rgba(255,255,255,.055);--bg-4:rgba(255,255,255,.09);
+  --border:rgba(255,255,255,.08);--border-2:rgba(255,255,255,.14);
+  --accent:#39e07a;--accent-2:#6bf0a0;--accent-dim:rgba(57,224,122,.12);--accent-line:rgba(57,224,122,.35);--accent-glow:rgba(57,224,122,.35);
+  --text:#eaf2ec;--text-2:#8aa093;--text-3:#4a5f52;--danger:#ff6b6b;
+  --radius:14px;--radius-lg:22px;--trans:.18s cubic-bezier(.4,0,.2,1);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);background:rgba(9,12,14,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;z-index:300}
-.hamburger{width:40px;height:40px;background:var(--bg-3);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;flex-shrink:0;transition:border-color var(--trans),background var(--trans)}
-.hamburger:hover{border-color:var(--border-2);background:var(--bg-4)}
-.hamburger span{display:block;width:18px;height:1.5px;background:var(--text-2);border-radius:2px;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s,background var(--trans)}
-.hamburger:hover span{background:var(--text)}
-.hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
-.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
-.hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
-.topbar-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--text);font-size:15px;font-weight:800;letter-spacing:-.4px;flex-shrink:0}
-.topbar-label{flex:1;font-size:13px;font-weight:600;color:var(--text-2);letter-spacing:-.2px;padding-left:4px}
-.topbar-xp{display:flex;align-items:center;gap:6px;background:var(--accent-dim);border:1px solid rgba(57,224,122,.2);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap}
-.topbar-xp-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
-.btn-topbar-train{display:flex;align-items:center;gap:7px;background:var(--accent);color:#060908;border:none;border-radius:10px;padding:9px 18px;font-family:'Sora',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 0 20px var(--accent-glow);transition:all var(--trans);flex-shrink:0}
-.btn-topbar-train:hover{background:var(--accent-2);transform:translateY(-1px)}
-.sidebar{position:fixed;top:var(--topbar-h);left:0;bottom:0;width:var(--sidebar-w);background:var(--bg-2);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:250;transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1),box-shadow .28s;overflow:hidden}
-.sidebar.open{transform:translateX(0);box-shadow:4px 0 48px rgba(0,0,0,.55)}
-.sidebar-top{flex:1;padding:20px 14px 12px;overflow-y:auto}
-.sidebar-top::-webkit-scrollbar{width:4px}
-.sidebar-top::-webkit-scrollbar-thumb{background:var(--bg-4);border-radius:99px}
-.sidebar-bottom{padding:14px;border-top:1px solid var(--border)}
-.role-badge{display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(57,224,122,.2);border-radius:20px;padding:4px 10px;margin-bottom:16px}
-.role-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
-.nav{display:flex;flex-direction:column;gap:2px}
-.nav-section-label{font-size:9.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3);padding:12px 10px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--text-2);cursor:pointer;text-decoration:none;transition:background var(--trans),color var(--trans);position:relative}
-.nav-item svg{flex-shrink:0;opacity:.6;transition:opacity var(--trans)}
-.nav-item:hover{background:var(--bg-3);color:var(--text)}
-.nav-item:hover svg{opacity:1}
-.nav-item.active{background:var(--accent-dim);color:var(--accent);font-weight:600}
-.nav-item.active svg{opacity:1;stroke:var(--accent)}
-.nav-item.active::before{content:'';position:absolute;left:0;top:20%;bottom:20%;width:2.5px;border-radius:0 2px 2px 0;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.xp-mini{margin-bottom:10px}
-.xp-mini-top{display:flex;justify-content:space-between;font-size:10.5px;font-weight:700;color:var(--text-2);margin-bottom:6px}
-.xp-bar-track{height:3.5px;border-radius:99px;background:var(--bg-4);overflow:hidden}
-.xp-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0%;transition:width .7s cubic-bezier(.4,0,.2,1);box-shadow:0 0 8px var(--accent-glow)}
-.btn-logout{width:100%;display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:9px;background:none;border:1px solid var(--border);color:var(--text-2);font-family:'Sora',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;transition:all var(--trans)}
-.btn-logout:hover{border-color:var(--danger);color:var(--danger);background:rgba(224,92,92,.07)}
-.sidebar-overlay{position:fixed;inset:0;top:var(--topbar-h);background:rgba(0,0,0,.6);z-index:240;opacity:0;pointer-events:none;transition:opacity .28s}
-.sidebar-overlay.open{opacity:1;pointer-events:auto}
-.main{margin-top:var(--topbar-h);min-height:calc(100vh - var(--topbar-h));padding:32px 36px 72px;position:relative;z-index:1}
-@media(min-width:900px){.sidebar.open~.main{margin-left:var(--sidebar-w)}}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:30px}
-.page-title{font-size:24px;font-weight:800;letter-spacing:-.6px;line-height:1.2;color:var(--text)}
-.page-sub{font-size:13px;color:var(--text-2);margin-top:5px;font-weight:400}
-.section-title{font-size:10.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--text-3);margin:28px 0 12px}
+html{scroll-behavior:smooth;scroll-padding-top:110px}
+html,body{min-height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* PROFILE */
-.profile-card{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px 26px;display:flex;align-items:center;gap:20px;margin-bottom:24px;flex-wrap:wrap}
-.profile-avatar{width:62px;height:62px;border-radius:50%;background:var(--accent-dim);border:2px solid rgba(57,224,122,.25);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:var(--accent);flex-shrink:0;cursor:pointer;background-size:cover;background-position:center}
-.profile-name{font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.3px}
-.profile-email{font-size:12.5px;color:var(--text-2);margin-top:3px}
-.profile-role-pill{display:inline-block;margin-top:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);background:var(--accent-dim);border-radius:20px;padding:3px 11px}
-.settings-group{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
-.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 18px;border-bottom:1px solid var(--border)}
-.settings-row:last-child{border-bottom:none}
-.settings-row-title{font-size:13px;font-weight:600;color:var(--text)}
-.settings-row-val{font-size:12px;color:var(--text-2);margin-top:2px}
-.settings-row-left{flex:1;min-width:0}
-.profile-input{background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;color:var(--text);font-family:'Sora',sans-serif;font-size:12.5px;padding:7px 12px;min-width:180px;max-width:240px;transition:border-color var(--trans);outline:none}
-.profile-input:focus{border-color:rgba(57,224,122,.5)}
-.profile-input option{background:var(--bg-3)}
-.hand-btn{background:var(--bg-3);border:1px solid var(--border-2);border-radius:8px;color:var(--text-2);font-family:'Sora',sans-serif;font-size:12px;font-weight:600;padding:7px 14px;cursor:pointer;transition:all var(--trans)}
-.hand-btn.selected{background:var(--accent-dim);border-color:rgba(57,224,122,.5);color:var(--accent)}
-.btn-upgrade{background:var(--accent);color:#060908;border:none;border-radius:8px;padding:7px 15px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all var(--trans);white-space:nowrap}
-.btn-upgrade:hover{background:var(--accent-2);box-shadow:0 0 14px var(--accent-glow)}
-.btn-danger{background:rgba(224,92,92,.08);color:var(--danger);border:1px solid rgba(224,92,92,.2);border-radius:8px;padding:7px 15px;font-family:'Sora',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all var(--trans);white-space:nowrap}
-.btn-danger:hover{background:rgba(224,92,92,.18);border-color:var(--danger)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.anim-up{animation:fadeUp .4s cubic-bezier(.4,0,.2,1) both}
-@media(max-width:600px){.main{padding:22px 14px 60px}.page-title{font-size:20px}.topbar-xp{display:none}.btn-topbar-train span{display:none}.btn-topbar-train{padding:9px 12px}.profile-input{min-width:120px;max-width:160px;font-size:11.5px}.settings-row{flex-wrap:wrap;gap:8px}}
+/* ===== BACKGROUND (same as dashboard) ===== */
+.bg{position:fixed;inset:0;z-index:0;background:var(--bg) url('assets/Dashboard%20bg.jpg') center/cover no-repeat;pointer-events:none}
+.bg::after{content:'';position:absolute;inset:0;background:
+  radial-gradient(900px 500px at 85% -10%,rgba(57,224,122,.16),transparent 60%),
+  linear-gradient(180deg,rgba(11,16,13,.72),rgba(11,16,13,.9))}
+
+/* ===== GLASS PILL NAV ===== */
+.pill-wrap{position:fixed;top:16px;left:0;right:0;display:flex;justify-content:center;z-index:300;padding:0 12px;pointer-events:none}
+.pill{pointer-events:auto;display:flex;align-items:center;gap:6px;max-width:100%;padding:7px 8px 7px 14px;border-radius:999px;
+  background:rgba(255,255,255,.06);backdrop-filter:blur(20px) saturate(170%);-webkit-backdrop-filter:blur(20px) saturate(170%);
+  border:1px solid rgba(255,255,255,.13);box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.1)}
+.pill-brand{display:flex;align-items:center;gap:9px;font-size:14.5px;letter-spacing:-.3px;margin-right:8px;flex-shrink:0}
+.pill-brand img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.pill-links{display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none}
+.pill-links::-webkit-scrollbar{display:none}
+.pill-link{display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:999px;font-size:12.5px;font-weight:500;color:var(--text-2);white-space:nowrap;transition:background var(--trans),color var(--trans)}
+.pill-link svg{flex-shrink:0}
+.pill-link:hover{color:var(--text);background:var(--bg-4)}
+.pill-link.active{color:#06100a;background:var(--accent);font-weight:700;box-shadow:0 0 18px var(--accent-glow)}
+.pill-sep{width:1px;height:20px;background:var(--border-2);margin:0 6px;flex-shrink:0}
+.pill-xp{display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:var(--accent-dim);border:1px solid var(--accent-line);color:var(--accent);font-size:11.5px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.pill-xp i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.65)}}
+.pill-icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);cursor:pointer;flex-shrink:0;margin-left:4px;transition:all var(--trans)}
+.pill-icon-btn:hover{color:var(--danger);border-color:rgba(255,107,107,.4);background:rgba(255,107,107,.08)}
+
+/* ===== LAYOUT ===== */
+.main{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:108px 28px 80px}
+
+/* ===== HERO ===== */
+.hero{position:relative;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border-2);background:rgba(15,22,18,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);margin-bottom:18px}
+.hero-cover{height:130px;background:
+  radial-gradient(420px 160px at 20% 0%,rgba(57,224,122,.45),transparent 70%),
+  radial-gradient(380px 160px at 90% 100%,rgba(57,224,122,.22),transparent 70%),
+  repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 1px,transparent 1px 46px),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 46px),#0e1a13}
+.hero-body{display:flex;align-items:flex-end;gap:22px;padding:0 28px 26px;margin-top:-52px;flex-wrap:wrap}
+.avatar-wrap{--pct:0%;position:relative;width:116px;height:116px;border-radius:50%;padding:4px;flex-shrink:0;
+  background:conic-gradient(var(--accent) var(--pct),rgba(255,255,255,.1) 0);box-shadow:0 0 30px rgba(57,224,122,.25)}
+.profile-avatar{width:100%;height:100%;border-radius:50%;background:#101a14 center/cover no-repeat;border:4px solid #0d1511;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800;color:var(--accent);cursor:pointer}
+.avatar-cam{position:absolute;right:2px;bottom:4px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#06100a;display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;border:3px solid #0d1511;transition:transform var(--trans)}
+.avatar-cam:hover{transform:scale(1.1)}
+.level-tag{position:absolute;left:50%;top:-10px;transform:translateX(-50%);background:var(--accent);color:#06100a;font-size:10px;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap;box-shadow:0 0 14px var(--accent-glow)}
+.hero-info{flex:1;min-width:220px;padding-top:58px}
+.profile-name{font-size:26px;font-weight:800;letter-spacing:-.7px;line-height:1.15}
+.profile-handle{font-family:'DM Mono',monospace;font-size:12.5px;color:var(--accent);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--text-2);background:var(--bg-3);border:1px solid var(--border);border-radius:999px;padding:5px 12px}
+.chip.accent{color:var(--accent);background:var(--accent-dim);border-color:var(--accent-line)}
+.hero-actions{display:flex;gap:10px;align-items:center;padding-top:58px}
+
+/* ===== BUTTONS ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:999px;padding:11px 22px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all var(--trans)}
+.btn-primary{background:var(--accent);color:#06100a;box-shadow:0 0 24px var(--accent-glow)}
+.btn-primary:hover{background:var(--accent-2);transform:translateY(-1px)}
+.btn-primary:disabled{opacity:.6;cursor:wait;transform:none}
+.btn-ghost{background:var(--bg-3);color:var(--text);border:1px solid var(--border-2)}
+.btn-ghost:hover{background:var(--bg-4);border-color:var(--accent-line)}
+.btn-danger{background:rgba(255,107,107,.08);color:var(--danger);border:1px solid rgba(255,107,107,.25);padding:9px 18px}
+.btn-danger:hover{background:rgba(255,107,107,.18);border-color:var(--danger)}
+.btn-sm{padding:9px 18px;font-size:12px}
+
+/* ===== STAT STRIP ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{position:relative;overflow:hidden;background:rgba(15,22,18,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;transition:border-color var(--trans),transform var(--trans)}
+.stat:hover{border-color:var(--accent-line);transform:translateY(-2px)}
+.stat::after{content:'';position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(57,224,122,.18),transparent 70%)}
+.stat-ico{font-size:20px;margin-bottom:8px}
+.stat-val{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.stat-val small{font-size:12px;font-weight:600;color:var(--text-2);margin-left:3px}
+.stat-lab{font-size:11.5px;color:var(--text-2);margin-top:2px;font-weight:500}
+
+/* ===== GRID ===== */
+.grid{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:start}
+.side{position:sticky;top:100px;display:flex;flex-direction:column;gap:14px}
+.card{background:rgba(15,22,18,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.side-nav{padding:10px;display:flex;flex-direction:column;gap:3px}
+.side-link{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:12px;font-size:13px;font-weight:600;color:var(--text-2);transition:all var(--trans)}
+.side-link:hover{background:var(--bg-3);color:var(--text)}
+.side-link.active{background:var(--accent-dim);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent-line)}
+.complete{padding:18px}
+.complete-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.complete-title{font-size:13px;font-weight:700}
+.complete-pct{font-family:'DM Mono',monospace;font-size:13px;color:var(--accent);font-weight:500}
+.bar{height:7px;border-radius:99px;background:var(--bg-4);overflow:hidden}
+.bar>div{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 10px var(--accent-glow);transition:width .6s cubic-bezier(.4,0,.2,1)}
+.complete-hint{font-size:11.5px;color:var(--text-2);margin-top:10px;line-height:1.5}
+.xp-card{padding:18px}
+.xp-card .row{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;color:var(--text-2);margin-bottom:8px}
+
+/* ===== SECTIONS ===== */
+.content{display:flex;flex-direction:column;gap:18px;min-width:0}
+.sec-head{display:flex;align-items:center;gap:14px;padding:20px 24px;border-bottom:1px solid var(--border)}
+.sec-ico{width:40px;height:40px;border-radius:12px;background:var(--accent-dim);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.sec-title{font-size:16px;font-weight:700;letter-spacing:-.3px}
+.sec-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+.sec-body{padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;font-weight:600;color:var(--text-2);display:flex;align-items:center;gap:6px}
+.field .hint{font-size:11px;color:var(--text-3);font-weight:500}
+.profile-input{width:100%;background:rgba(0,0,0,.28);border:1px solid var(--border-2);border-radius:12px;color:var(--text);font-family:'Sora',sans-serif;font-size:13.5px;padding:12px 14px;outline:none;transition:border-color var(--trans),box-shadow var(--trans),background var(--trans)}
+.profile-input::placeholder{color:var(--text-3)}
+.profile-input:hover{border-color:rgba(255,255,255,.22)}
+.profile-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(57,224,122,.15);background:rgba(0,0,0,.4)}
+.profile-input:disabled{opacity:.5;cursor:not-allowed}
+.profile-input option{background:#101a14}
+textarea.profile-input{resize:vertical;min-height:96px;line-height:1.55}
+input[type=date]{color-scheme:dark}
+.seg{display:flex;gap:8px}
+.hand-btn{flex:1;background:rgba(0,0,0,.28);border:1px solid var(--border-2);border-radius:12px;color:var(--text-2);font-size:13px;font-weight:600;padding:12px 14px;cursor:pointer;transition:all var(--trans)}
+.hand-btn:hover{border-color:var(--accent-line);color:var(--text)}
+.hand-btn.selected{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);box-shadow:0 0 18px rgba(57,224,122,.18)}
+.count{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-3);text-align:right}
+
+/* ===== ACCOUNT ===== */
+.acct{padding:8px 24px 12px}
+.acct-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.acct-row:last-child{border-bottom:none}
+.acct-left{display:flex;align-items:center;gap:14px;min-width:0}
+.acct-ico{width:38px;height:38px;border-radius:11px;background:var(--bg-3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.acct-title{font-size:13.5px;font-weight:600}
+.acct-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+.danger-zone{border-color:rgba(255,107,107,.22)}
+.danger-zone .sec-ico{background:rgba(255,107,107,.1);border-color:rgba(255,107,107,.3)}
+
+/* ===== SAVE BAR + TOAST ===== */
+.savebar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 24px}
+.savebar p{font-size:12.5px;color:var(--text-2)}
+#profile-save-msg{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:400;padding:13px 22px;border-radius:999px;font-size:13px;font-weight:600;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:all .3s cubic-bezier(.4,0,.2,1);white-space:nowrap}
+#profile-save-msg.show{opacity:1;transform:translate(-50%,0)}
+#profile-save-msg.ok{background:rgba(57,224,122,.16);border:1px solid var(--accent-line);color:var(--accent)}
+#profile-save-msg.err{background:rgba(255,107,107,.14);border:1px solid rgba(255,107,107,.35);color:var(--danger)}
+
+/* ===== LOAD-IN (single orchestrated moment) ===== */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.hero{animation:rise .5s cubic-bezier(.4,0,.2,1) both}
+.stats{animation:rise .5s .08s cubic-bezier(.4,0,.2,1) both}
+.grid{animation:rise .5s .16s cubic-bezier(.4,0,.2,1) both}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1100px){.pill-link span{display:none}.pill-link{padding:9px 11px}.pill-link.active span{display:inline}}
+@media(max-width:960px){.grid{grid-template-columns:1fr}.side{position:static;flex-direction:row;flex-wrap:wrap}.side>.card{flex:1 1 260px}.side-nav{flex-direction:row;overflow-x:auto}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){
+  .main{padding:92px 14px 60px}
+  .pill-brand span,.pill-xp,.pill-sep{display:none}
+  .pill-link.active span{display:none}
+  .hero-body{padding:0 18px 22px;flex-direction:column;align-items:flex-start}
+  .hero-info,.hero-actions{padding-top:0}
+  .hero-actions{width:100%}.hero-actions .btn{flex:1}
+  .sec-body{grid-template-columns:1fr;padding:18px}
+  .sec-head,.acct,.savebar{padding-left:18px;padding-right:18px}
+  .profile-name{font-size:22px}
+  .side-nav{display:none}
+}
 </style>
-<link rel="stylesheet" href="css/global-background.css">
 </head>
 <body>
-<div class="global-bg" aria-hidden="true">
-<div class="bg-noise"></div>
-<div class="bg-radial"></div>
-</div>
-<header class="topbar">
-  <button class="hamburger" id="hamburger-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
-  <a href="/Badminton-AI-trainer_V2/dashboard.html" class="topbar-brand">
-    <img src="/Badminton-AI-trainer_V2/favicon.ico" width="28" height="28" style="border-radius:50%;object-fit:cover;flex-shrink:0">
-    <span style="font-weight:700">Shuttle</span><span style="font-weight:400">stepz</span>
-  </a>
-  <div class="topbar-label">Profile</div>
-  <div class="topbar-xp"><div class="topbar-xp-dot"></div><span id="topbar-xp">0 XP</span></div>
-  <button class="btn-topbar-train" onclick="window.location.href='/Badminton-AI-trainer_V2/trainer.html'">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-    <span>Start Training</span>
-  </button>
-</header>
+<div class="bg" aria-hidden="true"></div>
 
-<aside class="sidebar" id="sidebar">
-  <div class="sidebar-top">
-    <div class="role-badge"><span class="role-badge-dot"></span><span id="role-badge">Student</span></div>
-    <nav class="nav">
-      <div class="nav-section-label">Main</div>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/dashboard.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Overview</a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/trainer.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="5 3 19 12 5 21 5 3"/></svg>Train</a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/history.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>History</a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/leaderboard.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg>Leaderboard</a>
-      <a class="nav-item" href="/Badminton-AI-trainer_V2/social.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Social</a>
-      <div class="nav-section-label" style="margin-top:4px">Account</div>
-      <a class="nav-item" id="nav-manage" style="display:none" href="/Badminton-AI-trainer_V2/manage.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="nav-manage-label">Students</span></a>
-      <a class="nav-item active" href="/Badminton-AI-trainer_V2/profile.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
-    </nav>
-  </div>
-  <div class="sidebar-bottom">
-    <div class="xp-mini">
-      <div class="xp-mini-top"><span id="sb-xp-label">0 XP</span><span id="sb-level-label">Lv.1</span></div>
-      <div class="xp-bar-track"><div class="xp-bar-fill" id="sb-xp-fill"></div></div>
+<!-- ===== GLASS PILL NAV ===== -->
+<div class="pill-wrap">
+  <nav class="pill" aria-label="Main">
+    <a href="dashboard.html" class="pill-brand">
+      <img src="icon/icon-192.png" alt="" onerror="this.src='favicon.ico'">
+      <span><b style="font-weight:800">Shuttle</b><span style="font-weight:400">stepz</span></span>
+    </a>
+    <div class="pill-links">
+      <a class="pill-link" href="dashboard.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></a>
+      <a class="pill-link" href="trainer.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Train</span></a>
+      <a class="pill-link" href="history.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg><span>History</span></a>
+      <a class="pill-link" href="leaderboard.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><polyline points="18 20 18 10"/><polyline points="12 20 12 4"/><polyline points="6 20 6 14"/></svg><span>Leaderboard</span></a>
+      <a class="pill-link" href="social.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Social</span></a>
+      <a class="pill-link" href="plans.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Plans</span></a>
+      <a class="pill-link" id="nav-manage" style="display:none" href="manage.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="nav-manage-label">Students</span></a>
+      <a class="pill-link active" href="profile.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
     </div>
-    <button class="btn-logout" onclick="doLogout()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Log Out
+    <span class="pill-sep"></span>
+    <div class="pill-xp"><i></i><span id="topbar-xp">0 XP</span></div>
+    <button class="pill-icon-btn" onclick="doLogout()" title="Log out" aria-label="Log out">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
     </button>
-  </div>
-</aside>
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+  </nav>
+</div>
 
-<main class="main" id="main">
-  <div class="page-header">
-    <div><h1 class="page-title">Profile</h1><p class="page-sub">Manage your account and badminton details.</p></div>
-    <button class="btn-upgrade" onclick="saveProfile()" style="padding:10px 24px;font-size:13px" id="btn-save">💾 Save Changes</button>
-  </div>
+<main class="main">
 
-  <!-- Avatar card -->
-  <div class="profile-card anim-up">
-    <div style="position:relative">
-      <div class="profile-avatar" id="profile-avatar-display" onclick="document.getElementById('avatar-upload').click()">A</div>
-      <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:11px" onclick="document.getElementById('avatar-upload').click()">📷</div>
-      <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-cover"></div>
+    <div class="hero-body">
+      <div class="avatar-wrap" id="avatar-wrap">
+        <span class="level-tag" id="level-tag">⚡ Lv.1</span>
+        <div class="profile-avatar" id="profile-avatar-display" onclick="document.getElementById('avatar-upload').click()">A</div>
+        <div class="avatar-cam" onclick="document.getElementById('avatar-upload').click()" title="Change photo">📷</div>
+        <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
+      </div>
+      <div class="hero-info">
+        <div class="profile-name" id="profile-name-display">Loading...</div>
+        <div class="profile-handle" id="profile-handle-display"></div>
+        <div class="chips">
+          <span class="chip accent" id="profile-role-display">🎓 Student</span>
+          <span class="chip" id="chip-plan">🆓 Free plan</span>
+          <span class="chip" id="chip-loc" style="display:none">📍 <span id="chip-loc-txt"></span></span>
+          <span class="chip" id="profile-email-display">✉️ —</span>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <button class="btn btn-ghost" onclick="window.location.href='trainer.html'">🏸 Train</button>
+        <button class="btn btn-primary js-save" onclick="saveProfile()">💾 Save changes</button>
+      </div>
     </div>
-    <div>
-      <div class="profile-name" id="profile-name-display">Loading...</div>
-      <div class="profile-email" id="profile-email-display"></div>
-      <div class="profile-role-pill" id="profile-role-display">Student</div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="stats">
+    <div class="stat"><div class="stat-ico">⚡</div><div class="stat-val" id="st-level">1</div><div class="stat-lab">Current level</div></div>
+    <div class="stat"><div class="stat-ico">🔥</div><div class="stat-val"><span id="st-xp">0</span><small>XP</small></div><div class="stat-lab">Total experience</div></div>
+    <div class="stat"><div class="stat-ico">🎯</div><div class="stat-val"><span id="st-next">0</span><small>XP</small></div><div class="stat-lab">To next level</div></div>
+    <div class="stat"><div class="stat-ico">🏆</div><div class="stat-val" id="st-skill">—</div><div class="stat-lab">Skill level</div></div>
+  </section>
+
+  <div class="grid">
+
+    <!-- ===== SIDE ===== -->
+    <aside class="side">
+      <div class="card side-nav">
+        <a class="side-link active" href="#sec-basic" data-sec="sec-basic">👤 Basic info</a>
+        <a class="side-link" href="#sec-badminton" data-sec="sec-badminton">🏸 Badminton</a>
+        <a class="side-link" href="#sec-account" data-sec="sec-account">⚙️ Account</a>
+      </div>
+      <div class="card complete">
+        <div class="complete-top"><span class="complete-title">✨ Profile strength</span><span class="complete-pct" id="complete-pct">0%</span></div>
+        <div class="bar"><div id="complete-fill"></div></div>
+        <p class="complete-hint" id="complete-hint">Fill in your details so friends and coaches can find you.</p>
+      </div>
+      <div class="card xp-card">
+        <div class="row"><span id="sb-xp-label">0 XP</span><span id="sb-level-label">Lv.1</span></div>
+        <div class="bar"><div id="sb-xp-fill"></div></div>
+      </div>
+    </aside>
+
+    <!-- ===== CONTENT ===== -->
+    <div class="content">
+
+      <section class="card" id="sec-basic">
+        <div class="sec-head"><div class="sec-ico">👤</div><div><div class="sec-title">Basic info</div><div class="sec-sub">This is how you appear on the leaderboard and to your friends.</div></div></div>
+        <div class="sec-body">
+          <div class="field"><label for="pf-fullname">🪪 Full name</label><input class="profile-input" id="pf-fullname" type="text" placeholder="Your full name"></div>
+          <div class="field"><label for="pf-username">🏷️ Username</label><input class="profile-input" id="pf-username" type="text" placeholder="@username"></div>
+          <div class="field"><label for="pf-email">✉️ Email <span class="hint">· managed by Firebase Auth</span></label><input class="profile-input" id="pf-email" type="email" disabled></div>
+          <div class="field"><label for="pf-phone">📱 Phone number</label><input class="profile-input" id="pf-phone" type="tel" placeholder="+91 XXXXX XXXXX"></div>
+          <div class="field"><label for="pf-dob">🎂 Date of birth</label><input class="profile-input" id="pf-dob" type="date"></div>
+          <div class="field"><label for="pf-gender">🧬 Gender</label><select class="profile-input" id="pf-gender"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option><option value="prefer_not">Prefer not to say</option></select></div>
+          <div class="field full"><label for="pf-location">📍 Country / City</label><input class="profile-input" id="pf-location" type="text" placeholder="e.g. Hyderabad, India"></div>
+          <div class="field full"><label for="pf-bio">💬 Bio <span class="hint">· tell others about yourself</span></label><textarea class="profile-input" id="pf-bio" rows="3" maxlength="200" placeholder="Short bio..."></textarea><div class="count"><span id="bio-count">0</span>/200</div></div>
+        </div>
+      </section>
+
+      <section class="card" id="sec-badminton">
+        <div class="sec-head"><div class="sec-ico">🏸</div><div><div class="sec-title">Badminton profile</div><div class="sec-sub">Helps the AI coach tailor drills to the way you play.</div></div></div>
+        <div class="sec-body">
+          <div class="field"><label>🖐️ Dominant hand</label><div class="seg"><button type="button" class="hand-btn" id="hand-right" onclick="setHand('right')">Right ✋</button><button type="button" class="hand-btn" id="hand-left" onclick="setHand('left')">Left 🤚</button></div></div>
+          <div class="field"><label for="pf-skill">📈 Skill level</label><select class="profile-input" id="pf-skill"><option value="">Select</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option><option value="competitive">Competitive</option></select></div>
+          <div class="field"><label for="pf-playstyle">⚔️ Play style</label><select class="profile-input" id="pf-playstyle"><option value="">Select</option><option value="aggressive">Aggressive</option><option value="defensive">Defensive</option><option value="control">Control</option><option value="smash_heavy">Smash-heavy</option></select></div>
+          <div class="field"><label for="pf-years">⏳ Years of experience</label><input class="profile-input" id="pf-years" type="number" min="0" max="50" placeholder="0"></div>
+          <div class="field"><label for="pf-favshot">💥 Favourite shot</label><input class="profile-input" id="pf-favshot" type="text" placeholder="e.g. Cross-court drop shot"></div>
+          <div class="field"><label for="pf-weakness">🎯 Weakness area</label><input class="profile-input" id="pf-weakness" type="text" placeholder="e.g. Back court left"></div>
+        </div>
+        <div class="savebar" style="border-top:1px solid var(--border)">
+          <p>🚀 Done editing? Lock in your changes.</p>
+          <button class="btn btn-primary js-save" onclick="saveProfile()">💾 Save changes</button>
+        </div>
+      </section>
+
+      <section class="card" id="sec-account">
+        <div class="sec-head"><div class="sec-ico">⚙️</div><div><div class="sec-title">Account</div><div class="sec-sub">Plan, security and data.</div></div></div>
+        <div class="acct">
+          <div class="acct-row">
+            <div class="acct-left"><div class="acct-ico">⭐</div><div><div class="acct-title">Plan</div><div class="acct-sub" id="profile-plan">Free</div></div></div>
+            <button class="btn btn-primary btn-sm" onclick="window.location.href='upgrade.html'" id="btn-upgrade-plan">🚀 Upgrade</button>
+          </div>
+          <div class="acct-row">
+            <div class="acct-left"><div class="acct-ico">🔐</div><div><div class="acct-title">Reset password</div><div class="acct-sub">We'll email you a reset link</div></div></div>
+            <button class="btn btn-ghost btn-sm" onclick="sendReset()">Send link</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card danger-zone">
+        <div class="sec-head"><div class="sec-ico">⚠️</div><div><div class="sec-title">Danger zone</div><div class="sec-sub">Actions here can't be undone.</div></div></div>
+        <div class="acct">
+          <div class="acct-row">
+            <div class="acct-left"><div class="acct-ico">🗑️</div><div><div class="acct-title">Delete account</div><div class="acct-sub">Permanently removes your sessions, XP and progress</div></div></div>
+            <button class="btn btn-danger" id="btn-delete-account">Delete account</button>
+          </div>
+        </div>
+      </section>
+
     </div>
-  </div>
-
-  <div id="profile-save-msg" style="display:none;padding:10px 16px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:600"></div>
-
-  <div class="section-title">👤 Basic Profile</div>
-  <div class="settings-group">
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Full Name</div></div><input class="profile-input" id="pf-fullname" type="text" placeholder="Your full name"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Username</div></div><input class="profile-input" id="pf-username" type="text" placeholder="@username"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Email</div><div class="settings-row-val">Managed by Firebase Auth</div></div><input class="profile-input" id="pf-email" type="email" disabled style="opacity:.5;cursor:not-allowed"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Phone Number</div></div><input class="profile-input" id="pf-phone" type="tel" placeholder="+91 XXXXX XXXXX"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Date of Birth</div></div><input class="profile-input" id="pf-dob" type="date"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Gender</div></div><select class="profile-input" id="pf-gender"><option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option><option value="prefer_not">Prefer not to say</option></select></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Country / City</div></div><input class="profile-input" id="pf-location" type="text" placeholder="e.g. Hyderabad, India"></div>
-    <div class="settings-row" style="align-items:flex-start;padding-top:16px"><div class="settings-row-left"><div class="settings-row-title">Bio</div><div class="settings-row-val">Tell others about yourself</div></div><textarea class="profile-input" id="pf-bio" rows="3" placeholder="Short bio..." style="resize:vertical;min-height:70px"></textarea></div>
-  </div>
-
-  <div class="section-title">🏸 Badminton Profile</div>
-  <div class="settings-group">
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Dominant Hand</div></div><div style="display:flex;gap:8px"><button class="hand-btn" id="hand-right" onclick="setHand('right')">Right ✋</button><button class="hand-btn" id="hand-left" onclick="setHand('left')">Left 🤚</button></div></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Skill Level</div></div><select class="profile-input" id="pf-skill"><option value="">Select</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option><option value="competitive">Competitive</option></select></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Play Style</div></div><select class="profile-input" id="pf-playstyle"><option value="">Select</option><option value="aggressive">Aggressive</option><option value="defensive">Defensive</option><option value="control">Control</option><option value="smash_heavy">Smash-heavy</option></select></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Favourite Shot</div></div><input class="profile-input" id="pf-favshot" type="text" placeholder="e.g. Cross-court drop shot"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Weakness Area</div></div><input class="profile-input" id="pf-weakness" type="text" placeholder="e.g. Back court left"></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Years of Experience</div></div><input class="profile-input" id="pf-years" type="number" min="0" max="50" placeholder="0"></div>
-  </div>
-
-  <div class="section-title">⚙️ Account</div>
-  <div class="settings-group">
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Plan</div><div class="settings-row-val" id="profile-plan">Free</div></div><button class="btn-upgrade" onclick="window.location.href='/Badminton-AI-trainer_V2/upgrade.html'" id="btn-upgrade-plan">Upgrade</button></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Reset Password</div><div class="settings-row-val">Send reset link to your email</div></div><button class="btn-danger" onclick="sendReset()">Reset</button></div>
-    <div class="settings-row"><div class="settings-row-left"><div class="settings-row-title">Delete Account</div><div class="settings-row-val">This action is permanent</div></div><button class="btn-danger" id="btn-delete-account">Delete</button></div>
   </div>
 </main>
 
+<div id="profile-save-msg" role="status" aria-live="polite"></div>
+
 <script>
-window.toggleSidebar=function(){const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebar-overlay'),hb=document.getElementById('hamburger-btn');const o=sb.classList.toggle('open');ov.classList.toggle('open',o);hb.classList.toggle('open',o)};
+window.doLogout=window.doLogout||function(){};
 let currentHand='';
-window.setHand=function(h){currentHand=h;document.getElementById('hand-right').classList.toggle('selected',h==='right');document.getElementById('hand-left').classList.toggle('selected',h==='left')};
+window.setHand=function(h){currentHand=h;document.getElementById('hand-right').classList.toggle('selected',h==='right');document.getElementById('hand-left').classList.toggle('selected',h==='left');if(window.updateCompletion)window.updateCompletion()};
+
+// Section scroll-spy
+(function(){
+  const links=[...document.querySelectorAll('.side-link')];
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.toggle('active',l.dataset.sec===e.target.id))}})},{rootMargin:'-35% 0px -55% 0px'});
+  ['sec-basic','sec-badminton','sec-account'].forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+})();
 </script>
+
 <script type="module">
-import DB from '/Badminton-AI-trainer_V2/js/database.js'
+import DB from './js/database.js'
 const tx=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v}
 const $=id=>document.getElementById(id)
-window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='/Badminton-AI-trainer_V2/login.html'}
+const cap=s=>s?s.charAt(0).toUpperCase()+s.slice(1):''
+window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='login.html'}
 
+/* ---------- XP / level ---------- */
 const XP_THRESHOLDS=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
 function renderXP(xp,level){
   const cur=XP_THRESHOLDS[level-1]||0,nxt=XP_THRESHOLDS[level]||XP_THRESHOLDS[XP_THRESHOLDS.length-1]
   const pct=Math.min(Math.max((xp-cur)/(nxt-cur||1),0),1)
   const sf=$('sb-xp-fill');if(sf)sf.style.width=(pct*100)+'%'
+  const aw=$('avatar-wrap');if(aw)aw.style.setProperty('--pct',(pct*100)+'%')
   tx('sb-xp-label',xp+' XP');tx('sb-level-label','Lv.'+level);tx('topbar-xp',xp+' XP')
+  tx('level-tag','⚡ Lv.'+level);tx('st-level',level);tx('st-xp',xp)
+  tx('st-next',Math.max(nxt-xp,0))
 }
 
+/* ---------- Profile completion ---------- */
+const FIELDS=['pf-fullname','pf-username','pf-phone','pf-dob','pf-gender','pf-location','pf-bio','pf-skill','pf-playstyle','pf-favshot','pf-weakness','pf-years']
+window.updateCompletion=function(){
+  let done=FIELDS.filter(id=>{const v=$(id)?.value;return v&&String(v).trim()!==''&&String(v)!=='0'}).length
+  if(currentHandSafe())done++
+  const hasAvatar=($('profile-avatar-display')?.style.backgroundImage||'')!==''
+  if(hasAvatar)done++
+  const total=FIELDS.length+2,pct=Math.round(done/total*100)
+  tx('complete-pct',pct+'%');const f=$('complete-fill');if(f)f.style.width=pct+'%'
+  tx('complete-hint',pct>=100?'🎉 Perfect — your profile is fully set up!':pct>=60?'🔥 Looking good — a few more details to go.':'Fill in your details so friends and coaches can find you.')
+  const sk=$('pf-skill')?.value;tx('st-skill',sk?cap(sk):'—')
+  const loc=$('pf-location')?.value.trim();const cl=$('chip-loc');if(cl){cl.style.display=loc?'inline-flex':'none';tx('chip-loc-txt',loc||'')}
+  tx('bio-count',($('pf-bio')?.value||'').length)
+}
+function currentHandSafe(){return $('hand-right').classList.contains('selected')||$('hand-left').classList.contains('selected')}
+document.addEventListener('input',e=>{if(e.target.closest&&e.target.closest('.sec-body'))window.updateCompletion()})
+document.addEventListener('change',e=>{if(e.target.closest&&e.target.closest('.sec-body'))window.updateCompletion()})
+
+/* ---------- Toast ---------- */
+let toastT
+function toast(text,ok=true){
+  const m=$('profile-save-msg');m.textContent=text;m.className=(ok?'ok':'err')+' show'
+  clearTimeout(toastT);toastT=setTimeout(()=>{m.classList.remove('show')},3000)
+}
+
+/* ---------- Auth + data ---------- */
 DB.onAuthReady(async(user)=>{
-  if(!user){window.location.href='/Badminton-AI-trainer_V2/login.html';return}
+  if(!user){window.location.href='login.html';return}
   try{
     const prof=await DB.getUserProfile(user.uid),p=prof.profile||{}
     const role=p.role||'student',name=p.displayName||user.displayName||'Athlete'
-    tx('role-badge',role.charAt(0).toUpperCase()+role.slice(1))
     renderXP(prof.xp||0,prof.level||1)
     DB.listenUserProfile(d=>renderXP(d.xp||0,d.level||1))
     const nm=$('nav-manage')
     if(nm&&(role==='teacher'||role==='coach')){nm.style.display='flex';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
 
-    // Fill form
     $('pf-fullname').value=p.displayName||''
     $('pf-username').value=p.username||''
     $('pf-email').value=user.email||''
@@ -231,23 +412,27 @@ DB.onAuthReady(async(user)=>{
     $('pf-years').value=p.yearsExp||''
     if(p.dominantHand)window.setHand(p.dominantHand)
 
-    // Avatar card
     const av=$('profile-avatar-display')
     tx('profile-name-display',name)
-    tx('profile-email-display',user.email||'')
-    tx('profile-role-display',role.charAt(0).toUpperCase()+role.slice(1))
-    if(p.avatarURL&&av){av.style.backgroundImage=`url(${p.avatarURL})`;av.style.backgroundSize='cover';av.style.backgroundPosition='center';av.textContent=''}
+    tx('profile-handle-display',p.username?'@'+String(p.username).replace(/^@/,''):'')
+    tx('profile-email-display','✉️ '+(user.email||'—'))
+    const roleIcon={student:'🎓',teacher:'🧑‍🏫',coach:'📋'}[role]||'🎓'
+    tx('profile-role-display',roleIcon+' '+cap(role))
+    if(p.avatarURL&&av){av.style.backgroundImage=`url(${p.avatarURL})`;av.textContent=''}
     else if(av){av.style.backgroundImage='';av.textContent=name.slice(0,2).toUpperCase()}
 
     const plan=p.plan||'free'
     tx('profile-plan',plan==='premium'?'⭐ Premium':'Free')
+    tx('chip-plan',plan==='premium'?'⭐ Premium plan':'🆓 Free plan')
     const upgBtn=$('btn-upgrade-plan');if(upgBtn&&plan==='premium')upgBtn.style.display='none'
+    window.updateCompletion()
   }catch(e){console.error(e)}
 })
 
+/* ---------- Save ---------- */
 window.saveProfile=async function(){
-  const btn=$('btn-save'),msg=$('profile-save-msg')
-  btn.textContent='⏳ Saving...';btn.disabled=true
+  const btns=document.querySelectorAll('.js-save')
+  btns.forEach(b=>{b.textContent='⏳ Saving...';b.disabled=true})
   try{
     await DB.updateUserProfile({
       displayName:$('pf-fullname').value.trim(),username:$('pf-username').value.trim(),
@@ -265,17 +450,16 @@ window.saveProfile=async function(){
       const avatarURL=bgImg.startsWith('url(')?bgImg.slice(4,-1).replace(/['"]/g,''):''
       await setDoc(doc(getFirestore(),'leaderboard',_uid),{displayName:$('pf-fullname').value.trim(),username:$('pf-username').value.trim(),avatarURL},{merge:true}).catch(()=>{})
     }
-    msg.style.cssText='display:block;background:rgba(57,224,122,.12);border:1px solid rgba(57,224,122,.3);color:var(--accent);padding:10px 16px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:600'
-    msg.textContent='✅ Profile saved successfully!'
     tx('profile-name-display',$('pf-fullname').value)
-    setTimeout(()=>{msg.style.display='none'},3000)
+    const u=$('pf-username').value.trim();tx('profile-handle-display',u?'@'+u.replace(/^@/,''):'')
+    toast('✅ Profile saved successfully!',true)
   }catch(e){
-    msg.style.cssText='display:block;background:rgba(224,92,92,.1);border:1px solid rgba(224,92,92,.3);color:var(--danger);padding:10px 16px;border-radius:10px;margin-bottom:16px;font-size:13px;font-weight:600'
-    msg.textContent='❌ Save failed. Try again.'
+    toast('❌ Save failed. Try again.',false)
   }
-  btn.textContent='💾 Save Changes';btn.disabled=false
+  btns.forEach(b=>{b.textContent='💾 Save changes';b.disabled=false})
 }
 
+/* ---------- Avatar upload ---------- */
 window.handleAvatarUpload=function(e){
   const file=e.target.files[0];if(!file)return
   if(file.size>500*1024){alert('Image too large. Use an image under 500KB.');return}
@@ -288,14 +472,16 @@ window.handleAvatarUpload=function(e){
       canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height)
       const compressed=canvas.toDataURL('image/jpeg',0.7)
       const av=$('profile-avatar-display')
-      if(av){av.style.backgroundImage=`url(${compressed})`;av.style.backgroundSize='cover';av.style.backgroundPosition='center';av.textContent=''}
+      if(av){av.style.backgroundImage=`url(${compressed})`;av.textContent=''}
       await DB.updateUserProfile({avatarURL:compressed})
+      window.updateCompletion()
     }
     img.src=ev.target.result
   }
   reader.readAsDataURL(file)
 }
 
+/* ---------- Reset / delete ---------- */
 window.sendReset=async function(){
   const email=$('pf-email').value;if(!email)return
   try{await DB.resetPassword(email);alert('Reset link sent to '+email)}catch(e){alert(e.message||'Failed')}
@@ -311,7 +497,7 @@ if(deleteBtn)deleteBtn.addEventListener('click',async()=>{
     await DB.deleteUserData(user.uid)
     await user.delete()
     sessionStorage.clear();localStorage.clear()
-    window.location.href='/Badminton-AI-trainer_V2/index.html'
+    window.location.href='index.html'
   }catch(err){
     if(err.code==='auth/requires-recent-login')alert('Please log out and log back in before deleting your account.')
     else alert('Failed: '+err.message)
