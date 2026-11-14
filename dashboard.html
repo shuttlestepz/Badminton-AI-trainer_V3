@@ -21,21 +21,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-/* ShuttleStepz cinematic dashboard background */
-body {
-    background-color: #0B100D;
-    background-image:
-        linear-gradient(
-            rgba(5, 10, 7, 0.30),
-            rgba(5, 10, 7, 0.48)
-        ),
-        url('./assets/Dashboard bg.jpg');
-
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
 button{font-family:inherit}
 
 /* Background: court-line grid + aurora */
@@ -47,32 +32,21 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(600px 420px at 88% 4%,rgba(57,224,122,.16),transparent 70%),radial-gradient(520px 380px at 6% 30%,rgba(40,210,140,.1),transparent 70%)}
 
 /* Floating glass pill nav */
-.pill{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));height:58px;border-radius:999px;background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--border);box-shadow:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;z-index:300}
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 15px;
-    letter-spacing: -.3px;
-    flex-shrink: 0;
-}
-
-.brand b + span {
-    margin-left: -7px;
-}
-.brand img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.pill{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));height:60px;border-radius:999px;background:linear-gradient(135deg,rgba(28,44,32,.62),rgba(14,20,16,.55));backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(57,224,122,.16);box-shadow:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 10px 0 14px;z-index:300}
+.brand{display:flex;align-items:center;gap:9px;font-size:15px;letter-spacing:-.3px;flex-shrink:0}
+.brand img{width:30px;height:30px;border-radius:50%;object-fit:cover}
 .brand b{font-weight:700}.brand span{font-weight:400}
-.pl{display:flex;gap:2px;margin:0 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
+.pl{display:flex;align-items:center;gap:2px;flex:1;min-width:0;margin-left:8px;overflow-x:auto;scrollbar-width:none}
 .pl::-webkit-scrollbar{display:none}
-.pl a{white-space:nowrap;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--text-2);transition:background var(--trans),color var(--trans)}
+.pl a{display:flex;align-items:center;gap:7px;white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--text-2);transition:background var(--trans),color var(--trans)}
+.pl a svg{flex-shrink:0}
 .pl a:hover{color:var(--text);background:rgba(255,255,255,.06)}
-.pl a.active{color:var(--accent);background:var(--accent-dim)}
-.xp-chip{display:flex;align-items:center;gap:6px;border:1px solid rgba(57,224,122,.25);background:var(--accent-dim);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}
+.pl a.active{color:#06100a;font-weight:600;background:var(--accent);box-shadow:0 0 18px var(--accent-glow)}
+.sep{width:1px;height:26px;background:var(--border-2);flex-shrink:0}
+.xp-chip{display:flex;align-items:center;gap:7px;border:1px solid rgba(57,224,122,.3);background:var(--accent-dim);color:var(--accent);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .xp-chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.btn-train{display:flex;align-items:center;gap:7px;background:var(--accent);color:#0B100D;border:none;border-radius:999px;padding:10px 18px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 0 22px var(--accent-glow);transition:transform var(--trans),box-shadow var(--trans)}
-.btn-train:hover{transform:translateY(-1px);box-shadow:0 0 32px var(--accent-glow)}
-.out-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border-2);background:var(--bg-3);color:var(--text-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:color var(--trans),border-color var(--trans)}
-.out-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.5)}
+.out-btn{width:40px;height:40px;border-radius:13px;border:1px solid var(--border-2);background:rgba(255,255,255,.03);color:var(--text-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:color var(--trans),border-color var(--trans),background var(--trans)}
+.out-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.5);background:rgba(224,92,92,.08)}
 
 /* Layout */
 .main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:104px 20px 72px}
@@ -166,9 +140,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* Responsive */
 @media(max-width:900px){
-  .btn-train span,.brand b,.brand span{display:none}
-  .pl a{padding:8px 11px}
-  .btn-train{padding:10px 12px}
+  .brand b,.brand span{display:none}
+  .pl a:not(.active) span{display:none}
+  .pl a{padding:10px 12px}
   .tips{grid-template-columns:1fr}
 }
 @media(max-width:600px){
@@ -177,7 +151,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .xp-card{padding:20px 18px;gap:20px}
   .xp-total{font-size:32px}
   .stats{gap:22px;width:100%}
-  .xp-chip{display:none}
+  .xp-chip,.sep{display:none}
 }
 </style>
 </head>
@@ -190,22 +164,20 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     <b>Shuttle</b><span>stepz</span>
   </a>
   <nav class="pl" aria-label="Main">
-    <a href="dashboard.html" class="active">Overview</a>
-    <a href="trainer.html">Train</a>
-    <a href="history.html">History</a>
-    <a href="leaderboard.html">Leaderboard</a>
-    <a href="social.html">Social</a>
-    <a href="plans.html">Plans</a>
-    <a href="manage.html" id="nav-manage" style="display:none"><span id="nav-manage-label">Students</span></a>
-    <a href="profile.html">Profile</a>
+    <a href="dashboard.html" class="active" title="Dashboard"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></a>
+    <a href="trainer.html" title="Train"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Train</span></a>
+    <a href="history.html" title="History"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg><span>History</span></a>
+    <a href="leaderboard.html" title="Leaderboard"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Leaderboard</span></a>
+    <a href="social.html" title="Social"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Social</span></a>
+    <a href="plans.html" title="Plans"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Plans</span></a>
+    <a href="manage.html" id="nav-manage" style="display:none" title="Students"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="nav-manage-label">Students</span></a>
+    <a href="profile.html" title="Profile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
   </nav>
   <!-- search slot: profile search goes here later -->
+  <div class="sep"></div>
   <div class="xp-chip"><i></i><span id="topbar-xp">0 XP</span></div>
-  <button class="btn-train" onclick="location.href='trainer.html'">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Start Training</span>
-  </button>
   <button class="out-btn" onclick="doLogout()" aria-label="Log out" title="Log out">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
   </button>
 </header>
 <main class="main">
@@ -421,7 +393,7 @@ DB.onAuthReady(async(firebaseUser)=>{
     tx('greeting-name',name)
     renderXPData(xp,lv)
     const nm=$('nav-manage')
-    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='block';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
+    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='flex';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
 
     DB.listenSessions(sessions=>{
       const ov=$('overview-sessions'),empty=$('sessions-empty')
