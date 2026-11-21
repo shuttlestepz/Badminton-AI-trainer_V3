@@ -28,25 +28,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;bac
 body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(600px 420px at 88% 4%,rgba(57,224,122,.16),transparent 70%),radial-gradient(520px 380px at 6% 30%,rgba(40,210,140,.1),transparent 70%)}
 
-/* Floating glass pill nav */
-.pill{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));height:60px;border-radius:999px;background:linear-gradient(135deg,rgba(28,44,32,.62),rgba(14,20,16,.55));backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid rgba(57,224,122,.16);box-shadow:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 10px 0 14px;z-index:300}
-.brand{display:flex;align-items:center;gap:9px;font-size:15px;letter-spacing:-.3px;flex-shrink:0}
-.brand img{width:30px;height:30px;border-radius:50%;object-fit:cover}
-.wm{font-weight:400}.wm b{font-weight:700}
-.pl{display:flex;align-items:center;gap:2px;flex:1;min-width:0;margin-left:8px;overflow-x:auto;scrollbar-width:none}
-.pl::-webkit-scrollbar{display:none}
-.pl a{display:flex;align-items:center;gap:7px;white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--text-2);transition:background var(--trans),color var(--trans)}
-.pl a svg{flex-shrink:0}
-.pl a:hover{color:var(--text);background:rgba(255,255,255,.06)}
-.pl a.active{color:#06100a;font-weight:600;background:var(--accent);box-shadow:0 0 18px var(--accent-glow)}
-.sep{width:1px;height:26px;background:var(--border-2);flex-shrink:0}
-.xp-chip{display:flex;align-items:center;gap:7px;border:1px solid rgba(57,224,122,.3);background:var(--accent-dim);color:var(--accent);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
-.xp-chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.out-btn{width:40px;height:40px;border-radius:13px;border:1px solid var(--border-2);background:rgba(255,255,255,.03);color:var(--text-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:color var(--trans),border-color var(--trans),background var(--trans)}
-.out-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.5);background:rgba(224,92,92,.08)}
-
-/* Layout */
-.main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:104px 20px 72px}
+/* Layout (global pill navbar is injected by js/Navbar.js) */
+.main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:12px 20px 72px}
 .hello h1{font-size:30px;font-weight:700;letter-spacing:-.9px;line-height:1.15}
 .hello p{font-size:13.5px;color:var(--text-2);margin-top:6px}
 .sec{display:flex;align-items:center;justify-content:space-between;margin:34px 0 12px;font-size:15px;font-weight:600;letter-spacing:-.2px}
@@ -95,7 +78,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .empty span{font-size:36px}
 
 /* Session modal */
-.sm-overlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+.sm-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
 .sm-overlay.open{display:flex}
 .sm-box{background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-xl);padding:26px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;position:relative}
 .sm-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);cursor:pointer}
@@ -137,46 +120,21 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* Responsive */
 @media(max-width:900px){
-  .wm{display:none}
-  .pl a:not(.active) span{display:none}
-  .pl a{padding:10px 12px}
   .tips{grid-template-columns:1fr}
 }
 @media(max-width:600px){
-  .main{padding:92px 14px 60px}
+  .main{padding:12px 14px 60px}
   .hello h1{font-size:23px}
   .xp-card{padding:20px 18px;gap:20px}
   .xp-total{font-size:32px}
   .stats{gap:22px;width:100%}
-  .xp-chip,.sep{display:none}
 }
 </style>
 </head>
 <body>
 
-<!-- Floating glass pill nav -->
-<header class="pill">
-  <a href="index.html" class="brand">
-    <img src="icon/icon-192.png" alt="">
-    <span class="wm"><b>Shuttle</b>stepz</span>
-  </a>
-  <nav class="pl" aria-label="Main">
-    <a href="dashboard.html" class="active" title="Dashboard"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Dashboard</span></a>
-    <a href="trainer.html" title="Train"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg><span>Train</span></a>
-    <a href="history.html" title="History"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg><span>History</span></a>
-    <a href="leaderboard.html" title="Leaderboard"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Leaderboard</span></a>
-    <a href="social.html" title="Social"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Social</span></a>
-    <a href="plans.html" title="Plans"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Plans</span></a>
-    <a href="manage.html" id="nav-manage" style="display:none" title="Students"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span id="nav-manage-label">Students</span></a>
-    <a href="profile.html" title="Profile"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></a>
-  </nav>
-  <!-- search slot: profile search goes here later -->
-  <div class="sep"></div>
-  <div class="xp-chip"><i></i><span id="topbar-xp">0 XP</span></div>
-  <button class="out-btn" onclick="doLogout()" aria-label="Log out" title="Log out">
-    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  </button>
-</header>
+<!-- Global pill navbar is injected by js/Navbar.js -->
+
 <main class="main">
   <div class="hello">
     <h1>Good <span id="greeting-time">morning</span>, <span id="greeting-name">Athlete</span> 👋</h1>
@@ -234,6 +192,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 })
 </script>
 
+<!-- navbar first, so ShuttleNav exists before the page script runs -->
+<script src="js/Navbar.js" defer></script>
+
 <script type="module">
 import DB from './js/database.js'
 window.AUTH = DB
@@ -241,7 +202,7 @@ const $=id=>document.getElementById(id)
 const tx=(id,v)=>{const e=$(id);if(e)e.textContent=v}
 const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 
-window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='login.html'}
+window.doLogout=window.logout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='login.html'}
 
 const XP_THRESHOLDS=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
 function renderXPData(xp,level){
@@ -251,7 +212,7 @@ function renderXPData(xp,level){
   tx('ring-lv',level);tx('xp-total',xp.toLocaleString()+' XP')
   tx('xp-next',level>=XP_THRESHOLDS.length?'Max level':(xp-cur).toLocaleString()+' / '+(nxt-cur).toLocaleString()+' to Level '+(level+1))
   const fl=$('xp-fill-lg');if(fl)fl.style.width=(pct*100)+'%'
-  tx('topbar-xp',xp.toLocaleString()+' XP')
+  window.ShuttleNav&&ShuttleNav.setXP(xp)
 }
 
 function fmtDate(ts){
@@ -386,11 +347,8 @@ DB.onAuthReady(async(firebaseUser)=>{
     const prof=await DB.getUserProfile(firebaseUser.uid),p=prof.profile||{}
     const xp=prof.xp||0,lv=prof.level||1
     const name=p.displayName||firebaseUser.displayName||'Athlete'
-    const role=p.role||'student'
     tx('greeting-name',name)
     renderXPData(xp,lv)
-    const nm=$('nav-manage')
-    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='flex';tx('nav-manage-label',role==='coach'?'Athletes':'Students')}
 
     DB.listenSessions(sessions=>{
       const ov=$('overview-sessions'),empty=$('sessions-empty')
