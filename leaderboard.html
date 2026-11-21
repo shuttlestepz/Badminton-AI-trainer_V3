@@ -46,26 +46,8 @@ body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(600px 420px at 88% 4%,rgba(57,224,122,.16),transparent 70%),radial-gradient(520px 380px at 6% 30%,rgba(40,210,140,.1),transparent 70%)}
 
-/* Floating glass pill nav (same as dashboard) */
-.pill{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 24px));height:58px;border-radius:999px;background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);border:1px solid var(--border);box-shadow:0 10px 36px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;z-index:300}
-.brand{display:flex;align-items:center;gap:9px;font-size:15px;letter-spacing:-.3px;flex-shrink:0}
-.brand b + span{margin-left:-7px}
-.brand img{width:28px;height:28px;border-radius:50%;object-fit:cover}
-.brand b{font-weight:700}.brand span{font-weight:400}
-.pl{display:flex;gap:2px;margin:0 auto;min-width:0;overflow-x:auto;scrollbar-width:none}
-.pl::-webkit-scrollbar{display:none}
-.pl a{white-space:nowrap;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--text-2);transition:background var(--trans),color var(--trans)}
-.pl a:hover{color:var(--text);background:rgba(255,255,255,.06)}
-.pl a.active{color:var(--accent);background:var(--accent-dim)}
-.xp-chip{display:flex;align-items:center;gap:6px;border:1px solid rgba(57,224,122,.25);background:var(--accent-dim);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;white-space:nowrap}
-.xp-chip i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.btn-train{display:flex;align-items:center;gap:7px;background:var(--accent);color:#0B100D;border:none;border-radius:999px;padding:10px 18px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 0 22px var(--accent-glow);transition:transform var(--trans),box-shadow var(--trans)}
-.btn-train:hover{transform:translateY(-1px);box-shadow:0 0 32px var(--accent-glow)}
-.out-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border-2);background:var(--bg-3);color:var(--text-2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:color var(--trans),border-color var(--trans)}
-.out-btn:hover{color:var(--danger);border-color:rgba(224,92,92,.5)}
-
-/* Layout */
-.main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:104px 20px 72px}
+/* Layout (global pill navbar is injected by js/Navbar.js) */
+.main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:12px 20px 72px}
 .hello h1{font-size:30px;font-weight:700;letter-spacing:-.9px;line-height:1.15}
 .hello p{font-size:13.5px;color:var(--text-2);margin-top:6px}
 
@@ -136,19 +118,13 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-@media(max-width:900px){
-  .btn-train span,.brand b,.brand span{display:none}
-  .pl a{padding:8px 11px}
-  .btn-train{padding:10px 12px}
-}
 @media(max-width:760px){
   .board.has-stats .row{grid-template-columns:44px minmax(0,1fr) 56px 104px}
   .board.has-stats .cell{display:none}
 }
 @media(max-width:600px){
-  .main{padding:92px 14px 60px}
+  .main{padding:12px 14px 60px}
   .hello h1{font-size:23px}
-  .xp-chip{display:none}
   .me-card{padding:16px 18px;gap:14px}
   .me-rank{font-size:30px;min-width:52px}
   .podium{gap:8px}
@@ -165,29 +141,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 </head>
 <body>
 
-<header class="pill">
-  <a href="index.html" class="brand">
-    <img src="icon/icon-192.png" alt="">
-    <b>Shuttle</b><span>stepz</span>
-  </a>
-  <nav class="pl" aria-label="Main">
-    <a href="dashboard.html">Overview</a>
-    <a href="trainer.html">Train</a>
-    <a href="history.html">History</a>
-    <a href="leaderboard.html" class="active" aria-current="page">Leaderboard</a>
-    <a href="social.html">Social</a>
-    <a href="plans.html">Plans</a>
-    <a href="manage.html" id="nav-manage" style="display:none"><span id="nav-manage-label">Students</span></a>
-    <a href="profile.html">Profile</a>
-  </nav>
-  <div class="xp-chip"><i></i><span id="topbar-xp">0 XP</span></div>
-  <button class="btn-train" onclick="location.href='trainer.html'">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg><span>Start Training</span>
-  </button>
-  <button class="out-btn" onclick="doLogout()" aria-label="Log out" title="Log out">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  </button>
-</header>
+<!-- Global pill navbar is injected by js/Navbar.js -->
 
 <main class="main">
   <div class="hello">
@@ -220,6 +174,9 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="board" id="board" aria-live="polite"></div>
 </main>
 
+<!-- navbar first, so ShuttleNav exists before the page script runs -->
+<script src="js/Navbar.js" defer></script>
+
 <script type="module">
 import DB from './js/database.js'
 window.AUTH = DB
@@ -228,7 +185,7 @@ const tx = (id, v) => { const e = $(id); if (e) e.textContent = v }
 const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 const fmt = n => (n || 0).toLocaleString()
 
-window.doLogout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
+window.doLogout = window.logout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
 
 const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false, period: 'all', pdata: { week: null, month: null }, fp: {}, myEntry: null }
 let loadTimer = null
@@ -406,14 +363,12 @@ DB.onAuthReady(async firebaseUser => {
   try {
     const prof = await DB.getUserProfile(firebaseUser.uid), p = prof.profile || {}
     state.me = { uid: firebaseUser.uid, displayName: p.displayName || firebaseUser.displayName || 'You', username: p.username || null, avatarURL: p.avatarURL || null, role: p.role || 'student', xp: prof.xp || 0, level: prof.level || 1 }
-    tx('topbar-xp', fmt(state.me.xp) + ' XP')
-    const role = p.role || 'student', nm = $('nav-manage')
-    if (nm && (role === 'teacher' || role === 'coach')) { nm.style.display = 'block'; tx('nav-manage-label', role === 'coach' ? 'Athletes' : 'Students') }
+    window.ShuttleNav && ShuttleNav.setXP(state.me.xp)
 
     DB.listenUserProfile(data => {
       state.me.xp = data.xp || 0
       state.me.level = data.level || 1
-      tx('topbar-xp', fmt(state.me.xp) + ' XP')
+      window.ShuttleNav && ShuttleNav.setXP(state.me.xp)
       render()
     })
     DB.listenLeaderboard(entries => {
