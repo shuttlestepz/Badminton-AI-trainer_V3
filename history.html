@@ -14,37 +14,8 @@
 html,body{font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .hist-bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(rgba(11,16,13,.55),rgba(11,16,13,.82)),url("assets/Dashboard%20bg.jpg") center/cover no-repeat;background-color:var(--bg)}
 
-/* PILL NAV */
-.pill-nav{position:fixed;top:14px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 28px));z-index:1000;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 10px 8px 16px;background:rgba(14,20,16,.55);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border:1px solid var(--border-2);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.45);transition:background .25s,border-color .25s}
-.pill-nav.scrolled{background:rgba(11,16,13,.84);border-color:rgba(57,224,122,.2)}
-.pn-brand{display:flex;align-items:center;gap:8px;color:#fff;text-decoration:none;font-weight:500;font-size:15px}
-.pn-brand img{width:26px;height:26px;border-radius:8px}
-.pn-brand b{font-weight:800;color:var(--accent)}
-.pn-links{display:flex;gap:4px}
-.pn-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:14px;font-weight:600;padding:8px 14px;border-radius:999px;transition:color .2s,background .2s}
-.pn-links a:hover{color:#fff;background:var(--bg-3)}
-.pn-links a.active{color:var(--accent);background:var(--accent-dim)}
-.pn-right{display:flex;align-items:center;gap:8px}
-.pn-xp{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(57,224,122,.25);border-radius:999px;white-space:nowrap}
-.pn-xp i{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
-.pn-cta{color:#06130b;background:var(--accent);font-size:13px;font-weight:800;text-decoration:none;padding:10px 18px;border-radius:999px;white-space:nowrap;transition:transform .2s,box-shadow .2s}
-.pn-cta:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(57,224,122,.4)}
-.pn-out,.pn-burger{width:38px;height:38px;color:var(--text-2);font-size:16px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:50%;cursor:pointer;transition:color .2s,border-color .2s}
-.pn-out{display:flex;align-items:center;justify-content:center;color:var(--text);border-color:rgba(57,224,122,.35)}
-.pn-out:hover{color:var(--danger);border-color:var(--danger)}
-.pn-links{flex:1;min-width:0;justify-content:center;overflow-x:auto;scrollbar-width:none}
-.pn-links::-webkit-scrollbar{display:none}
-.pn-links a{white-space:nowrap;flex-shrink:0}
-@media(max-width:960px){
-  .pn-xp,.pn-brand span{display:none}
-  .pn-links{justify-content:flex-start}
-  .pn-links a{padding:8px 11px;font-size:13px}
-  .pn-cta{padding:9px 14px}
-}
-@media(max-width:600px){.pn-cta{display:none}}
-
-/* LAYOUT */
-.main{max-width:1100px;margin:0 auto;padding:104px 20px 72px}
+/* LAYOUT (navbar.js adds its own top spacing to <body>) */
+.main{max-width:1100px;margin:0 auto;padding:12px 20px 72px}
 .glass,.stat-card,.panel,.ms,.session-item{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--radius)}
 .page-title{font-size:26px;font-weight:800;letter-spacing:-.6px}
 .page-sub{font-size:13px;color:var(--text-2);margin:5px 0 26px}
@@ -124,30 +95,14 @@ canvas{width:100%;display:block;height:140px}
 .sm-fb-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);margin-bottom:3px}
 .sm-fb-ttl{color:var(--text);font-weight:700;margin-bottom:2px}
 
-@media(max-width:600px){.main{padding:96px 14px 60px}.page-title{font-size:21px}.stats-row{grid-template-columns:1fr 1fr}.pn-cta{font-size:12px}.session-score{display:none}}
+@media(max-width:600px){.main{padding:12px 14px 60px}.page-title{font-size:21px}.stats-row{grid-template-columns:1fr 1fr}.session-score{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="hist-bg" aria-hidden="true"></div>
 
-<header class="pill-nav" id="pillNav">
-  <a class="pn-brand" href="dashboard.html"><img src="icon/icon-192.png" alt=""><span>Shuttle<b>stepz</b></span></a>
-  <nav class="pn-links" id="pnLinks">
-    <a href="dashboard.html">Dashboard</a>
-    <a href="trainer.html">Trainer</a>
-    <a href="history.html" class="active">History</a>
-    <a href="leaderboard.html">Leaderboard</a>
-    <a href="social.html">Social</a>
-    <a href="profile.html">Profile</a>
-    <a href="manage.html" id="nav-manage" style="display:none">Students</a>
-  </nav>
-  <div class="pn-right">
-    <span class="pn-xp"><i></i><span id="topbar-xp">0 XP</span></span>
-    <a class="pn-cta" href="trainer.html">▶ Start Training</a>
-    <button class="pn-out" onclick="doLogout()" title="Log out" aria-label="Log out"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
-  </div>
-</header>
+<!-- Global pill navbar is injected by js/navbar.js -->
 
 <main class="main">
   <h1 class="page-title">Session History</h1>
@@ -192,10 +147,8 @@ canvas{width:100%;display:block;height:140px}
   </div>
 </main>
 
-<script>
-const pn=document.getElementById('pillNav');
-addEventListener('scroll',()=>pn.classList.toggle('scrolled',scrollY>10),{passive:true});
-</script>
+<!-- navbar first, so ShuttleNav exists before the page script runs -->
+<script src="js/navbar.js" defer></script>
 
 <script type="module">
 import DB from './js/database.js'
@@ -204,10 +157,11 @@ const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const dt=ts=>ts?(ts.toDate?ts.toDate():new Date(ts)):null
 const dn=d=>Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5)
 
-window.doLogout=async()=>{try{await DB.logoutUser()}catch(e){}location.href='login.html'}
+/* logout for the global navbar (it calls window.logout) */
+window.doLogout=window.logout=async()=>{try{await DB.logoutUser()}catch(e){}location.href='login.html'}
 
-const XP_T=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
-const renderXP=(xp,lv)=>tx('topbar-xp',xp+' XP · Lv.'+lv)
+/* XP for the global navbar capsule */
+const renderXP=xp=>{try{localStorage.setItem('ss_xp',String(xp))}catch(e){};if(window.ShuttleNav)ShuttleNav.setXP(xp)}
 
 function fmtDate(ts){
   const d=dt(ts);if(!d)return'Just now'
@@ -396,11 +350,9 @@ let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{render
 DB.onAuthReady(async user=>{
   if(!user){location.href='login.html';return}
   try{
-    const prof=await DB.getUserProfile(user.uid),p=prof.profile||{},role=p.role||'student'
-    renderXP(prof.xp||0,prof.level||1)
-    const nm=$('nav-manage')
-    if(nm&&(role==='teacher'||role==='coach')){nm.style.display='';nm.textContent=role==='coach'?'Athletes':'Students'}
-    DB.listenUserProfile(d=>renderXP(d.xp||0,d.level||1))
+    const prof=await DB.getUserProfile(user.uid)
+    renderXP(prof.xp||0)
+    DB.listenUserProfile(d=>renderXP(d.xp||0))
     DB.listenSessions(sessions=>{
       window._histSessions=sessions
       const A=analyse(sessions)
