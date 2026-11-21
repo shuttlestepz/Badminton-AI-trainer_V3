@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leaderboard — Shuttlestepz</title>
+<title>Dashboard — Shuttlestepz</title>
 <link rel="icon" href="icon/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <style>
 :root{
@@ -16,33 +16,15 @@
   --accent:#39e07a; --accent-dim:rgba(57,224,122,.1); --accent-glow:rgba(57,224,122,.35);
   --text:#EEF3EA; --text-2:#8A9A86; --text-3:#4F5E4C;
   --danger:#e05c5c; --warn:#e0b43c;
-  --silver:#b9c4bd; --bronze:#c98f5a;
   --r:14px; --r-xl:26px; --trans:.18s cubic-bezier(.4,0,.2,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit}
-/* ShuttleStepz cinematic dashboard background */
-body {
-    background-color: #0B100D;
-    background-image:
-        linear-gradient(
-            rgba(5, 10, 7, 0.30),
-            rgba(5, 10, 7, 0.48)
-        ),
-        url('./assets/Dashboard bg.jpg');
 
-    background-position: center center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-/* Background: court-line grid + aurora */
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(57,224,122,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(57,224,122,.05) 1px,transparent 1px);
-  background-size:64px 64px;
-  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,#000 15%,transparent 75%);mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,#000 15%,transparent 75%)}
+/* Background: Dashboard bg image + dark overlay + aurora */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,rgba(11,16,13,.5) 0%,rgba(11,16,13,.78) 100%),url('assets/Dashboard%20bg.jpg') center/cover no-repeat}
 body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   background:radial-gradient(600px 420px at 88% 4%,rgba(57,224,122,.16),transparent 70%),radial-gradient(520px 380px at 6% 30%,rgba(40,210,140,.1),transparent 70%)}
 
@@ -50,92 +32,102 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .main{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:12px 20px 72px}
 .hello h1{font-size:30px;font-weight:700;letter-spacing:-.9px;line-height:1.15}
 .hello p{font-size:13.5px;color:var(--text-2);margin-top:6px}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:34px 0 12px;font-size:15px;font-weight:600;letter-spacing:-.2px}
+.sec small{font-size:12px;font-weight:400;color:var(--text-2)}
 
-/* Controls */
-.controls{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px}
-.seg{display:inline-flex;gap:2px;padding:4px;border-radius:999px;background:var(--glass);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.seg button{border:0;background:none;color:var(--text-2);font:500 13px 'Sora',system-ui,sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer;transition:background var(--trans),color var(--trans)}
-.seg button:hover:not(:disabled){color:var(--text)}
-.seg button[aria-selected="true"],.seg button[aria-pressed="true"]{color:var(--accent);background:var(--accent-dim)}
-.seg button:disabled{opacity:.4;cursor:not-allowed}
+/* XP hero card */
+.xp-card{margin-top:26px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--r-xl);padding:28px 32px;display:flex;align-items:center;gap:36px;flex-wrap:wrap;position:relative;overflow:hidden}
+.xp-card::after{content:'';position:absolute;left:8%;right:8%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(57,224,122,.5),transparent)}
+.ring{position:relative;width:92px;height:92px;flex-shrink:0}
+.ring svg{width:92px;height:92px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--bg-4);stroke-width:5.5}
+.ring-fill{fill:none;stroke:var(--accent);stroke-width:5.5;stroke-linecap:round;stroke-dasharray:219.9;stroke-dashoffset:219.9;transition:stroke-dashoffset .9s cubic-bezier(.4,0,.2,1);filter:drop-shadow(0 0 6px var(--accent-glow))}
+.ring-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring-lv{font-size:26px;font-weight:800;line-height:1}
+.ring-sub{font-size:10px;color:var(--text-3);margin-top:2px}
+.xp-info{flex:1;min-width:240px}
+.xp-total{font-size:40px;font-weight:800;letter-spacing:-1.6px;color:var(--accent);line-height:1}
+.xp-next{font-size:12.5px;color:var(--text-2);margin:8px 0 10px}
+.bar{height:6px;border-radius:99px;background:var(--bg-4);overflow:hidden}
+.bar>div{height:100%;width:0;border-radius:99px;background:var(--accent);box-shadow:0 0 10px var(--accent-glow);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.stats{display:flex;gap:30px}
+.stat b{display:block;font-size:24px;font-weight:700;letter-spacing:-.5px}
+.stat span{font-size:12px;color:var(--text-2)}
 
-/* Your rank */
-.me-card{margin-top:18px;display:flex;align-items:center;gap:20px;padding:18px 26px;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(57,224,122,.25);border-radius:var(--r-xl);position:relative;overflow:hidden}
-.me-card::after{content:'';position:absolute;left:8%;right:8%;bottom:0;height:1px;background:linear-gradient(90deg,transparent,rgba(57,224,122,.5),transparent)}
-.me-rank{font-size:38px;font-weight:800;letter-spacing:-1.6px;color:var(--accent);line-height:1;min-width:70px;font-variant-numeric:tabular-nums}
-.me-info{flex:1;min-width:0}
-.me-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.me-gap{font-size:12.5px;color:var(--text-2);margin-top:3px}
-.me-xp{text-align:right;font-size:22px;font-weight:700;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
-.me-xp small{display:block;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--text-2);margin-top:2px}
+/* Tips */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;cursor:pointer;transition:border-color var(--trans)}
+.tip:hover{border-color:rgba(57,224,122,.3)}
+.tip-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-bottom:8px}
+.tip-t{font-size:12.5px;line-height:1.65;color:var(--text-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tip.open .tip-t{-webkit-line-clamp:unset;display:block}
 
-/* Avatars */
-.av{--ring:transparent;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--accent-dim);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;overflow:hidden;border:2px solid var(--ring)}
-.av img{width:100%;height:100%;object-fit:cover;display:block}
+/* Sessions */
+.list{display:flex;flex-direction:column;gap:8px}
+.session{background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:13px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color var(--trans),transform var(--trans)}
+.session:hover{border-color:rgba(57,224,122,.3)}
+.session:active{transform:scale(.995)}
+.s-ic{width:38px;height:38px;border-radius:10px;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.s-info{flex:1;min-width:0}
+.s-name{font-size:13.5px;font-weight:600}
+.s-meta{font-size:12px;color:var(--text-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-r{text-align:right}
+.s-xp{font-size:12.5px;font-weight:700;color:var(--accent)}
+.s-pts{font-size:12px;color:var(--text-2);margin-top:2px}
+.empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:48px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed var(--border-2);border-radius:var(--r)}
+.empty span{font-size:36px}
 
-/* Podium */
-.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:end;max-width:760px;margin:38px auto 0}
-.pod{display:flex;flex-direction:column;align-items:center;min-width:0}
-.pod-who{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;margin-bottom:12px;width:100%;min-width:0}
-.pod .av{width:58px;height:58px;font-size:18px;margin-bottom:6px}
-.pod-1 .av{width:80px;height:80px;font-size:24px}
-.pod-1 .av{--ring:var(--accent)}.pod-2 .av{--ring:var(--silver)}.pod-3 .av{--ring:var(--bronze)}
-.pod-name{font-size:14px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pod-sub{font-size:12px;color:var(--text-2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pod-xp{font-size:15px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;margin-top:2px}
-.pod-block{width:100%;display:flex;justify-content:center;padding-top:12px;font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1;color:var(--text-3);background:var(--glass);border:1px solid var(--border);border-bottom:0;border-radius:var(--r) var(--r) 0 0;transform-origin:bottom}
-.pod-1 .pod-block{height:150px;color:var(--accent);border-color:rgba(57,224,122,.35);box-shadow:inset 0 1px 0 rgba(57,224,122,.5)}
-.pod-2 .pod-block{height:112px}
-.pod-3 .pod-block{height:86px}
-.pod.open .av{border-style:dashed;--ring:var(--border-2);background:transparent;color:var(--text-3)}
-.pod.open .pod-name{color:var(--text-3);font-weight:500}
-.pod.me .pod-name::after{content:' (you)';color:var(--accent);font-weight:500}
-.podium.intro .pod-block{animation:rise-up .7s cubic-bezier(.2,.7,.2,1) both}
-.podium.intro .pod-1 .pod-block{animation-delay:.12s}
-.podium.intro .pod-3 .pod-block{animation-delay:.24s}
-@keyframes rise-up{from{transform:scaleY(.15);opacity:0}to{transform:none;opacity:1}}
+/* Session modal */
+.sm-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+.sm-overlay.open{display:flex}
+.sm-box{background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--r-xl);padding:26px;width:100%;max-width:460px;max-height:90vh;overflow-y:auto;position:relative}
+.sm-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--bg-3);border:1px solid var(--border);color:var(--text-2);cursor:pointer}
+.sm-close:hover{color:var(--text);border-color:var(--border-2)}
+.sm-title{font-size:20px;font-weight:700;letter-spacing:-.4px}
+.sm-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-2);margin:4px 0 20px}
+.sm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.sm-stat{background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
+.sm-val{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-1px}
+.sm-lbl{font-size:11px;color:var(--text-3);margin-top:4px}
+.sm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text-2)}
+.sm-row b{color:var(--text);font-weight:600}
+.sm-bd-title{font-size:12px;font-weight:600;color:var(--text-2);margin:18px 0 10px}
+.sm-bd-row{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-2);margin-bottom:6px}
+.sm-bd-name{min-width:84px}
+.sm-bd-bar{flex:1;height:5px;border-radius:99px;background:var(--bg-4);overflow:hidden}
+.sm-bd-fill{height:100%;background:var(--accent);border-radius:99px}
+.sm-bd-pct{min-width:34px;text-align:right;color:var(--accent)}
+.sm-fb{font-size:12.5px;line-height:1.65;color:var(--text-2);background:var(--bg-3);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.sm-fb b{color:var(--text)}
+.sm-fb-weak{border-color:rgba(224,92,92,.3)}
+.sm-fb-best{border-color:rgba(57,224,122,.3)}
+.sm-fb p{margin:6px 0 8px}
+.sm-fb-sum{color:var(--text);font-weight:600}
+.sm-fb-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sm-badge{font-size:11px;padding:3px 9px;border-radius:99px}
+.sm-badge-weak{color:var(--danger);background:rgba(224,92,92,.1)}
+.sm-badge-best{color:var(--accent);background:var(--accent-dim)}
+.sm-fb-zone{font-weight:700;color:var(--text);font-size:13px}
+.sm-fb-item{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.sm-fb-lbl{font-size:11px;color:var(--text-3);margin-bottom:3px}
+.sm-fb-ttl{color:var(--text);font-weight:700;margin-bottom:2px}
 
-/* Rows */
-.board{margin-top:22px;display:flex;flex-direction:column;gap:8px}
-.row{display:grid;grid-template-columns:44px minmax(0,1fr) 56px 104px;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:11px 16px;transition:border-color var(--trans)}
-.board.has-stats .row{grid-template-columns:44px minmax(0,1fr) repeat(3,68px) 56px 104px}
-.row:hover{border-color:var(--border-2)}
-.row.me{border-color:rgba(57,224,122,.35);background:rgba(57,224,122,.06)}
-.pos{text-align:center;font-size:14px;font-weight:700;color:var(--text-2);font-variant-numeric:tabular-nums;line-height:1.2}
-.mv{display:block;font-size:10.5px;font-weight:600}
-.mv.up{color:var(--accent)}.mv.down{color:var(--danger)}.mv.same{color:var(--text-3)}
-.who{display:flex;align-items:center;gap:12px;min-width:0}
-.who-t{min-width:0}
-.who-n{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.who-s{font-size:12px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
-.cell{font-size:13px;color:var(--text-2);text-align:right;font-variant-numeric:tabular-nums}
-.lvl{font-size:12px;font-weight:600;color:var(--text-2);text-align:center;border:1px solid var(--border);border-radius:999px;padding:3px 0}
-.xpv{font-size:14px;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.you-gap{text-align:center;font-size:12px;color:var(--text-3);padding:6px 0}
-.empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed var(--border-2);border-radius:var(--r)}
-.empty a{color:var(--accent);font-weight:600}
-
+/* Entrance: one orchestrated moment */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.xp-card{animation:rise .5s .05s both}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-@media(max-width:760px){
-  .board.has-stats .row{grid-template-columns:44px minmax(0,1fr) 56px 104px}
-  .board.has-stats .cell{display:none}
+/* Responsive */
+@media(max-width:900px){
+  .tips{grid-template-columns:1fr}
 }
 @media(max-width:600px){
   .main{padding:12px 14px 60px}
   .hello h1{font-size:23px}
-  .me-card{padding:16px 18px;gap:14px}
-  .me-rank{font-size:30px;min-width:52px}
-  .podium{gap:8px}
-  .pod .av{width:46px;height:46px;font-size:15px}
-  .pod-1 .av{width:62px;height:62px;font-size:20px}
-  .pod-name{font-size:12.5px}
-  .pod-xp{font-size:13px}
-  .pod-block{font-size:34px}
-  .row{grid-template-columns:40px minmax(0,1fr) 92px;gap:10px;padding:10px 12px}
-  .board.has-stats .row{grid-template-columns:40px minmax(0,1fr) 92px}
-  .lvl{display:none}
+  .xp-card{padding:20px 18px;gap:20px}
+  .xp-total{font-size:32px}
+  .stats{gap:22px;width:100%}
 }
 </style>
 </head>
@@ -145,34 +137,60 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 <main class="main">
   <div class="hello">
-    <h1>Leaderboard</h1>
-    <p id="sub">Everyone on ShuttleStepz, ranked by total XP.</p>
+    <h1>Good <span id="greeting-time">morning</span>, <span id="greeting-name">Athlete</span> 👋</h1>
+    <p>Here's your training snapshot for today.</p>
   </div>
 
-  <div class="controls">
-    <div class="seg" role="tablist" aria-label="Board">
-      <button role="tab" id="tab-global" aria-selected="true" data-tab="global">Global</button>
-      <button role="tab" id="tab-friends" aria-selected="false" data-tab="friends">Friends</button>
+  <section class="xp-card">
+    <div class="ring">
+      <svg viewBox="0 0 92 92"><circle class="ring-bg" cx="46" cy="46" r="35"/><circle class="ring-fill" id="ring-arc" cx="46" cy="46" r="35"/></svg>
+      <div class="ring-label"><div class="ring-lv" id="ring-lv">1</div><div class="ring-sub">Level</div></div>
     </div>
-    <div class="seg" role="group" aria-label="Time period">
-      <button data-period="all" aria-pressed="true">All time</button>
-      <button data-period="week" aria-pressed="false">Weekly</button>
-      <button data-period="month" aria-pressed="false">Monthly</button>
+    <div class="xp-info">
+      <div class="xp-total" id="xp-total">0 XP</div>
+      <div class="xp-next" id="xp-next">0 / 500 to Level 2</div>
+      <div class="bar"><div id="xp-fill-lg"></div></div>
     </div>
-  </div>
-
-  <section class="me-card" aria-label="Your rank">
-    <div class="me-rank" id="me-rank">#—</div>
-    <div class="me-info">
-      <div class="me-name" id="me-name">You</div>
-      <div class="me-gap" id="me-gap">Loading your position…</div>
+    <div class="stats">
+      <div class="stat"><b id="stat-sessions">0</b><span>Sessions</span></div>
+      <div class="stat"><b id="stat-streak">0🔥</b><span>Best streak</span></div>
+      <div class="stat"><b id="stat-rank">#—</b><span>Global rank</span></div>
     </div>
-    <div class="me-xp"><span id="me-xp">0</span><small>XP</small></div>
   </section>
 
-  <div class="podium" id="podium" aria-label="Top three players"></div>
-  <div class="board" id="board" aria-live="polite"></div>
+  <div class="sec">AI coaching tips <small>Tap a card to read more</small></div>
+  <div class="tips" id="tips-grid">
+    <div class="tip"><div class="tip-h">🦶 Footwork</div><div class="tip-t">Keep weight on the balls of your feet for faster lateral movement.</div></div>
+    <div class="tip"><div class="tip-h">👁️ Vision</div><div class="tip-t">Watch the shuttle from your opponent's racket, not their body.</div></div>
+    <div class="tip"><div class="tip-h">💨 Recovery</div><div class="tip-t">Return to center after every shot to reduce your opponent's angles.</div></div>
+  </div>
+
+  <div class="sec">Recent sessions <span id="spark"></span></div>
+  <div class="list" id="overview-sessions">
+    <div class="empty" id="sessions-empty"><span>🏸</span><div>No sessions yet. Hit <strong>Start Training</strong> to earn your first XP.</div></div>
+  </div>
 </main>
+
+<!-- Session summary modal -->
+<div class="sm-overlay" id="session-modal" onclick="if(event.target===this)closeSessionModal()">
+  <div class="sm-box">
+    <button class="sm-close" onclick="closeSessionModal()" aria-label="Close">✕</button>
+    <div class="sm-title" id="sm-title">Footwork Drill</div>
+    <div class="sm-date" id="sm-date"></div>
+    <div class="sm-grid">
+      <div class="sm-stat"><div class="sm-val" id="sm-score">0</div><div class="sm-lbl">Score</div></div>
+      <div class="sm-stat"><div class="sm-val" id="sm-acc">0%</div><div class="sm-lbl">Accuracy</div></div>
+      <div class="sm-stat"><div class="sm-val" id="sm-xp">+0</div><div class="sm-lbl">XP</div></div>
+    </div>
+    <div id="sm-rows"></div><div id="sm-bd"></div><div id="sm-extra"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const h=new Date().getHours();document.getElementById('greeting-time').textContent=h<12?'morning':h<17?'afternoon':'evening'
+})
+</script>
 
 <!-- navbar first, so ShuttleNav exists before the page script runs -->
 <script src="js/Navbar.js" defer></script>
@@ -180,205 +198,195 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 <script type="module">
 import DB from './js/database.js'
 window.AUTH = DB
-const $ = id => document.getElementById(id)
-const tx = (id, v) => { const e = $(id); if (e) e.textContent = v }
-const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
-const fmt = n => (n || 0).toLocaleString()
+const $=id=>document.getElementById(id)
+const tx=(id,v)=>{const e=$(id);if(e)e.textContent=v}
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
 
-window.doLogout = window.logout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
+window.doLogout=window.logout=async()=>{try{await DB.logoutUser()}catch(e){}window.location.href='login.html'}
 
-const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false, period: 'all', pdata: { week: null, month: null }, fp: {}, myEntry: null }
-let loadTimer = null
-
-/* Period keys: weeks start Monday 00:00 IST, months on the 1st (must match functions/index.js) */
-const IST = 330 * 60000
-function periodKey(p) {
-  const d = new Date(Date.now() + IST), y = d.getUTCFullYear(), m = d.getUTCMonth(), day = d.getUTCDate()
-  const pad = n => String(n).padStart(2, '0')
-  if (p === 'month') return `m${y}-${pad(m + 1)}`
-  const mon = new Date(Date.UTC(y, m, day - ((d.getUTCDay() + 6) % 7)))
-  return `w${mon.getUTCFullYear()}-${pad(mon.getUTCMonth() + 1)}-${pad(mon.getUTCDate())}`
+const XP_THRESHOLDS=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
+function renderXPData(xp,level){
+  const cur=XP_THRESHOLDS[level-1]||0,nxt=XP_THRESHOLDS[level]||XP_THRESHOLDS[XP_THRESHOLDS.length-1]
+  const pct=Math.min(Math.max((xp-cur)/(nxt-cur||1),0),1)
+  const arc=$('ring-arc');if(arc)arc.style.strokeDashoffset=219.9-pct*219.9
+  tx('ring-lv',level);tx('xp-total',xp.toLocaleString()+' XP')
+  tx('xp-next',level>=XP_THRESHOLDS.length?'Max level':(xp-cur).toLocaleString()+' / '+(nxt-cur).toLocaleString()+' to Level '+(level+1))
+  const fl=$('xp-fill-lg');if(fl)fl.style.width=(pct*100)+'%'
+  window.ShuttleNav&&ShuttleNav.setXP(xp)
 }
 
-const nameOf = e => e.displayName || e.username || 'Player'
-const subOf = e => e.username ? '@' + e.username : (e.role ? e.role.charAt(0).toUpperCase() + e.role.slice(1) : '')
-const okUrl = u => typeof u === 'string' && /^(https:\/\/|data:image\/)/.test(u)
-
-function avatar(e, extra = '') {
-  const ini = esc(nameOf(e).trim().slice(0, 2).toUpperCase())
-  const inner = okUrl(e.avatarURL) ? `<img src="${esc(e.avatarURL)}" alt="" loading="lazy" data-ini="${ini}">` : ini
-  return `<div class="av ${extra}">${inner}</div>`
+function fmtDate(ts){
+  if(!ts)return'Just now'
+  const d=ts.toDate?ts.toDate():new Date(ts),diff=Date.now()-d.getTime()
+  if(diff<60000)return'Just now'
+  if(diff<3600000)return Math.floor(diff/60000)+'m ago'
+  if(diff<86400000)return Math.floor(diff/3600000)+'h ago'
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'})
 }
 
-function currentList() {
-  if (state.tab === 'global') return state.period === 'all' ? state.global : state.pdata[state.period]
-  if (state.friends === null || !state.me) return null
-  let all = state.friends.filter(f => f.uid !== state.uid).concat([{ ...state.me }])
-  if (state.period !== 'all') {
-    const pm = state.fp[periodKey(state.period)]
-    if (!pm) return null
-    all = all.map(p => ({ ...p, ...(pm[p.uid] || {}), xp: (pm[p.uid] || {}).xp || 0 }))
-  }
-  all.sort((a, b) => (b.xp || 0) - (a.xp || 0))
-  return all.map((e, i) => ({ ...e, rank: i + 1 }))
+function spark(vals){
+  if(vals.length<2)return''
+  const w=90,h=26,max=Math.max(...vals),min=Math.min(...vals),span=(max-min)||1
+  const pts=vals.map((v,i)=>(i/(vals.length-1)*w).toFixed(1)+','+(h-3-((v-min)/span)*(h-6)).toFixed(1)).join(' ')
+  return`<svg width="${w}" height="${h}" aria-label="Score trend"><polyline fill="none" stroke="#39e07a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" points="${pts}"/></svg>`
 }
 
-function movement(e) {
-  if (typeof e.rankDelta !== 'number') return ''
-  if (e.rankDelta > 0) return `<span class="mv up">▲${e.rankDelta}</span>`
-  if (e.rankDelta < 0) return `<span class="mv down">▼${Math.abs(e.rankDelta)}</span>`
-  return '<span class="mv same">–</span>'
-}
-
-function podiumSlot(e, place) {
-  if (!e) return `<div class="pod pod-${place} open"><div class="pod-who"><div class="av">?</div><div class="pod-name">Open spot</div></div><div class="pod-block">${place}</div></div>`
-  const me = e.uid === state.uid ? ' me' : ''
-  return `<div class="pod pod-${place}${me}"><div class="pod-who">${avatar(e)}<div class="pod-name">${esc(nameOf(e))}</div><div class="pod-sub">${esc(subOf(e))} · Lv.${e.level || 1}</div><div class="pod-xp">${fmt(e.xp)} XP</div></div><div class="pod-block">${place}</div></div>`
-}
-
-function rowHTML(e, rank) {
-  const stats = `<div class="cell">${e.sessions != null ? fmt(e.sessions) : '–'}</div><div class="cell">${e.avgScore != null ? fmt(Math.round(e.avgScore)) : '–'}</div><div class="cell">${e.bestScore != null ? fmt(e.bestScore) : '–'}</div>`
-  return `<div class="row${e.uid === state.uid ? ' me' : ''}">
-    <div class="pos">${rank}${movement(e)}</div>
-    <div class="who">${avatar(e)}<div class="who-t"><div class="who-n">${esc(nameOf(e))}${e.uid === state.uid ? ' (you)' : ''}</div><div class="who-s">${esc(subOf(e))}</div></div></div>
-    ${stats}
-    <div class="lvl">Lv.${e.level || 1}</div>
-    <div class="xpv">${fmt(e.xp)} XP</div>
+function buildSessionCard(s,i){
+  const total=s.totalRounds||1,acc=s.accuracy!=null?s.accuracy+'%':Math.round(((s.hits||0)/total)*100)+'%'
+  const xpe=s.xpEarned||(50+(s.hits||0)*2)
+  const drill=esc((s.drill||s.mode||'footwork').replace(/^\w/,c=>c.toUpperCase()))
+  return`<div class="session" data-idx="${i}">
+    <div class="s-ic">🏸</div>
+    <div class="s-info">
+      <div class="s-name">${drill} Drill</div>
+      <div class="s-meta">Score ${s.score||0} · Acc ${acc} · Streak ${s.bestStreak||0}🔥 · ${fmtDate(s.createdAt)}</div>
+    </div>
+    <div class="s-r"><div class="s-xp">+${xpe} XP</div><div class="s-pts">${s.score||0} pts</div></div>
   </div>`
 }
 
-function renderMe(list) {
-  if (!state.me) return
-  const idx = list.findIndex(e => e.uid === state.uid)
-  const mine = idx >= 0 ? list[idx] : null
-  const rank = mine ? idx + 1 : (state.tab === 'global' ? state.myRank : null)
-  const xp = mine ? (mine.xp || 0) : (state.period === 'all' ? (state.me.xp || 0) : (state.myEntry ? state.myEntry.xp || 0 : 0))
-  tx('me-rank', rank ? '#' + rank : '#—')
-  tx('me-name', nameOf(state.me))
-  tx('me-xp', fmt(xp))
-  let gap = ''
-  if (list.length === 1 && mine) gap = state.tab === 'friends' ? 'Add friends from Social to start competing.' : "You're the first on the board."
-  else if (idx === 0) gap = `Leading by ${fmt((list[0].xp || 0) - (list[1].xp || 0))} XP`
-  else if (idx > 0) gap = `${fmt(Math.max(1, (list[idx - 1].xp || 0) - xp + 1))} XP to pass ${nameOf(list[idx - 1])}`
-  else if (list.length) gap = `${fmt(Math.max(1, (list[list.length - 1].xp || 0) - xp + 1))} XP to reach the top ${list.length}`
-  if (!mine && state.period !== 'all' && !state.myRank) gap = `No XP yet this ${state.period}. Start a session to join the board.`
-  tx('me-gap', gap)
-}
+/* ── Session summary modal ── */
+function openSessionModal(s){
+  const total=s.totalRounds||0,hits=s.hits||0
+  const acc=s.accuracy!=null?s.accuracy:(total?Math.round(hits/total*100):0)
+  const xpe=s.xpEarned||(50+hits*2)
+  const drill=(s.drill||s.mode||'footwork').replace(/^\w/,c=>c.toUpperCase())
+  const d=s.createdAt?(s.createdAt.toDate?s.createdAt.toDate():new Date(s.createdAt)):null
+  tx('sm-title',drill+' Drill')
+  tx('sm-date',d?d.toLocaleString('en-IN',{day:'numeric',month:'short',year:'numeric',hour:'numeric',minute:'2-digit'}):'')
+  tx('sm-score',s.score||0);tx('sm-acc',acc+'%');tx('sm-xp','+'+xpe)
 
-function render() {
-  const list = currentList()
-  const pod = $('podium'), board = $('board')
-  const when = { all: 'total XP', week: 'XP earned this week (resets Monday, IST)', month: 'XP earned this month (resets on the 1st, IST)' }[state.period]
-  $('sub').textContent = (state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by ' : 'You and your friends, ranked by ') + when + '.'
-  if (list === null) {
-    pod.innerHTML = ''
-    board.className = 'board'
-    board.innerHTML = `<div class="empty">${state.failed ? "Can't load the leaderboard. Check your connection and refresh." : 'Loading leaderboard…'}</div>`
-    return
+  const gradeTxt=acc>=90?'S — Elite':acc>=75?'A — Sharp':acc>=60?'B — Solid':acc>=40?'C — Keep going':'D — Needs work'
+  const rt=Array.isArray(s.roundTimings)?s.roundTimings:[]
+  const avgMs=rt.length?Math.round(rt.reduce((a,b)=>a+b,0)/rt.length):null
+  const rows=[
+    ['Grade',gradeTxt],
+    ['Avg speed',avgMs?(avgMs/1000).toFixed(2)+'s':null],
+    ['Rounds',total||null],
+    ['Hits',hits+(total?' / '+total:'')],
+    ['Best streak',(s.bestStreak||0)+' 🔥'],
+    ['Difficulty',s.difficulty],
+    ['Duration',s.duration?s.duration+'s':null]
+  ].filter(r=>r[1]!=null&&r[1]!=='')
+  $('sm-rows').innerHTML=rows.map(r=>`<div class="sm-row"><span>${r[0]}</span><b>${esc(r[1])}</b></div>`).join('')
+
+  const bd=s.breakdown||s.zoneBreakdown||s.zoneStats||s.dirStats
+  const bdEl=$('sm-bd')
+  if(bd&&typeof bd==='object'&&Object.keys(bd).length){
+    bdEl.innerHTML='<div class="sm-bd-title">Zone breakdown</div>'+Object.entries(bd).map(([k,v])=>{
+      const pct=typeof v==='number'?Math.round(v):(v&&v.total?Math.round(((v.hits??v.hit)||0)/v.total*100):0)
+      return`<div class="sm-bd-row"><span class="sm-bd-name">${esc(k)}</span><div class="sm-bd-bar"><div class="sm-bd-fill" style="width:${pct}%"></div></div><span class="sm-bd-pct">${pct}%</span></div>`
+    }).join('')
+  }else bdEl.innerHTML=''
+
+  const results=Array.isArray(s.results)?s.results:[]
+  const slowMs=(s.timePerDir||0)*700
+  const missed={}
+  results.forEach(r=>{if(!r.hit)missed[r.dir]=(missed[r.dir]||0)+1})
+  const slow=results.filter(r=>r.hit&&r.responseMs&&slowMs&&r.responseMs>slowMs).length
+  const mk=Object.entries(missed).sort((a,b)=>b[1]-a[1])
+  let html=''
+  if(mk.length||slow){
+    html+='<div class="sm-bd-title">Mistakes</div>'
+    html+=mk.map(([z,n])=>`<div class="sm-row"><span>Missed ${esc(z)}</span><b style="color:var(--danger)">${n}×</b></div>`).join('')
+    if(slow)html+=`<div class="sm-row"><span>Slow hits (over 70% of time limit)</span><b style="color:var(--warn)">${slow}×</b></div>`
+  }else if(results.length){
+    html+='<div class="sm-bd-title">Mistakes</div><div class="sm-fb">No misses. Clean session 🎯</div>'
   }
-  renderMe(list)
-  if (!list.length) {
-    pod.innerHTML = ''
-    board.className = 'board'
-    board.innerHTML = '<div class="empty"><div>No one is on the board yet.</div><a href="trainer.html">Start a session to claim #1</a></div>'
-    return
+  const fb=s.feedback
+  if(fb){
+    html+='<div class="sm-bd-title">AI coach feedback</div>'
+    if(fb.summary)html+=`<div class="sm-fb sm-fb-sum">${esc(fb.summary)}</div>`
+    const w=fb.weakest_zone
+    if(w)html+=`<div class="sm-fb sm-fb-weak">
+      <div class="sm-fb-head"><span class="sm-badge sm-badge-weak">⚠ Weakest zone</span><span class="sm-fb-zone">${esc(w.zone)}</span></div>
+      <p>${esc(w.why)}</p>
+      <div class="sm-fb-item"><div class="sm-fb-lbl">🏸 Drill</div><div class="sm-fb-ttl">${esc(w.drill)}</div><div>${esc(w.drill_desc)}</div></div>
+      <div class="sm-fb-item"><div class="sm-fb-lbl">💪 Exercise</div><div class="sm-fb-ttl">${esc(w.exercise)}</div><div>${esc(w.exercise_desc)}</div></div>
+    </div>`
+    const b=fb.best_zone
+    if(b)html+=`<div class="sm-fb sm-fb-best">
+      <div class="sm-fb-head"><span class="sm-badge sm-badge-best">✓ Strongest zone</span><span class="sm-fb-zone">${esc(b.zone)}</span></div>
+      <p>${esc(b.praise)}</p>
+    </div>`
+    if(fb.reaction_tip)html+=`<div class="sm-fb"><div class="sm-fb-lbl">⚡ Reaction tip</div>${esc(fb.reaction_tip)}</div>`
+    if(fb.focus_next)html+=`<div class="sm-fb"><div class="sm-fb-lbl">🎯 Focus next session</div>${esc(fb.focus_next)}</div>`
+  }else if(results.length){
+    html+='<div class="sm-bd-title">AI coach feedback</div><div class="sm-fb">No feedback was saved for this session.</div>'
   }
-  pod.classList.toggle('intro', state.intro)
-  pod.innerHTML = podiumSlot(list[1], 2) + podiumSlot(list[0], 1) + podiumSlot(list[2], 3)
-  state.intro = false
-
-  const rest = list.slice(3)
-  const hasStats = list.some(e => e.sessions != null || e.avgScore != null || e.bestScore != null)
-  board.className = 'board' + (hasStats ? ' has-stats' : '')
-  let html = rest.map((e, i) => rowHTML(e, i + 4)).join('')
-  if (state.tab === 'global' && state.me && !list.some(e => e.uid === state.uid)) {
-    html += `<div class="you-gap">Your position</div>` + rowHTML(state.period === 'all' ? { ...state.me } : (state.myEntry || { ...state.me, xp: 0 }), state.myRank ? state.myRank : '–')
-  }
-  if (state.tab === 'friends' && list.length === 1) {
-    html += '<div class="empty"><div>No friends on the board yet.</div><a href="social.html">Find players in Social</a></div>'
-  }
-  board.innerHTML = html
-
-  document.querySelectorAll('.av img').forEach(img => img.addEventListener('error', () => img.replaceWith(document.createTextNode(img.dataset.ini || '?')), { once: true }))
+  $('sm-extra').innerHTML=html
+  $('session-modal').classList.add('open')
 }
+window.closeSessionModal=()=>$('session-modal').classList.remove('open')
+document.addEventListener('keydown',e=>{if(e.key==='Escape')window.closeSessionModal()})
+$('overview-sessions').addEventListener('click',e=>{
+  const el=e.target.closest('.session');if(!el)return
+  const s=(window._dashSessions||[])[el.dataset.idx];if(s)openSessionModal(s)
+})
+$('tips-grid').addEventListener('click',e=>{const t=e.target.closest('.tip');if(t)t.classList.toggle('open')})
 
-function loadFriendPeriod() {
-  if (state.tab !== 'friends' || state.period === 'all' || !state.friends || !state.me) return
-  const key = periodKey(state.period)
-  const uids = state.friends.map(f => f.uid).concat([state.uid])
-  DB.getPeriodEntries(key, uids)
-    .then(rows => { state.fp[key] = Object.fromEntries(rows.map(r => [r.uid, r])); render() })
-    .catch(() => { state.fp[key] = {}; render() })
+/* ── AUTH shims used by the trainer ── */
+window.AUTH.recordSession=async(data)=>{
+  try{
+    const acc=data.totalRounds>0?Math.round(((data.hits||0)/data.totalRounds)*100):0
+    const xpEarned=50+(data.hits||0)*2+(acc>=90?30:0)
+    const id=await DB.saveSession({...data,accuracy:acc,xpEarned})
+    const result=await DB.awardXP(xpEarned)
+    console.log('[dash] session saved:',id,'+'+xpEarned+' XP')
+    return{ok:true,xpEarned,...result}
+  }catch(e){console.warn('[dash] recordSession failed:',e.message);return{ok:false}}
 }
+window.AUTH.canStartSession=()=>true
+window.AUTH.incrementSession=()=>{}
+window.AUTH.startActiveSession=()=>Promise.resolve()
+window.AUTH.upgradePlan=async()=>({ok:true})
 
-function syncMyRank(entries) {
-  if (entries.some(e => e.uid === state.uid)) { state.myRank = null; state.myEntry = null; return }
-  if (state.rankBusy || !state.uid) return
-  state.rankBusy = true
-  const p = state.period
-  const job = p === 'all' ? DB.getUserRank(state.uid).then(r => (r ? { rank: r } : null)) : DB.getPeriodRank(periodKey(p), state.uid)
-  job.then(r => { if (state.period !== p) return; state.myRank = r ? r.rank : null; state.myEntry = r ? r.entry || null : null; render() })
-    .catch(() => {}).finally(() => { state.rankBusy = false })
-}
+DB.onAuthReady(async(firebaseUser)=>{
+  if(!firebaseUser){window.location.href='login.html';return}
+  try{
+    const prof=await DB.getUserProfile(firebaseUser.uid),p=prof.profile||{}
+    const xp=prof.xp||0,lv=prof.level||1
+    const name=p.displayName||firebaseUser.displayName||'Athlete'
+    tx('greeting-name',name)
+    renderXPData(xp,lv)
 
-function listenPeriod() {
-  const p = state.period
-  if (p === 'all') return
-  DB.listenPeriodLeaderboard(periodKey(p), entries => {
-    if (state.period !== p) return
-    state.failed = false
-    state.pdata[p] = entries
-    syncMyRank(entries)
-    render()
-  }, () => { state.failed = true; state.pdata[p] = null; render() })
-}
-
-function setTab(tab) {
-  state.tab = tab
-  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === tab)))
-  if (tab === 'friends' && !state.friendsOn) {
-    state.friendsOn = true
-    DB.listenFriends(list => { state.friends = list; loadFriendPeriod(); render() })
-  }
-  loadFriendPeriod()
-  render()
-}
-function setPeriod(p) {
-  state.period = p
-  state.myRank = null; state.myEntry = null
-  document.querySelectorAll('[data-period]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.period === p)))
-  if (p === 'all') { DB.unsubscribe('leaderboardPeriod'); if (state.global) syncMyRank(state.global) } else listenPeriod()
-  loadFriendPeriod()
-  render()
-}
-document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)))
-document.querySelectorAll('[data-period]').forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.period)))
-
-render()
-
-DB.onAuthReady(async firebaseUser => {
-  if (!firebaseUser) { window.location.href = 'login.html'; return }
-  state.uid = firebaseUser.uid
-  loadTimer = setTimeout(() => { if (state.global === null) { state.failed = true; render() } }, 8000)
-  try {
-    const prof = await DB.getUserProfile(firebaseUser.uid), p = prof.profile || {}
-    state.me = { uid: firebaseUser.uid, displayName: p.displayName || firebaseUser.displayName || 'You', username: p.username || null, avatarURL: p.avatarURL || null, role: p.role || 'student', xp: prof.xp || 0, level: prof.level || 1 }
-    window.ShuttleNav && ShuttleNav.setXP(state.me.xp)
-
-    DB.listenUserProfile(data => {
-      state.me.xp = data.xp || 0
-      state.me.level = data.level || 1
-      window.ShuttleNav && ShuttleNav.setXP(state.me.xp)
-      render()
+    DB.listenSessions(sessions=>{
+      const ov=$('overview-sessions'),empty=$('sessions-empty')
+      if(ov){
+        ov.querySelectorAll('.session').forEach(e=>e.remove())
+        if(sessions.length===0){if(empty)empty.style.display='flex'}
+        else{
+          if(empty)empty.style.display='none'
+          window._dashSessions=sessions.slice(0,5)
+          window._dashSessions.forEach((s,i)=>ov.insertAdjacentHTML('beforeend',buildSessionCard(s,i)))
+        }
+      }
+      $('spark').innerHTML=spark(sessions.slice(0,8).map(s=>s.score||0).reverse())
+      tx('stat-sessions',sessions.length)
     })
-    DB.listenLeaderboard(entries => {
-      clearTimeout(loadTimer)
-      state.failed = false
-      state.global = entries
-      if (state.period === 'all') syncMyRank(entries)
-      render()
+
+    DB.getAITips(firebaseUser.uid).then(tips=>{
+      if(!tips)return
+      const grid=$('tips-grid');if(!grid)return
+      const zone=tips.weakZone&&!/none|n\/a|not provided/i.test(tips.weakZone)?tips.weakZone:''
+      const card=(ic,title,text)=>text?`<div class="tip"><div class="tip-h">${ic} ${esc(title)}</div><div class="tip-t">${esc(text)}</div></div>`:''
+      const html=card('🎯','Focus next',tips.focusNext)+card('⚠️',zone?'Weak zone: '+zone:'Weak zone',tips.weakDrillDesc)+card('⚡','Reaction',tips.reactionTip)
+      if(html)grid.innerHTML=html
+    }).catch(()=>{})
+
+    DB.listenUserProfile(data=>{
+      renderXPData(data.xp||0,data.level||1)
+      tx('stat-sessions',data.totalSessions||0)
+      tx('stat-streak',(data.bestStreak||0)+'🔥')
     })
-  } catch (err) { console.error('[leaderboard] boot error:', err.message); state.failed = true; render() }
+
+    DB.listenLeaderboard(entries=>{
+      const me=entries.find(e=>e.uid===firebaseUser.uid)
+      if(me)tx('stat-rank','#'+me.rank)
+    })
+
+    console.log('[dash] ✅ booted for',name)
+  }catch(err){console.error('[dash] boot error:',err.message)}
 })
 </script>
 </body>
