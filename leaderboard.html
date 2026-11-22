@@ -7,7 +7,7 @@
 <link rel="icon" href="icon/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/base.css">
 <style>
 :root{
@@ -70,12 +70,18 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .me-xp small{display:block;font-size:11.5px;font-weight:400;letter-spacing:0;color:var(--text-2);margin-top:2px}
 
 /* Avatars */
-.av{--ring:transparent;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--accent-dim);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;overflow:hidden;border:2px solid var(--ring)}
+.av{--ring:transparent;width:36px;height:36px;border-radius:50%;flex-shrink:0;background:var(--accent-dim);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700;overflow:hidden;border:2px solid var(--ring);transition:box-shadow var(--trans),border-color var(--trans),transform var(--trans)}
 .av img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Clickable profiles */
+.clickable{cursor:pointer}
+.clickable:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.clickable:hover .av,.clickable:focus-visible .av{box-shadow:0 0 0 3px rgba(57,224,122,.25),0 0 22px rgba(57,224,122,.35);transform:scale(1.06)}
+.clickable:hover .av{--ring:var(--accent)}
 
 /* Podium */
 .podium{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:end;max-width:760px;margin:38px auto 0}
-.pod{display:flex;flex-direction:column;align-items:center;min-width:0}
+.pod{display:flex;flex-direction:column;align-items:center;min-width:0;border-radius:var(--r)}
 .pod-who{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px;margin-bottom:12px;width:100%;min-width:0}
 .pod .av{width:58px;height:58px;font-size:18px;margin-bottom:6px}
 .pod-1 .av{width:80px;height:80px;font-size:24px}
@@ -83,7 +89,10 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .pod-name{font-size:14px;font-weight:600;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pod-sub{font-size:12px;color:var(--text-2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pod-xp{font-size:15px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;margin-top:2px}
-.pod-block{width:100%;display:flex;justify-content:center;padding-top:12px;font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1;color:var(--text-3);background:var(--glass);border:1px solid var(--border);border-bottom:0;border-radius:var(--r) var(--r) 0 0;transform-origin:bottom}
+.pod-hint{font-size:10.5px;font-weight:600;color:var(--accent);opacity:0;transform:translateY(3px);transition:opacity var(--trans),transform var(--trans);margin-top:2px}
+.pod.clickable:hover .pod-hint,.pod.clickable:focus-visible .pod-hint{opacity:1;transform:none}
+.pod-block{width:100%;display:flex;justify-content:center;padding-top:12px;font-size:44px;font-weight:800;letter-spacing:-2px;line-height:1;color:var(--text-3);background:var(--glass);border:1px solid var(--border);border-bottom:0;border-radius:var(--r) var(--r) 0 0;transform-origin:bottom;transition:border-color var(--trans)}
+.pod.clickable:hover .pod-block{border-color:rgba(57,224,122,.4)}
 .pod-1 .pod-block{height:150px;color:var(--accent);border-color:rgba(57,224,122,.35);box-shadow:inset 0 1px 0 rgba(57,224,122,.5)}
 .pod-2 .pod-block{height:112px}
 .pod-3 .pod-block{height:86px}
@@ -97,9 +106,10 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 
 /* Rows */
 .board{margin-top:22px;display:flex;flex-direction:column;gap:8px}
-.row{display:grid;grid-template-columns:44px minmax(0,1fr) 56px 104px;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:11px 16px;transition:border-color var(--trans)}
+.row{display:grid;grid-template-columns:44px minmax(0,1fr) 56px 104px;align-items:center;gap:14px;background:var(--glass);border:1px solid var(--border);border-radius:var(--r);padding:11px 16px;transition:border-color var(--trans),background var(--trans),transform var(--trans)}
 .board.has-stats .row{grid-template-columns:44px minmax(0,1fr) repeat(3,68px) 56px 104px}
 .row:hover{border-color:var(--border-2)}
+.row.clickable:hover{border-color:rgba(57,224,122,.4);background:rgba(57,224,122,.05);transform:translateX(3px)}
 .row.me{border-color:rgba(57,224,122,.35);background:rgba(57,224,122,.06)}
 .pos{text-align:center;font-size:14px;font-weight:700;color:var(--text-2);font-variant-numeric:tabular-nums;line-height:1.2}
 .mv{display:block;font-size:10.5px;font-weight:600}
@@ -108,12 +118,59 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 .who-t{min-width:0}
 .who-n{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .who-s{font-size:12px;color:var(--text-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.go{margin-left:auto;font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap;opacity:0;transform:translateX(-4px);transition:opacity var(--trans),transform var(--trans);padding-left:6px}
+.row.clickable:hover .go,.row.clickable:focus-visible .go{opacity:1;transform:none}
 .cell{font-size:13px;color:var(--text-2);text-align:right;font-variant-numeric:tabular-nums}
 .lvl{font-size:12px;font-weight:600;color:var(--text-2);text-align:center;border:1px solid var(--border);border-radius:999px;padding:3px 0}
 .xpv{font-size:14px;font-weight:700;color:var(--accent);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .you-gap{text-align:center;font-size:12px;color:var(--text-3);padding:6px 0}
 .empty{display:flex;flex-direction:column;align-items:center;gap:10px;padding:44px 24px;color:var(--text-2);font-size:13.5px;text-align:center;border:1px dashed var(--border-2);border-radius:var(--r)}
 .empty a{color:var(--accent);font-weight:600}
+
+/* Profile modal (above the global navbar) */
+.pm-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.66);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:16px}
+.pm-overlay.show{display:flex}
+.pm-box{width:100%;max-width:440px;max-height:92vh;overflow-y:auto;background:rgba(17,24,19,.94);border:1px solid var(--border-2);border-radius:var(--r-xl);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 40px rgba(57,224,122,.08);animation:pm-in .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes pm-in{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+.pm-head{position:relative;display:flex;align-items:center;gap:14px;padding:22px 20px 18px;background:linear-gradient(180deg,rgba(57,224,122,.09),transparent);border-bottom:1px solid var(--border)}
+.pm-head .av{width:64px;height:64px;font-size:22px;--ring:var(--accent)}
+.pm-id{flex:1;min-width:0}
+.pm-name{font-size:18px;font-weight:800;letter-spacing:-.4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-user{font-size:12px;color:var(--text-2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.pm-tag{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid rgba(57,224,122,.3);background:var(--accent-dim);color:var(--accent)}
+.pm-tag.rank{color:var(--text);border-color:var(--border-2);background:rgba(255,255,255,.05)}
+.pm-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text-2);cursor:pointer;font-size:14px;transition:color var(--trans),border-color var(--trans)}
+.pm-close:hover{color:var(--text);border-color:var(--border-2)}
+.pm-prog{padding:14px 20px 0}
+.pm-prog-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-2);margin-bottom:7px}
+.pm-bar{height:6px;border-radius:99px;background:var(--bg-4);overflow:hidden}
+.pm-bar i{display:block;height:100%;width:0;border-radius:99px;background:var(--accent);box-shadow:0 0 10px var(--accent-glow);transition:width .7s cubic-bezier(.4,0,.2,1)}
+.pm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 20px}
+.pm-stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px 6px;text-align:center}
+.pm-stat b{display:block;font-size:17px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.pm-stat span{font-size:10.5px;color:var(--text-2)}
+.pm-sec{padding:2px 20px 14px}
+.pm-sec h4{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text-3);margin-bottom:8px}
+.pm-srow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.pm-srow:last-child{border-bottom:none}
+.pm-srow .d{color:var(--text-2);flex:1}
+.pm-srow .s{color:var(--accent);font-family:'DM Mono',monospace;font-size:11.5px}
+.pm-srow .a{color:var(--text-3);font-size:11px;min-width:34px;text-align:right}
+.pm-none{text-align:center;color:var(--text-3);font-size:12.5px;padding:10px 0}
+.pm-actions{display:flex;gap:8px;padding:14px 20px 20px;border-top:1px solid var(--border)}
+.pm-btn{flex:1;padding:11px 12px;border-radius:999px;font:700 13px 'Sora',system-ui,sans-serif;cursor:pointer;text-align:center;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all var(--trans);border:1.5px solid var(--accent);background:var(--accent);color:#04120A}
+.pm-btn:hover:not(:disabled){box-shadow:0 0 22px var(--accent-glow);transform:translateY(-1px)}
+.pm-btn.ghost{background:transparent;color:var(--accent)}
+.pm-btn.ghost:hover:not(:disabled){background:var(--accent-dim)}
+.pm-btn.muted{background:transparent;border-color:var(--border-2);color:var(--text-2);cursor:default}
+.pm-btn:disabled{opacity:.6;cursor:default}
+.spin{width:14px;height:14px;border:2px solid var(--border-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--bg-2);border:1px solid var(--border-2);border-radius:999px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--text);z-index:10001;transition:transform .3s;box-shadow:0 12px 40px rgba(0,0,0,.6);pointer-events:none}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.err{border-color:rgba(224,92,92,.5)}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -136,6 +193,8 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   .row{grid-template-columns:40px minmax(0,1fr) 92px;gap:10px;padding:10px 12px}
   .board.has-stats .row{grid-template-columns:40px minmax(0,1fr) 92px}
   .lvl{display:none}
+  .go{display:none}
+  .pod-hint{opacity:1}
 }
 </style>
 </head>
@@ -146,7 +205,7 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
 <main class="main">
   <div class="hello">
     <h1>Leaderboard</h1>
-    <p id="sub">Everyone on ShuttleStepz, ranked by total XP.</p>
+    <p id="sub">Everyone on ShuttleStepz, ranked by total XP. Tap any player to view their profile.</p>
   </div>
 
   <div class="controls">
@@ -174,6 +233,40 @@ body::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
   <div class="board" id="board" aria-live="polite"></div>
 </main>
 
+<!-- PLAYER PROFILE MODAL -->
+<div class="pm-overlay" id="pm" aria-hidden="true">
+  <div class="pm-box" role="dialog" aria-modal="true" aria-labelledby="pm-name">
+    <div class="pm-head">
+      <div id="pm-av"></div>
+      <div class="pm-id">
+        <div class="pm-name" id="pm-name">Player</div>
+        <div class="pm-user" id="pm-user"></div>
+        <div class="pm-tags" id="pm-tags"></div>
+      </div>
+      <button class="pm-close" id="pm-close" aria-label="Close">✕</button>
+    </div>
+    <div class="pm-prog">
+      <div class="pm-prog-top"><span id="pm-lvl">Level 1</span><span id="pm-xp-txt">0 XP</span></div>
+      <div class="pm-bar"><i id="pm-bar"></i></div>
+    </div>
+    <div class="pm-stats">
+      <div class="pm-stat"><b id="pm-rank">#—</b><span>Rank</span></div>
+      <div class="pm-stat"><b id="pm-sessions">–</b><span>Sessions</span></div>
+      <div class="pm-stat"><b id="pm-streak">–</b><span>Best streak</span></div>
+      <div class="pm-stat"><b id="pm-avg">–</b><span>Avg score</span></div>
+      <div class="pm-stat"><b id="pm-best">–</b><span>Best score</span></div>
+      <div class="pm-stat"><b id="pm-level">–</b><span>Level</span></div>
+    </div>
+    <div class="pm-sec">
+      <h4>Recent sessions</h4>
+      <div id="pm-sessions-list"><div class="pm-none"><span class="spin"></span></div></div>
+    </div>
+    <div class="pm-actions" id="pm-actions"></div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+
 <!-- navbar first, so ShuttleNav exists before the page script runs -->
 <script src="js/Navbar.js" defer></script>
 
@@ -187,7 +280,7 @@ const fmt = n => (n || 0).toLocaleString()
 
 window.doLogout = window.logout = async () => { try { await DB.logoutUser() } catch (e) {} window.location.href = 'login.html' }
 
-const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false, period: 'all', pdata: { week: null, month: null }, fp: {}, myEntry: null }
+const state = { tab: 'global', global: null, friends: null, me: null, myRank: null, uid: null, intro: true, friendsOn: false, rankBusy: false, failed: false, period: 'all', pdata: { week: null, month: null }, fp: {}, myEntry: null, index: new Map() }
 let loadTimer = null
 
 /* Period keys: weeks start Monday 00:00 IST, months on the 1st (must match functions/index.js) */
@@ -230,17 +323,22 @@ function movement(e) {
   return '<span class="mv same">–</span>'
 }
 
+/* every listed player (podium + rows) is registered so a click can find them */
+function reg(e, rank) { if (e && e.uid) state.index.set(e.uid, { e, rank }) }
+
 function podiumSlot(e, place) {
   if (!e) return `<div class="pod pod-${place} open"><div class="pod-who"><div class="av">?</div><div class="pod-name">Open spot</div></div><div class="pod-block">${place}</div></div>`
+  reg(e, place)
   const me = e.uid === state.uid ? ' me' : ''
-  return `<div class="pod pod-${place}${me}"><div class="pod-who">${avatar(e)}<div class="pod-name">${esc(nameOf(e))}</div><div class="pod-sub">${esc(subOf(e))} · Lv.${e.level || 1}</div><div class="pod-xp">${fmt(e.xp)} XP</div></div><div class="pod-block">${place}</div></div>`
+  return `<div class="pod pod-${place}${me} clickable" role="button" tabindex="0" data-uid="${esc(e.uid)}" aria-label="View ${esc(nameOf(e))}'s profile"><div class="pod-who">${avatar(e)}<div class="pod-name">${esc(nameOf(e))}</div><div class="pod-sub">${esc(subOf(e))} · Lv.${e.level || 1}</div><div class="pod-xp">${fmt(e.xp)} XP</div><div class="pod-hint">View profile →</div></div><div class="pod-block">${place}</div></div>`
 }
 
 function rowHTML(e, rank) {
+  reg(e, rank)
   const stats = `<div class="cell">${e.sessions != null ? fmt(e.sessions) : '–'}</div><div class="cell">${e.avgScore != null ? fmt(Math.round(e.avgScore)) : '–'}</div><div class="cell">${e.bestScore != null ? fmt(e.bestScore) : '–'}</div>`
-  return `<div class="row${e.uid === state.uid ? ' me' : ''}">
+  return `<div class="row clickable${e.uid === state.uid ? ' me' : ''}" role="button" tabindex="0" data-uid="${esc(e.uid)}" aria-label="View ${esc(nameOf(e))}'s profile">
     <div class="pos">${rank}${movement(e)}</div>
-    <div class="who">${avatar(e)}<div class="who-t"><div class="who-n">${esc(nameOf(e))}${e.uid === state.uid ? ' (you)' : ''}</div><div class="who-s">${esc(subOf(e))}</div></div></div>
+    <div class="who">${avatar(e)}<div class="who-t"><div class="who-n">${esc(nameOf(e))}${e.uid === state.uid ? ' (you)' : ''}</div><div class="who-s">${esc(subOf(e))}</div></div><span class="go">View profile →</span></div>
     ${stats}
     <div class="lvl">Lv.${e.level || 1}</div>
     <div class="xpv">${fmt(e.xp)} XP</div>
@@ -268,8 +366,9 @@ function renderMe(list) {
 function render() {
   const list = currentList()
   const pod = $('podium'), board = $('board')
+  state.index = new Map()
   const when = { all: 'total XP', week: 'XP earned this week (resets Monday, IST)', month: 'XP earned this month (resets on the 1st, IST)' }[state.period]
-  $('sub').textContent = (state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by ' : 'You and your friends, ranked by ') + when + '.'
+  $('sub').textContent = (state.tab === 'global' ? 'Everyone on ShuttleStepz, ranked by ' : 'You and your friends, ranked by ') + when + '. Tap any player to view their profile.'
   if (list === null) {
     pod.innerHTML = ''
     board.className = 'board'
@@ -353,6 +452,149 @@ function setPeriod(p) {
 }
 document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)))
 document.querySelectorAll('[data-period]').forEach(b => b.addEventListener('click', () => setPeriod(b.dataset.period)))
+
+/* ═════════ PLAYER PROFILE MODAL + CONNECT ═════════ */
+const XP_T = [0, 500, 1200, 2200, 3500, 5200, 7200, 9800, 13000, 17000, 22000]
+const xpPct = (xp, lv) => { const cur = XP_T[lv - 1] || 0, nxt = XP_T[lv] || XP_T[XP_T.length - 1]; return Math.min(Math.max((xp - cur) / (nxt - cur || 1), 0), 1) }
+
+let social = null
+const loadSocial = async () => social || (social = await import('./js/social.js'))
+
+function toast(msg, type = 'ok') {
+  const el = $('toast')
+  el.textContent = msg
+  el.className = 'show ' + type
+  clearTimeout(el._t)
+  el._t = setTimeout(() => { el.className = '' }, 3000)
+}
+
+let openToken = 0
+let lastFocus = null
+
+function closeProfile() {
+  openToken++
+  $('pm').classList.remove('show')
+  $('pm').setAttribute('aria-hidden', 'true')
+  document.body.style.overflow = ''
+  if (lastFocus && lastFocus.focus) lastFocus.focus()
+}
+
+function actionsHTML(uid, status, isMe) {
+  if (isMe) return `<span class="pm-btn muted">This is you</span><a class="pm-btn ghost" href="profile.html">Edit profile</a>`
+  const chat = `<a class="pm-btn ghost" href="social.html">💬 Message</a>`
+  if (status === 'friends') return `<span class="pm-btn muted">✓ Connected</span>${chat}`
+  if (status === 'pending_sent') return `<span class="pm-btn muted">Request sent ✓</span>${chat}`
+  if (status === 'pending_received') return `<button class="pm-btn" data-act="accept" data-uid="${esc(uid)}">✓ Accept request</button>${chat}`
+  return `<button class="pm-btn" data-act="connect" data-uid="${esc(uid)}">＋ Send connection request</button>`
+}
+
+async function openProfile(uid) {
+  const hit = state.index.get(uid)
+  if (!hit) return
+  const { e, rank } = hit
+  const isMe = uid === state.uid
+  const token = ++openToken
+  lastFocus = document.activeElement
+
+  /* instant fill from the leaderboard entry */
+  $('pm-av').innerHTML = avatar(e)
+  document.querySelectorAll('#pm-av .av img').forEach(img => img.addEventListener('error', () => img.replaceWith(document.createTextNode(img.dataset.ini || '?')), { once: true }))
+  tx('pm-name', nameOf(e))
+  tx('pm-user', e.username ? '@' + e.username : '')
+  const role = e.role ? e.role.charAt(0).toUpperCase() + e.role.slice(1) : ''
+  $('pm-tags').innerHTML = (role ? `<span class="pm-tag">${esc(role)}</span>` : '') + (typeof rank === 'number' ? `<span class="pm-tag rank">Rank #${rank}</span>` : '')
+  const xp = e.xp || 0, lv = e.level || 1
+  tx('pm-lvl', 'Level ' + lv); tx('pm-xp-txt', fmt(xp) + ' XP'); tx('pm-level', lv)
+  tx('pm-rank', typeof rank === 'number' ? '#' + rank : '#—')
+  tx('pm-sessions', e.sessions != null ? fmt(e.sessions) : '–')
+  tx('pm-streak', '–')
+  tx('pm-avg', e.avgScore != null ? fmt(Math.round(e.avgScore)) : '–')
+  tx('pm-best', e.bestScore != null ? fmt(e.bestScore) : '–')
+  $('pm-bar').style.width = '0%'
+  requestAnimationFrame(() => { $('pm-bar').style.width = Math.round(xpPct(xp, lv) * 100) + '%' })
+  $('pm-sessions-list').innerHTML = '<div class="pm-none"><span class="spin"></span></div>'
+  $('pm-actions').innerHTML = isMe ? actionsHTML(uid, null, true) : '<span class="pm-btn muted"><span class="spin"></span></span>'
+
+  const ov = $('pm')
+  ov.classList.add('show'); ov.setAttribute('aria-hidden', 'false')
+  document.body.style.overflow = 'hidden'
+  $('pm-close').focus()
+
+  /* live details from the same functions the Social page uses */
+  try {
+    const S = await loadSocial()
+    const [prof, sessions, status] = await Promise.all([
+      S.getUserProfile(uid).catch(() => null),
+      S.getSessions({ uid, limitN: 20 }).catch(() => []),
+      isMe ? Promise.resolve(null) : S.getFriendshipStatus(uid).catch(() => null)
+    ])
+    if (token !== openToken) return
+    if (prof) {
+      const pxp = prof.xp || xp, plv = prof.level || lv
+      tx('pm-lvl', 'Level ' + plv); tx('pm-xp-txt', fmt(pxp) + ' XP'); tx('pm-level', plv)
+      $('pm-bar').style.width = Math.round(xpPct(pxp, plv) * 100) + '%'
+    }
+    if (sessions && sessions.length) {
+      tx('pm-sessions', e.sessions != null ? fmt(e.sessions) : sessions.length)
+      tx('pm-streak', sessions.reduce((a, s) => Math.max(a, s.bestStreak || 0), 0) + '🔥')
+      if (e.avgScore == null) tx('pm-avg', Math.round(sessions.reduce((a, s) => a + (s.score || 0), 0) / sessions.length))
+      if (e.bestScore == null) tx('pm-best', sessions.reduce((a, s) => Math.max(a, s.score || 0), 0))
+      $('pm-sessions-list').innerHTML = sessions.slice(0, 5).map(s => `<div class="pm-srow"><span class="d">${esc((s.drill || 'Footwork').replace(/^\w/, c => c.toUpperCase()))} Drill</span><span class="s">${s.score || 0} pts</span><span class="a">${s.accuracy != null ? s.accuracy + '%' : '—'}</span></div>`).join('')
+    } else {
+      tx('pm-streak', '0🔥')
+      $('pm-sessions-list').innerHTML = '<div class="pm-none">No sessions yet</div>'
+    }
+    $('pm-actions').innerHTML = actionsHTML(uid, status, isMe)
+  } catch (err) {
+    if (token !== openToken) return
+    console.warn('[leaderboard] profile load failed:', err && err.message)
+    $('pm-sessions-list').innerHTML = '<div class="pm-none">Could not load sessions</div>'
+    $('pm-actions').innerHTML = isMe ? actionsHTML(uid, null, true) : `<button class="pm-btn" data-act="connect" data-uid="${esc(uid)}">＋ Send connection request</button>`
+  }
+}
+
+/* connect / accept straight from the modal */
+$('pm-actions').addEventListener('click', async ev => {
+  const btn = ev.target.closest('button[data-act]')
+  if (!btn || btn.disabled) return
+  const uid = btn.dataset.uid, act = btn.dataset.act
+  btn.disabled = true
+  const old = btn.innerHTML
+  btn.innerHTML = '<span class="spin"></span>'
+  try {
+    const S = await loadSocial()
+    if (act === 'connect') {
+      await S.sendFriendRequest(uid)
+      toast('Connection request sent! 🏸')
+      $('pm-actions').innerHTML = actionsHTML(uid, 'pending_sent', false)
+    } else {
+      const rid = await S.getPendingRequestFrom(uid)
+      if (!rid) throw new Error('That request no longer exists.')
+      await S.respondToFriendRequest(rid, true)
+      toast('You are now connected! 🏸')
+      $('pm-actions').innerHTML = actionsHTML(uid, 'friends', false)
+    }
+  } catch (err) {
+    btn.disabled = false; btn.innerHTML = old
+    toast((err && err.message) || 'Something went wrong', 'err')
+  }
+})
+
+/* click / keyboard on any podium spot or row */
+function onPick(ev) {
+  const t = ev.target.closest('[data-uid]')
+  if (!t || !t.classList.contains('clickable')) return
+  if (ev.type === 'keydown') { if (ev.key !== 'Enter' && ev.key !== ' ') return; ev.preventDefault() }
+  openProfile(t.dataset.uid)
+}
+$('podium').addEventListener('click', onPick)
+$('podium').addEventListener('keydown', onPick)
+$('board').addEventListener('click', onPick)
+$('board').addEventListener('keydown', onPick)
+
+$('pm-close').addEventListener('click', closeProfile)
+$('pm').addEventListener('click', ev => { if (ev.target === $('pm')) closeProfile() })
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && $('pm').classList.contains('show')) closeProfile() })
 
 render()
 
