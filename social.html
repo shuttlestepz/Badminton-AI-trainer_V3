@@ -21,6 +21,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;-webkit-font-smoothing:antialiased}
+html body{padding-top:0!important}
 button{font-family:inherit}
 
 /* ── BACKGROUND (same asset as dashboard) ── */
@@ -30,6 +31,7 @@ button{font-family:inherit}
     url("assets/Dashboard%20bg.jpg") center/cover no-repeat fixed;}
 .bg::after{content:'';position:absolute;inset:0;background:radial-gradient(900px 420px at 80% -10%,rgba(57,224,122,.09),transparent 70%)}
 
+/* (global pill navbar is injected by js/Navbar.js) */
 
 /* ── AUTH GATE ── */
 #auth-gate{position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;z-index:999;text-align:center;padding:40px}
@@ -39,7 +41,7 @@ button{font-family:inherit}
 .btn-primary{display:inline-block;padding:11px 28px;border-radius:999px;background:var(--accent);color:#060908;font-weight:700;font-size:14px;text-decoration:none;border:none;cursor:pointer}
 
 /* ── SHELL: 3 glass panels ── */
-#social-shell{display:none;position:fixed;top:calc(var(--nav-h) + 36px);left:14px;right:14px;bottom:14px;z-index:1;
+#social-shell{display:none;position:fixed;top:calc(var(--nav-h) + 24px);left:14px;right:14px;bottom:14px;z-index:1;
   grid-template-columns:292px minmax(0,1fr) 330px;gap:12px}
 .panel{background:var(--glass);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
   border:1px solid var(--border);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;min-height:0;min-width:0;
@@ -209,8 +211,8 @@ button{font-family:inherit}
 .req-decline:hover{color:var(--danger);border-color:var(--danger)}
 .badge-n{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;background:var(--accent);color:#000;font-size:10px;font-weight:700;border-radius:20px;padding:0 5px;font-family:'DM Mono',monospace}
 
-/* ── PROFILE MODAL ── */
-.profile-modal{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+/* ── PROFILE MODAL (above the global navbar) ── */
+.profile-modal{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
 .profile-modal.show{display:flex}
 .pm-box{background:var(--solid);border:1px solid var(--border2);border-radius:24px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6)}
 .pm-header{padding:20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(57,224,122,.07),transparent)}
@@ -239,7 +241,7 @@ button{font-family:inherit}
 .pm-btn-add{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
 .pm-btn-add:hover{background:var(--accent);color:#060908}
 
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--solid);border:1px solid var(--border2);border-radius:999px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--text);z-index:9999;transition:transform .3s;display:flex;align-items:center;gap:8px;box-shadow:0 12px 40px rgba(0,0,0,.6);pointer-events:none}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--solid);border:1px solid var(--border2);border-radius:999px;padding:10px 20px;font-size:13px;font-weight:500;color:var(--text);z-index:10001;transition:transform .3s;display:flex;align-items:center;gap:8px;box-shadow:0 12px 40px rgba(0,0,0,.6);pointer-events:none}
 #toast.show{transform:translateX(-50%) translateY(0)}
 #toast.ok .td{color:var(--accent)}
 #toast.err .td{color:var(--danger)}
@@ -250,9 +252,6 @@ button{font-family:inherit}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* ── RESPONSIVE ── */
-@media(max-width:1180px){
-  .xp-chip{display:none}
-}
 @media(max-width:1100px){
   #social-shell{grid-template-columns:292px minmax(0,1fr)}
   .discover-col{display:none;position:absolute;top:0;right:0;bottom:0;width:min(360px,100%);z-index:20;box-shadow:-20px 0 60px rgba(0,0,0,.55);background:rgba(11,16,13,.96)}
@@ -260,12 +259,9 @@ button{font-family:inherit}
   .disc-open-btn{display:flex}
   .disc-close{display:flex}
   .disc-tabs{padding-right:46px}
-  .pn-link span{display:none}
-  .pn-link{padding:9px 11px}
-  .pn-link.active span{display:inline}
 }
 @media(max-width:700px){
-    #social-shell{grid-template-columns:1fr;top:calc(var(--nav-h) + 110px);left:8px;right:8px;bottom:8px}
+  #social-shell{grid-template-columns:1fr;top:132px;left:8px;right:8px;bottom:8px}
   .chat-window{display:none}
   #social-shell.mob-chat-open .chat-list-col{display:none}
   #social-shell.mob-chat-open .chat-window{display:flex}
@@ -273,11 +269,11 @@ button{font-family:inherit}
   .bubble-col{max-width:80%}
 }
 </style>
-  <script src="js/Navbar.js" defer></script>
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
 
+<!-- Global pill navbar is injected by js/Navbar.js -->
 
 <!-- AUTH GATE -->
 <div id="auth-gate">
@@ -406,6 +402,9 @@ document.addEventListener('click',e=>{
 });
 </script>
 
+<!-- navbar first, so ShuttleNav exists before the page script runs -->
+<script src="js/Navbar.js" defer></script>
+
 <script type="module">
 import {
   onAuthReady, getUserProfile, logoutUser, listenUserProfile,
@@ -458,12 +457,13 @@ function mkAv(profile,size=42){
 let myUID=null, myProfile=null, activeChat=null, activeChatProfile=null
 let chatUnsub=null, allFriends=[], replyTo=null, ctxMsgId=null, ctxMsgMine=false, pendingReqs=0
 
-window.doLogout=async()=>{try{await logoutUser()}catch(e){}window.location.href='login.html'}
+window.doLogout=window.logout=async()=>{try{await logoutUser()}catch(e){}window.location.href='login.html'}
 
 const XP_T=[0,500,1200,2200,3500,5200,7200,9800,13000,17000,22000]
 const xpPct=(xp,lv)=>{const cur=XP_T[lv-1]||0,nxt=XP_T[lv]||XP_T[XP_T.length-1];return Math.min(Math.max((xp-cur)/(nxt-cur||1),0),1)}
+/* XP capsule lives in the global navbar */
 function renderXP(xp,lv){
-  if(window.ShuttleNav)window.ShuttleNav.setXP(xp);
+  window.ShuttleNav&&ShuttleNav.setXP(xp)
 }
 
 /* ── Empty state (center) ── */
@@ -860,7 +860,6 @@ window.acceptFromModal=acceptFromModal
 /* ── Friends list ── */
 function renderFriendsList(friends){
   allFriends=friends
-  const friendCount=$('friend-count-pill');if(friendCount)friendCount.textContent=friends.length+' Friend'+(friends.length!==1?'s':'')
   const el=$('friends-list')
   renderEmpty()
   if(!friends.length){el.innerHTML=`<div class="hint">No friends yet 🏸</div>`;return}
@@ -996,8 +995,6 @@ onAuthReady(async(user)=>{
 
   try{
     myProfile=await getUserProfile(user.uid)
-    const p=myProfile.profile||{},role=p.role||'student'
-    tx('role-badge',role.charAt(0).toUpperCase()+role.slice(1))
     renderXP(myProfile.xp||0,myProfile.level||1)
     listenUserProfile(d=>renderXP(d.xp||0,d.level||1))
   }catch(e){console.warn(e)}
